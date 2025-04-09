@@ -289,5 +289,99 @@ namespace Intex.Controllers
             return Ok(movies);
         }
 
+        [HttpPost("RateMovie")]
+        public IActionResult RateMovie([FromBody] RateMovieRequest request)
+        {
+            if (string.IsNullOrEmpty(request.ShowId) || string.IsNullOrEmpty(request.UserName) || request.Rating < 1 || request.Rating > 5)
+            {
+                return BadRequest("Show ID and user name are required.");
+            }
+
+            var intUserId = _savedMovieContext.movies_users
+                .Where(u => u.email == request.UserName)
+                .Select(u => u.user_id)
+                .FirstOrDefault();
+
+            if (intUserId == 0)
+            {
+                return NotFound("User not found in movie-user link table.");
+            }
+
+            var movieRating = new movies_rating
+            {
+                user_id = intUserId,
+                show_id = request.ShowId,
+                rating = request.Rating
+            };
+
+            _savedMovieContext.movies_ratings.Add(movieRating);
+            _savedMovieContext.SaveChanges();
+
+            return Ok(new { message = "Movie rated successfully." });
+        }
+        
+        [HttpGet("GetRating/{username}/{showId}")]
+        public IActionResult GetUserRating(string username, string showId)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(showId))
+                return BadRequest("Username and show ID are required.");
+
+            var intUserId = _savedMovieContext.movies_users
+                .Where(u => u.email == username)
+                .Select(u => u.user_id)
+                .FirstOrDefault();
+
+            if (intUserId == 0)
+                return NotFound("User not found.");
+
+            var rating = _savedMovieContext.movies_ratings
+                .Where(r => r.user_id == intUserId && r.show_id == showId)
+                .Select(r => r.rating)
+                .FirstOrDefault();
+
+            if (rating == 0)
+                return Ok(null); // No rating yet
+
+            return Ok(rating);
+        }
+        
+        [HttpPut("UpdateRating")]
+        public IActionResult UpdateRating([FromBody] RatingUpdateDto ratingUpdate)
+        {
+            if (string.IsNullOrEmpty(ratingUpdate.ShowId) ||
+                string.IsNullOrEmpty(ratingUpdate.UserName) ||
+                ratingUpdate.Rating < 1 || ratingUpdate.Rating > 5)
+            {
+                return BadRequest("Invalid data provided.");
+            }
+
+            // Get user ID from email/username
+            var intUserId = _savedMovieContext.movies_users
+                .Where(u => u.email == ratingUpdate.UserName)
+                .Select(u => u.user_id)
+                .FirstOrDefault();
+
+            if (intUserId == 0)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Find existing rating
+            var existingRating = _savedMovieContext.movies_ratings
+                .FirstOrDefault(r => r.user_id == intUserId && r.show_id == ratingUpdate.ShowId);
+
+            if (existingRating == null)
+            {
+                return NotFound("Rating not found to update.");
+            }
+
+            // Update rating
+            existingRating.rating = ratingUpdate.Rating;
+            _savedMovieContext.SaveChanges();
+
+            return Ok(new { message = "Rating updated successfully." });
+        }
+
+
     }
 }

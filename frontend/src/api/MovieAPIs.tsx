@@ -54,7 +54,8 @@ export const fetchRecommendedMovies = async (
 ): Promise<FetchMoviesResponse> => {
   try {
     const response = await fetch(
-      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`,{
+      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`,
+      {
         credentials: 'include',
       }
     );
@@ -84,3 +85,61 @@ export const fetchBecauseYouWatchedMovies =
       throw error;
     }
   };
+
+export const sendMovieRating = async (
+  show_id: string,
+  rating: number
+): Promise<void> => {
+  const username = localStorage.getItem('username');
+  if (!username) throw new Error('User not logged in.');
+
+  const response = await fetch(`${API_URL}/RateMovie`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ showId: show_id, rating, username }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const msg = await response.text();
+    throw new Error(msg || 'Failed to submit rating');
+  }
+};
+
+export const fetchUserRating = async (
+  showId: string
+): Promise<number | null> => {
+  const username = localStorage.getItem('username');
+  if (!username) throw new Error('No username in localStorage');
+
+  console.log(`Calling GET: ${API_URL}/GetRating/${username}/${showId}`);
+  const response = await fetch(`${API_URL}/GetRating/${username}/${showId}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  if (!response.ok) throw new Error('Failed to fetch user rating');
+
+  const rating = await response.json();
+  return parseInt(rating);
+};
+
+export const updateMovieRating = async (
+  showId: string,
+  rating: number
+): Promise<void> => {
+  const userName = localStorage.getItem('username');
+  if (!userName) throw new Error('No username in localStorage');
+
+  const response = await fetch(`${API_URL}/UpdateRating`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ showId, rating, userName }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update movie rating');
+  }
+};
