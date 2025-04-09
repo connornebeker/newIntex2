@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './RegisterPage.css';
 
 
 function Register() {
@@ -51,23 +52,23 @@ function Register() {
   };
 
   return (
-    <div className="register-page">
-      <header className="register-header">
-        <img src="/logo.png" alt="Logo" className="logo" />
-        <button className="signin-btn" onClick={handleLoginClick}>
+    <div className="register-page-8">
+      <header className="register-header-8">
+        <img src="/logo.png" alt="Logo" className="logo-8" />
+        <button className="signin-btn-8" onClick={handleLoginClick}>
           Sign In
         </button>
       </header>
 
-      <div className="background-section">
-        <div className="fade-bottom" />
+      <div className="background-section-8">
+        <div className="fade-bottom-8" />
 
-        <div className="login-card-1">
-          <div className="centered-text">
+        <div className="login-card-8">
+          <div className="centered-text-8">
             <h1>Unlimited movies, TV shows, and more</h1>
             <h2>Ready to join? Create your account now.</h2>
 
-            <form className="register-form" onSubmit={handleSubmit}>
+            <form className="register-form-8" onSubmit={handleSubmit}>
               <input
                 type="email"
                 name="email"
@@ -97,43 +98,39 @@ function Register() {
       </div>
 
       {/* Reasons to Join + FAQ */}
-      <div className="extras-container">
-        <section className="reasons">
-          <h2 className="section-title">More Reasons to Join</h2>
-          <div className="reasons-grid">
-            <div className="reason-card">
-              <div className="reason-icon">📺</div>
+      <div className="extras-container-8">
+        <section className="reasons-8">
+          <h2 className="section-title-8">More Reasons to Join</h2>
+          <div className="reasons-grid-8">
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📺</div>
               <h3>Enjoy on your TV</h3>
               <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>
             </div>
-            <div className="reason-card">
-              <div className="reason-icon">📥</div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📥</div>
               <h3>Download your shows to watch offline</h3>
               <p>Save your favorites easily and always have something to watch.</p>
             </div>
-            <div className="reason-card">
-              <div className="reason-icon">📱</div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📱</div>
               <h3>Watch everywhere</h3>
               <p>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
             </div>
-            <div className="reason-card">
-              <div className="reason-icon">🧒</div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">🧒</div>
               <h3>Create profiles for kids</h3>
               <p>Send kids on adventures with their favorite characters in a space made just for them — free with your membership.</p>
             </div>
           </div>
         </section>
 
-        <section className="faq">
-          <h2 className="section-title">Frequently Asked Questions</h2>
+        <section className="faq-8">
+          <h2 className="section-title-8">Frequently Asked Questions</h2>
           {[
             {
               q: 'What is CineNiche?',
               a: 'CineNiche is a streaming service that offers a wide variety of curated movies including indie, international, and cult classics.',
-            },
-            {
-              q: 'How much does CineNiche cost?',
-              a: 'Plans start at just $7.99/month. Cancel anytime.',
             },
             {
               q: 'Where can I watch?',
@@ -150,14 +147,14 @@ function Register() {
           ].map((faq, i) => (
             <div
               key={i}
-              className={`faq-item ${i === expandedIndex ? 'open' : ''}`}
+              className={`faq-item-8 ${i === expandedIndex ? 'open' : ''}`}
               onClick={() => setExpandedIndex(i === expandedIndex ? null : i)}
             >
-              <div className="faq-question">
+              <div className="faq-question-8">
                 <span>{faq.q}</span>
                 <span>{i === expandedIndex ? '✖' : '+'}</span>
               </div>
-              {i === expandedIndex && <div className="faq-answer">{faq.a}</div>}
+              {i === expandedIndex && <div className="faq-answer-8">{faq.a}</div>}
             </div>
           ))}
         </section>
