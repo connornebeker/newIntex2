@@ -40,12 +40,12 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;  // At least one special character
-    options.Password.RequiredLength = 13;  // Minimum length of 12 characters
-    options.Password.RequiredUniqueChars = 0;  // At least 4 unique characters
+    options.Password.RequiredLength = 13;  // Minimum length of 13 characters
+    options.Password.RequiredUniqueChars = 0;  // At least 0 unique characters
 
     // Lockout settings (optional)
     options.Lockout.AllowedForNewUsers = true;
-    options.Lockout.MaxFailedAccessAttempts = 5; // Max failed attempts before lockout
+    options.Lockout.MaxFailedAccessAttempts = 50; // Max failed attempts before lockout
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // Time lockout lasts)
       })
     .AddEntityFrameworkStores<ApplicationDbContext>();
