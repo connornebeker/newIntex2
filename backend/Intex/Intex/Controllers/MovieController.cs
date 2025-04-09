@@ -289,5 +289,43 @@ namespace Intex.Controllers
             return Ok(movies);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchMovies([FromQuery] string q, int page = 1, int pageSize = 20)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return BadRequest("Query is required.");
+
+            // Fetch all movies matching the query
+            var results = await _savedMovieContext.movies_titles
+                .Where(m => m.title.ToLower().Contains(q.ToLower())) // Fetch movies matching the query
+                .ToListAsync();
+
+            // Calculate relevance score and order by it first
+            var scoredResults = results.Select(m => new
+            {
+                m.show_id,
+                m.title,
+                Relevance = m.title.ToLower().Split(' ')
+                    .Count(word => word.Contains(q.ToLower()))  // Count how many words match
+            })
+            .OrderByDescending(m => m.Relevance) // Sort by relevance score first
+            .ToList();
+
+            // Apply pagination (skip and take) after sorting by relevance
+            var skip = (page - 1) * pageSize;
+            var paginatedResults = scoredResults.Skip(skip).Take(pageSize).ToList();
+
+            // Get the total count of results matching the query (for pagination purposes)
+            var totalResults = scoredResults.Count;
+
+            return Ok(new
+            {
+                totalResults,
+                movies = paginatedResults
+            });
+        }
+
+
+
     }
 }
