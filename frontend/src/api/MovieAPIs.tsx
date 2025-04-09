@@ -20,7 +20,9 @@ const getUsername = (): string => {
 
 export const fetchAllMovies = async (): Promise<FetchMoviesResponse> => {
   try {
-    const response = await fetch(`${API_URL}/AllMovies`);
+    const response = await fetch(`${API_URL}/AllMovies`, {
+      credentials: 'include',
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -36,7 +38,9 @@ export const fetchAllMovies = async (): Promise<FetchMoviesResponse> => {
 export const fetchUserRecommendedMovies = async (): Promise<Movie[]> => {
   try {
     const username = getUsername();
-    const response = await fetch(`${API_URL}/UserRec/${username}`);
+    const response = await fetch(`${API_URL}/UserRec/${username}`, {
+      credentials: 'include',
+    });
     if (!response.ok) throw new Error('Network response was not ok');
     return await response.json();
   } catch (error) {
@@ -50,7 +54,9 @@ export const fetchRecommendedMovies = async (
 ): Promise<FetchMoviesResponse> => {
   try {
     const response = await fetch(
-      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`
+      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`,{
+        credentials: 'include',
+      }
     );
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -68,7 +74,9 @@ export const fetchBecauseYouWatchedMovies =
   async (): Promise<BecauseYouWatchedResponse> => {
     try {
       const username = getUsername();
-      const response = await fetch(`${API_URL}/BecauseYouWatched/${username}`);
+      const response = await fetch(`${API_URL}/BecauseYouWatched/${username}`, {
+        credentials: 'include',
+      });
       if (!response.ok) throw new Error('Network response was not ok');
       return await response.json(); // { baseMovie, recommended }
     } catch (error) {
