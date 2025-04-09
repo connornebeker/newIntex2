@@ -1,9 +1,10 @@
 import { Movie } from '../types/Movie';
 import fetchPoster from './fetchPoster';
-export default async function getMoviesOneGenre(genre: string): Promise<Movie[]> {
+export default async function getMoviesOneGenre(genre: string, page: number = 1, pageSize: number = 20): Promise<Movie[]> {
   try {
     const res = await fetch(
-      `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=1&pageSize=100`
+      `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=${page}&pageSize=${pageSize}`
+
     );
     if (!res.ok) {
       console.warn(`Failed to fetch movies for genre: ${genre}`);

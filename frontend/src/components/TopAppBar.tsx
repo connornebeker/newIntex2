@@ -9,15 +9,15 @@ function TopAppBar() {
       <div className="nav-left">
         <img src="/logo.png" alt="CineNiche Logo" className="logo" />
         <div className="nav-links">
-          <Link to="/" className="nav-link-1">
+          <Link to="/home" className="nav-link-1">
             Home
           </Link>
           <Link to="/category" className="nav-link-1">
             Categories
           </Link>
-          <Link to="/watchlist" className="nav-link-1">
+          {/* <Link to="/watchlist" className="nav-link-1">
             Watchlist
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className="nav-right">
