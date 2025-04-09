@@ -91,7 +91,7 @@ export default function MovieModal({
           <div className="modal-banner-overlay">
             <h2>{movie.title}</h2>
             <div className="meta">
-              {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown'} | {movie.rating || 'Unrated'}
+              {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
             </div>
             <button className="modal-play">▶ Play</button>
           </div>
@@ -116,7 +116,7 @@ export default function MovieModal({
           </div>
 
           <h4 style={{ marginTop: '1.5rem' }}>Rate this movie:</h4>
-          <div style={{ marginBottom: '1rem' }}>
+          <div className="star-rating-container" style={{ marginBottom: '1rem' }}>
             {[1, 2, 3, 4, 5].map((rating) => (
               <span
                 key={rating}

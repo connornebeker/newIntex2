@@ -116,7 +116,7 @@ const titles: string[] = [
   'Rafał Banaś Michał Leja Laugh out Loud',
   'Mariusz Kałamaga Karol Kopiec Wiolka Walaszczyk Hilarious Trio',
   'Katarzyna Piasecka Rafał Pacześ Seriously Funny',
-  'Karol Modzelewski Łukasz „Lotek” Lodkowski No Offense',
+  'Karol Modzelewski Łukasz „Lotek" Lodkowski No Offense',
   'VeggieTales in the House',
   'Iliza Shlesinger: Confirmed Kills',
   'When I See You Again',
