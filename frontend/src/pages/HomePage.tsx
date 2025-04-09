@@ -14,10 +14,8 @@ import {
 import fetchPoster from '../utils/fetchPoster';
 import AuthorizeView from '../components/AuthorizeView';
 
-const featuredMovies = ['darknight', 'godzilla', 'wicked', 'xmen'];
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
@@ -31,7 +29,6 @@ export default function HomePage() {
 
       if (username) {
         try {
-          // 🎯 1. User-specific recommendations
           const userRecs: Movie[] = await fetchUserRecommendedMovies();
           const formattedUserRecs = userRecs.map((movie) => ({
             ...movie,
@@ -49,7 +46,6 @@ export default function HomePage() {
             showNumbers: false,
           });
 
-          // 🎯 2. "Because You Watched" recommendations
           const { baseMovie, recommended } =
             await fetchBecauseYouWatchedMovies();
           const formattedWatchedRecs = recommended.map((movie) => ({
@@ -71,9 +67,7 @@ export default function HomePage() {
           console.error('Error loading personalized carousels:', err);
         }
       } else {
-        console.info(
-          'No username in localStorage — skipping personalized carousels.'
-        );
+        console.info('No username in localStorage — skipping personalized carousels.');
       }
 
       setCarousels(updatedCarousels);
@@ -81,16 +75,7 @@ export default function HomePage() {
 
     loadData();
   }, []);
-  // Auto-slide featured carousel
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) =>
-        prev === featuredMovies.length - 1 ? 0 : prev + 1
-      );
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-  // Remove Movies without Posters
+
   const handlePosterError = (carouselTitle: string, movieId: string) => {
     setCarousels((prevCarousels) =>
       prevCarousels.map((carousel) =>
@@ -105,7 +90,7 @@ export default function HomePage() {
       )
     );
   };
-  // Scroll behavior
+
   const scroll = (
     carouselTitle: string,
     direction: 'left' | 'right',
@@ -139,46 +124,21 @@ export default function HomePage() {
     <AuthorizeView>
       <div className="home-container">
         <div className="home-content">
-          {/* Navigation */}
           <TopAppBar />
-          {/* Hero Carousel */}
-          <div className="carousel-container">
-            <img
-              src={`./posters2/${featuredMovies[currentSlide]}.jpg`}
-              alt={`Featured: ${featuredMovies[currentSlide]}`}
-              className="carousel-image"
-            />
-            <button
-              className="carousel-nav prev"
-              onClick={() =>
-                setCurrentSlide(
-                  currentSlide === 0
-                    ? featuredMovies.length - 1
-                    : currentSlide - 1
-                )
-              }
-            >
-              &lt;
-            </button>
-            <button
-              className="carousel-nav next"
-              onClick={() =>
-                setCurrentSlide((currentSlide + 1) % featuredMovies.length)
-              }
-            >
-              &gt;
-            </button>
-            <div className="carousel-dots">
-              {featuredMovies.map((_, index) => (
-                <button
-                  key={index}
-                  className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                />
-              ))}
+
+          {/* 🎥 Hero Video Section */}
+          <div className="hero-video-container">
+            <video autoPlay loop muted playsInline className="hero-video">
+              <source src="/movietrailer.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className="hero-overlay">
+              <h1 className="hero-title">MANIFEST</h1>
+              <button className="hero-button-5">Play</button>
             </div>
           </div>
-          {/* CATEGORIES! */}
+
+          {/* CATEGORIES */}
           <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
               (category) => (
@@ -188,8 +148,8 @@ export default function HomePage() {
               )
             )}
           </div>
-          {/* TOP 5! */}
-          {/* DON'T WORRY ABOUT THIS THING FOR NOW!! */}
+
+          {/* TOP 5 */}
           <h2 className="top10title">Top 5 in the U.S. Today</h2>
           <div className="top10-row">
             {[...Array(5)].map((_, index) => (
@@ -204,9 +164,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Movie Recommendations */}
-
-          {/* Dynamic Carousels */}
+          {/* Carousels */}
           {carousels.map((carousel) => (
             <section key={carousel.title} className="carousel-section">
               <div className="carousel-title-bar">
@@ -259,16 +217,6 @@ export default function HomePage() {
                             }
                           />
                         </div>
-
-                        // <img
-                        //   src={movie.posterUrl}
-                        //   alt={movie.title}
-                        //   className={
-                        //     carousel.showNumbers
-                        //       ? 'top-movie-poster'
-                        //       : 'recommendation-image'
-                        //   }
-                        // />
                       )}
                     </div>
                   ))}
@@ -283,9 +231,11 @@ export default function HomePage() {
             </section>
           ))}
         </div>
+
         <CookieConsent>
           This website uses cookies to enhance the user experience.
         </CookieConsent>
+
         {selectedMovie && (
           <MovieModal
             movie={selectedMovie}
