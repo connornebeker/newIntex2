@@ -47,7 +47,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
     options.Lockout.AllowedForNewUsers = true;
     options.Lockout.MaxFailedAccessAttempts = 50; // Max failed attempts before lockout
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // Time lockout lasts)
-      })
+})
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -64,7 +64,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.None;
     options.Cookie.Name = ".AspNetCore.Identity.Application";
-    options.LoginPath = "/home";
+    options.LoginPath = "/login";
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 

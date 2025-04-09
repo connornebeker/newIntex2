@@ -22,9 +22,13 @@ function LoginPage() {
     setError('');
     if (!email || !password) return setError('Please fill in all fields.');
 
+    const loginUrl = rememberme
+    ? 'https://localhost:5000/login?useCookies=true'
+    : 'https://localhost:5000/login?useSessionCookies=true';
+
     try {
       // Step 1: Log in
-      const response = await fetch('https://localhost:5000/login', {
+      const response = await fetch(loginUrl, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
