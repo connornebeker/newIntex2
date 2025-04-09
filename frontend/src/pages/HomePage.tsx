@@ -7,6 +7,7 @@ import getCarouselsFromGenres from '../utils/getCarouselsFromGenres';
 import TopAppBar from '../components/TopAppBar';
 import MovieModal from './MovieModal';
 import { Movie } from '../types/Movie';
+import AuthorizeView from '../components/AuthorizeView';
 
 const featuredMovies = ['darknight', 'godzilla', 'wicked', 'xmen'];
 export default function HomePage() {
@@ -76,6 +77,7 @@ export default function HomePage() {
     }
   };
   return (
+    // <AuthorizeView>
     <div className="home-container">
       <div className="home-content">
         {/* Navigation */}
@@ -195,16 +197,6 @@ export default function HomePage() {
                           }
                         />
                       </div>
-
-                      // <img
-                      //   src={movie.posterUrl}
-                      //   alt={movie.title}
-                      //   className={
-                      //     carousel.showNumbers
-                      //       ? 'top-movie-poster'
-                      //       : 'recommendation-image'
-                      //   }
-                      // />
                     )}
                   </div>
                 ))}
@@ -230,5 +222,6 @@ export default function HomePage() {
         />
       )}
     </div>
+    // </AuthorizeView>
   );
 }
