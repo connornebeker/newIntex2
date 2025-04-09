@@ -9,6 +9,7 @@ namespace Intex.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MovieController : ControllerBase
     {
         private readonly MovieRecDbContext _movieContext;

@@ -7,7 +7,9 @@ export default function CategoryPage() {
 
   useEffect(() => {
     async function fetchGenres() {
-      const response = await fetch('https://localhost:5000/api/Movie/GetMovieTypes');
+      const response = await fetch('https://localhost:5000/api/Movie/GetMovieTypes',        {
+        credentials: 'include',
+      });
       const data = await response.json();
       setGenres(data); // assuming it's an array of strings
     }

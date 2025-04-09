@@ -6,7 +6,10 @@ export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
   const carousels: Carousel[] = [];
 
   const genresRes = await fetch(
-    'https://localhost:5000/api/Movie/GetMovieTypes'
+    'https://localhost:5000/api/Movie/GetMovieTypes',
+    {
+      credentials: 'include',
+    }
   );
   if (!genresRes.ok) {
     console.error('Failed to fetch movie genres');
@@ -18,7 +21,10 @@ export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
   for (const genre of genres) {
     try {
       const res = await fetch(
-        `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=1&pageSize=100`
+        `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=1&pageSize=100`,
+        {
+          credentials: 'include',
+        }
       );
 
       if (!res.ok) {
