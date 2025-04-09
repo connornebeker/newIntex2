@@ -10,7 +10,7 @@ namespace Intex.Data
         }
 
         public DbSet<movies_rating> MoviesRatings { get; set; }
-        public DbSet<movies_user> MoviesUsers { get; set; }
+        public DbSet<movies_user> movies_users { get; set; }
         public DbSet<movie_title> movies_titles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

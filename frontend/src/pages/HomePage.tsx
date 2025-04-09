@@ -7,6 +7,11 @@ import getCarouselsFromGenres from '../utils/getCarouselsFromGenres';
 import TopAppBar from '../components/TopAppBar';
 import MovieModal from './MovieModal';
 import { Movie } from '../types/Movie';
+import {
+  fetchBecauseYouWatchedMovies,
+  fetchUserRecommendedMovies,
+} from '../api/MovieAPIs';
+import fetchPoster from '../utils/fetchPoster';
 
 const featuredMovies = ['darknight', 'godzilla', 'wicked', 'xmen'];
 export default function HomePage() {
@@ -14,12 +19,65 @@ export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+
   // Fetch carousels on load
   useEffect(() => {
     async function loadData() {
-      const fetchedCarousels = await getCarouselsFromGenres();
-      setCarousels(fetchedCarousels);
+      const baseCarousels = await getCarouselsFromGenres();
+      const updatedCarousels = [...baseCarousels];
+
+      const username = localStorage.getItem('username');
+
+      if (username) {
+        try {
+          // 🎯 1. User-specific recommendations
+          const userRecs: Movie[] = await fetchUserRecommendedMovies();
+          const formattedUserRecs = userRecs.map((movie) => ({
+            ...movie,
+            posterUrl: fetchPoster(
+              movie.title
+                .normalize('NFD')
+                .replace(/[:'()'!.&-]/g, '')
+                .trim()
+            ),
+          }));
+          updatedCarousels.unshift({
+            title: 'Recommended For You',
+            movies: formattedUserRecs,
+            itemsPerSlide: 8,
+            showNumbers: false,
+          });
+
+          // 🎯 2. "Because You Watched" recommendations
+          const { baseMovie, recommended } =
+            await fetchBecauseYouWatchedMovies();
+          const formattedWatchedRecs = recommended.map((movie) => ({
+            ...movie,
+            posterUrl: fetchPoster(
+              movie.title
+                .normalize('NFD')
+                .replace(/[:'()'!.&-]/g, '')
+                .trim()
+            ),
+          }));
+          updatedCarousels.unshift({
+            title: `Because You Watched ${baseMovie.liked}`,
+            movies: formattedWatchedRecs,
+            itemsPerSlide: 8,
+            showNumbers: false,
+          });
+        } catch (err) {
+          console.error('Error loading personalized carousels:', err);
+        }
+      } else {
+        console.info(
+          'No username in localStorage — skipping personalized carousels.'
+        );
+      }
+
+      setCarousels(updatedCarousels);
     }
+
     loadData();
   }, []);
   // Auto-slide featured carousel
@@ -75,6 +133,7 @@ export default function HomePage() {
       }
     }
   };
+
   return (
     <div className="home-container">
       <div className="home-content">
@@ -142,6 +201,9 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+
+        {/* Movie Recommendations */}
+
         {/* Dynamic Carousels */}
         {carousels.map((carousel) => (
           <section key={carousel.title} className="carousel-section">

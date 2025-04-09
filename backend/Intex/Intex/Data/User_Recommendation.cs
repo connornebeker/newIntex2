@@ -1,10 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Intex.Data;
 
 public class User_Recommendation
 {
-
+        [Key]
         public int User { get; set; }
         [Column("Liked Movies")]
         public string LikedMovies { get; set; }

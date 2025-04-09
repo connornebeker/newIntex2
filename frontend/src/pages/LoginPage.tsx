@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import './LandingPage.css'; // reuse background styles
-import './LoginPage.css';   // updated login styles
+import './LoginPage.css'; // updated login styles
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -30,11 +30,24 @@ function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
+      const answer = await fetch(
+        `https://localhost:5000/api/Movie/loginStuff/${email}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }
+      );
+
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.message || 'Login failed');
       }
 
+      const dataRec = await answer.text();
+      if (!dataRec) throw new Error('No username received from server');
+
+      localStorage.setItem('username', dataRec); // 💾 Save it for later use
       navigate('/home');
     } catch (error: any) {
       setError(error.message || 'Error logging in.');
@@ -43,7 +56,11 @@ function LoginPage() {
 
   return (
     <div className="login-wrapper">
-      <img src="/background.png" alt="Background" className="login-background" />
+      <img
+        src="/background.png"
+        alt="Background"
+        className="login-background"
+      />
       <div className="login-overlay" />
 
       {/* Logo Header */}

@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Intex.Data;
 
 public class User_Liked_Recommendation
 {
+    [Key]
     public string index { get; set; }
     [Column("if you watched")] 
     public string liked { get; set; }
