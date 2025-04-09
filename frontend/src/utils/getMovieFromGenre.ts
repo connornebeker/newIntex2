@@ -3,7 +3,10 @@ import fetchPoster from './fetchPoster';
 export default async function getMoviesOneGenre(genre: string, page: number = 1, pageSize: number = 20): Promise<Movie[]> {
   try {
     const res = await fetch(
-      `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=${page}&pageSize=${pageSize}`
+      `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=${page}&pageSize=${pageSize}`,
+      {
+        credentials: 'include',
+      }
 
     );
     if (!res.ok) {

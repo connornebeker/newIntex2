@@ -105,125 +105,125 @@ function MoviesPage() {
   });
 
   return (
-    // <AuthorizeView>
-    <div>
-      {loading}
-      {error && <p>Error loading movie.</p>}
-      {movie && (
-        <>
-          <div className="row">
-            <Link to={`/home`}>
-              <button>Home</button>
-            </Link>
-            <div className="col-3">
-              {showMainPoster ? (
-                <img
-                  src={movie.posterUrl}
-                  alt={movie.title}
-                  height="300px"
-                  onError={() => setShowMainPoster(false)}
-                />
-              ) : (
-                <p></p>
-              )}
-            </div>
-            <div className="col-9">
-              <h1>{movie.title}</h1>
-              <p>{movie.description}</p>
-              <p>Director: {movie.director ?? 'Unknown'}</p>
-              <p>Cast: {movie.cast ?? 'Unknown'}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <p>
-                {movie.release_year} | {movie.duration ?? 'Unknown Duration'} |{' '}
-                {movie.country ?? 'Country Unknown'}
-              </p>
-            </div>
-            <div>
-              <p>Rating: {movie.rating ?? 'Not Rated'}</p>
-            </div>
-            <div>
-              <h2>Genres</h2>
-              <p>{getGenres(movie).join(', ') || 'Unknown'}</p>
-            </div>
-          </div>
-          <div>
-            <div>
-              <h3>Rate this movie:</h3>
-              <div className="star-rating">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <span
-                    key={rating}
-                    style={{
-                      fontSize: '2.5rem',
-                      cursor: 'pointer',
-                      color: userRating >= rating ? 'gold' : 'gray',
-                    }}
-                    onClick={() => handleRatingChange(rating)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-              <p>Your rating: {userRating ?? 'Not Rated'}</p>
-              {/* <button onClick={() => handleRatingSubmit(userRating)}>
-                Submit Rating
-              </button> */}
-            </div>
-          </div>
-        </>
-      )}
+    <AuthorizeView>
       <div>
-        <h2>Similar Movies:</h2>
-        {loadingRec && <p>Loading...</p>}
-        {errorRec && <p>Error loading recommended movies.</p>}
-        {recMovies.length > 0 ? (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            {recMoviesWithPosters.map((movie) => (
-              <Link
-                key={movie.show_id}
-                to={`/movies/${movie.show_id}`}
-                state={{ movie }}
-                onClick={() => {
-                  setCurMovie(movie);
-                  setShowMainPoster(true);
-                }}
-              >
-                <div>
+        {loading}
+        {error && <p>Error loading movie.</p>}
+        {movie && (
+          <>
+            <div className="row">
+              <Link to={`/home`}>
+                <button>Home</button>
+              </Link>
+              <div className="col-3">
+                {showMainPoster ? (
                   <img
                     src={movie.posterUrl}
                     alt={movie.title}
-                    height="150px"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null; // Prevent infinite loop
-                      target.style.display = 'none';
-                      const fallbackDiv = document.createElement('div');
-                      fallbackDiv.textContent = movie.title;
-                      fallbackDiv.style.height = '150px';
-                      fallbackDiv.style.width = '100px';
-                      fallbackDiv.style.display = 'flex';
-                      fallbackDiv.style.alignItems = 'center';
-                      fallbackDiv.style.justifyContent = 'center';
-                      fallbackDiv.style.backgroundColor = '#ddd';
-                      fallbackDiv.style.color = '#333';
-                      fallbackDiv.style.fontWeight = 'bold';
-                      fallbackDiv.style.border = '1px solid #ccc';
-                      target.parentNode?.appendChild(fallbackDiv);
-                    }}
+                    height="300px"
+                    onError={() => setShowMainPoster(false)}
                   />
+                ) : (
+                  <p></p>
+                )}
+              </div>
+              <div className="col-9">
+                <h1>{movie.title}</h1>
+                <p>{movie.description}</p>
+                <p>Director: {movie.director ?? 'Unknown'}</p>
+                <p>Cast: {movie.cast ?? 'Unknown'}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                <p>
+                  {movie.release_year} | {movie.duration ?? 'Unknown Duration'}{' '}
+                  | {movie.country ?? 'Country Unknown'}
+                </p>
+              </div>
+              <div>
+                <p>Rating: {movie.rating ?? 'Not Rated'}</p>
+              </div>
+              <div>
+                <h2>Genres</h2>
+                <p>{getGenres(movie).join(', ') || 'Unknown'}</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <h3>Rate this movie:</h3>
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <span
+                      key={rating}
+                      style={{
+                        fontSize: '2.5rem',
+                        cursor: 'pointer',
+                        color: userRating >= rating ? 'gold' : 'gray',
+                      }}
+                      onClick={() => handleRatingChange(rating)}
+                    >
+                      ★
+                    </span>
+                  ))}
                 </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <p>No recommended movies available.</p>
+                <p>Your rating: {userRating ?? 'Not Rated'}</p>
+                {/* <button onClick={() => handleRatingSubmit(userRating)}>
+                Submit Rating
+              </button> */}
+              </div>
+            </div>
+          </>
         )}
+        <div>
+          <h2>Similar Movies:</h2>
+          {loadingRec && <p>Loading...</p>}
+          {errorRec && <p>Error loading recommended movies.</p>}
+          {recMovies.length > 0 ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+              {recMoviesWithPosters.map((movie) => (
+                <Link
+                  key={movie.show_id}
+                  to={`/movies/${movie.show_id}`}
+                  state={{ movie }}
+                  onClick={() => {
+                    setCurMovie(movie);
+                    setShowMainPoster(true);
+                  }}
+                >
+                  <div>
+                    <img
+                      src={movie.posterUrl}
+                      alt={movie.title}
+                      height="150px"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null; // Prevent infinite loop
+                        target.style.display = 'none';
+                        const fallbackDiv = document.createElement('div');
+                        fallbackDiv.textContent = movie.title;
+                        fallbackDiv.style.height = '150px';
+                        fallbackDiv.style.width = '100px';
+                        fallbackDiv.style.display = 'flex';
+                        fallbackDiv.style.alignItems = 'center';
+                        fallbackDiv.style.justifyContent = 'center';
+                        fallbackDiv.style.backgroundColor = '#ddd';
+                        fallbackDiv.style.color = '#333';
+                        fallbackDiv.style.fontWeight = 'bold';
+                        fallbackDiv.style.border = '1px solid #ccc';
+                        target.parentNode?.appendChild(fallbackDiv);
+                      }}
+                    />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p>No recommended movies available.</p>
+          )}
+        </div>
       </div>
-    </div>
-    // </AuthorizeView>
+    </AuthorizeView>
   );
 }
 

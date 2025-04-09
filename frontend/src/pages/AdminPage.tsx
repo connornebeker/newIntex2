@@ -4,6 +4,7 @@ import './AdminPage.css';
 import TopAppBar from '../components/TopAppBar';
 import { Carousel } from '../types/Carousel';
 import getCarouselsFromGenres from '../utils/getCarouselsFromGenres';
+import AuthorizeView from '../components/AuthorizeView';
 
 const AdminPage: React.FC = () => {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
@@ -70,6 +71,7 @@ const AdminPage: React.FC = () => {
   }));
 
   return (
+    <AuthorizeView>
     <div className="admin-container">
       <TopAppBar />
       <main className="admin-content">
@@ -150,6 +152,7 @@ const AdminPage: React.FC = () => {
         ))}
       </main>
     </div>
+    </AuthorizeView>
   );
 };
 

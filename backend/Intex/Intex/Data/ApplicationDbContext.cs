@@ -12,6 +12,5 @@ namespace Intex.Data
             {
 
             }
-        public DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

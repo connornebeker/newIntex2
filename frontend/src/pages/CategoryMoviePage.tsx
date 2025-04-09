@@ -55,7 +55,7 @@ export default function CategoryMoviePage() {
   // Optional: Your genre formatting helpers remain unchanged...
 
   return (
-    // <AuthorizeView>
+    <AuthorizeView>
     <div>
       <TopAppBar />
       <h2>{categoryName}</h2>
@@ -85,7 +85,7 @@ export default function CategoryMoviePage() {
         {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
       </div>
     </div>
-    // {/* </AuthorizeView> */}
+    </AuthorizeView>
   );
 }
 

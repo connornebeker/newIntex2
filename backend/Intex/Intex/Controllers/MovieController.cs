@@ -9,45 +9,48 @@ namespace Intex.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MovieController : ControllerBase
     {
         private readonly MovieRecDbContext _movieContext;
         private readonly UserRecDbContext _userContext;
         private readonly UserLikedDbContext _userLikedContext;
         private readonly MovieDbContext _savedMovieContext;
-        private readonly ApplicationDbContext _identityContext;
 
         public MovieController(
             MovieRecDbContext movieTemp,
             UserRecDbContext userTemp,
             UserLikedDbContext userLikedTemp,
-            MovieDbContext savedMovieTemp,
-            ApplicationDbContext identityContext)
+            MovieDbContext savedMovieTemp)
         {
             _movieContext = movieTemp;
             _userContext = userTemp;
             _userLikedContext = userLikedTemp;
             _savedMovieContext = savedMovieTemp;
-            _identityContext = identityContext;
         }
 
-        [HttpGet("UserRec")]
+        [HttpPost("loginStuff/{email}")]
+        public IActionResult LoginStuff(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest(new { message = "Email is required" });
+            }
+            return Ok(email);
+        }
+
+        [HttpGet("UserRec/{userName}")]
         public IActionResult UserRec(string userName)
         {
             // Step 1: Get the recommendations for this user
-            var userEmail = _identityContext.AspNetUsers
-                .Where(ur => ur.UserName == userName)
-                .Select(u => u.UserName)
-                .FirstOrDefault();
+            var intUserId = _savedMovieContext.movies_users
 
-            var intUserId = _savedMovieContext.MoviesUsers
-                .Where(u => u.email == userEmail)
+                .Where(u => u.email == userName)
                 .Select(u => u.user_id)
                 .FirstOrDefault();
 
             var userRec = _userContext.User_Recommendations
                 .FirstOrDefault(u => u.User == intUserId);
-
             // Step 2: Gather the recommended titles into a list
             var recommendedTitles = new List<string>
             {
@@ -71,6 +74,67 @@ namespace Intex.Controllers
             return Ok(recommendedMovies);
         }
 
+        
+        [HttpGet("BecauseYouWatched/{userName}")]
+        public IActionResult BecauseYouWatched(string userName)
+        {
+
+            // Step 2: Get internal user_id using their email
+            var intUserId = _savedMovieContext.movies_users
+                .Where(u => u.email == userName)
+                .Select(u => u.user_id) // must match type of `index` in User_Liked_Recommendation
+                .FirstOrDefault();
+
+            if (intUserId == null)
+                return NotFound("User not found in movie-user link table.");
+
+            // Step 3: Get recommendation record for this user
+            var liked = _userContext.User_Recommendations
+                .Where(r => r.User == intUserId)
+                .Select(l => l.LikedMovies)
+                .FirstOrDefault();
+            
+            var likedTitles = liked.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim())
+                .ToList();
+
+            if (!likedTitles.Any())
+            {
+                return NotFound("No liked movies found.");
+            }
+
+            var random = new Random();
+            var randomTitle = likedTitles[random.Next(likedTitles.Count)];
+
+            if (likedTitles == null)
+                return NotFound("No 'because you watched' recommendations found for this user.");
+
+            var rec = _userLikedContext.User_Liked_Recommendations
+                .FirstOrDefault(r => r.liked == randomTitle);
+            
+            // Step 4: Build list of recommended titles
+            var recommendedTitles = new List<string>
+            {
+                rec.Recommendation1, rec.Recommendation2, rec.Recommendation3,
+                rec.Recommendation4, rec.Recommendation5, rec.Recommendation6,
+                rec.Recommendation7, rec.Recommendation8, rec.Recommendation9, rec.Recommendation10
+            };
+
+            // Step 5: Get base movie and recommendations from movie_titles
+            //var baseMovie = _savedMovieContext.movies_titles
+            //    .FirstOrDefault(m => m.title == rec.liked);
+
+            var recommendedMovies = _savedMovieContext.movies_titles
+                .Where(m => recommendedTitles.Contains(m.title))
+                .ToList();
+
+            // Step 6: Return both
+            return Ok(new
+            {
+                baseMovie = rec,
+                recommended = recommendedMovies
+            });
+        }
 
         [HttpGet("MovieRec")]
         public IActionResult MovieRec(string title)
