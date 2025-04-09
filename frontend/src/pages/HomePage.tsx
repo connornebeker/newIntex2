@@ -77,7 +77,7 @@ export default function HomePage() {
     }
   };
   return (
-    // <AuthorizeView>
+    <AuthorizeView>
     <div className="home-container">
       <div className="home-content">
         {/* Navigation */}
@@ -222,6 +222,6 @@ export default function HomePage() {
         />
       )}
     </div>
-    // </AuthorizeView>
+    </AuthorizeView>
   );
 }

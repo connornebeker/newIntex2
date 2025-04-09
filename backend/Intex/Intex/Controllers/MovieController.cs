@@ -22,32 +22,25 @@ namespace Intex.Controllers
             UserRecDbContext userTemp,
             UserLikedDbContext userLikedTemp,
             MovieDbContext savedMovieTemp,
-            ApplicationDbContext identityContext)
+            ApplicationDbContext identityTemp)
         {
             _movieContext = movieTemp;
             _userContext = userTemp;
             _userLikedContext = userLikedTemp;
             _savedMovieContext = savedMovieTemp;
-            _identityContext = identityContext;
+            _identityContext = identityTemp;
         }
 
         [HttpGet("UserRec")]
         public IActionResult UserRec(string userName)
         {
-            // Step 1: Get the recommendations for this user
-            var userEmail = _identityContext.AspNetUsers
-                .Where(ur => ur.UserName == userName)
-                .Select(u => u.UserName)
-                .FirstOrDefault();
-
             var intUserId = _savedMovieContext.MoviesUsers
-                .Where(u => u.email == userEmail)
+                .Where(u => u.email == userName)
                 .Select(u => u.user_id)
                 .FirstOrDefault();
 
             var userRec = _userContext.User_Recommendations
                 .FirstOrDefault(u => u.User == intUserId);
-
             // Step 2: Gather the recommended titles into a list
             var recommendedTitles = new List<string>
             {

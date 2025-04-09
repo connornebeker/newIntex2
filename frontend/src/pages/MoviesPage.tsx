@@ -105,7 +105,7 @@ function MoviesPage() {
   });
 
   return (
-    // <AuthorizeView>
+    <AuthorizeView>
     <div>
       {loading}
       {error && <p>Error loading movie.</p>}
@@ -223,7 +223,7 @@ function MoviesPage() {
         )}
       </div>
     </div>
-    // </AuthorizeView>
+    </AuthorizeView>
   );
 }
 
