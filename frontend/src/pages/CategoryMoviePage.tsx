@@ -5,6 +5,7 @@ import TopAppBar from '../components/TopAppBar';
 import '../pages/CategoryMoviePage.css';
 import getMoviesOneGenre from '../utils/getMovieFromGenre';
 import AuthorizeView from '../components/AuthorizeView';
+import MovieModal from './MovieModal';
 
 export default function CategoryMoviePage() {
   const { categoryName } = useParams();
@@ -12,6 +13,7 @@ export default function CategoryMoviePage() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastMovieRef = useCallback(
@@ -70,13 +72,18 @@ export default function CategoryMoviePage() {
                   className="movie-card"
                   ref={isLast ? lastMovieRef : null}
                 >
-                  <Link to={`/movies/${movie.show_id}`} state={{ movie }}>
+                  <div 
+                    onClick={() => setSelectedMovie(movie)}
+                    style={{ cursor: 'pointer' }}>
+                  {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
                     <img
                       src={movie.posterUrl}
                       alt={movie.title}
                       className="movie-poster"
                     />
-                  </Link>
+                  {/* </Link> */}
+            
+                  </div>
                 </div>
               );
             })}
@@ -84,6 +91,13 @@ export default function CategoryMoviePage() {
         </div>
         {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
       </div>
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+          onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+        />
+      )}
     </div>
     </AuthorizeView>
   );
