@@ -28,6 +28,7 @@ function LoginPage() {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+        // credentials: 'include'
       });
 
       const answer = await fetch(
@@ -36,6 +37,7 @@ function LoginPage() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),
+            credentials: 'include',
         }
       );
 
