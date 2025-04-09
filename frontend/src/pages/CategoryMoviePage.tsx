@@ -4,6 +4,7 @@ import { Movie } from '../types/Movie';
 import TopAppBar from '../components/TopAppBar';
 import '../pages/CategoryMoviePage.css';
 import getMoviesOneGenre from '../utils/getMovieFromGenre';
+import AuthorizeView from '../components/AuthorizeView';
 
 export default function CategoryMoviePage() {
   const { categoryName } = useParams();
@@ -54,6 +55,7 @@ export default function CategoryMoviePage() {
   // Optional: Your genre formatting helpers remain unchanged...
 
   return (
+    <AuthorizeView>
     <div>
       <TopAppBar />
       <h2>{categoryName}</h2>
@@ -83,6 +85,7 @@ export default function CategoryMoviePage() {
         {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
       </div>
     </div>
+    </AuthorizeView>
   );
 }
 

@@ -64,6 +64,12 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
+
+//// enable HTTPS redirection
+//builder.Services.AddHttpsRedirection(options => {
+//    options.HttpsPort = 443; // Set the HTTPS port to 443
+//});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

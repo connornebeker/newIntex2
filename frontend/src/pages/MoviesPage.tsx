@@ -4,6 +4,7 @@ import { Movie } from '../types/Movie';
 // import { useParams } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import fetchPoster from '../utils/fetchPoster';
+import AuthorizeView from '../components/AuthorizeView';
 
 function MoviesPage() {
   // const { show_id, title } = useParams<{ show_id: string, title: string  }>();
@@ -104,6 +105,7 @@ function MoviesPage() {
   });
 
   return (
+    <AuthorizeView>
     <div>
       {loading}
       {error && <p>Error loading movie.</p>}
@@ -221,6 +223,7 @@ function MoviesPage() {
         )}
       </div>
     </div>
+    </AuthorizeView>
   );
 }
 
