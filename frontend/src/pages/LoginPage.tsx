@@ -23,33 +23,41 @@ function LoginPage() {
     if (!email || !password) return setError('Please fill in all fields.');
 
     try {
+      // Step 1: Log in
       const response = await fetch('https://localhost:5000/login', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        // credentials: 'include'
       });
 
+      if (!response.ok) {
+        const text = await response.text();
+        let message = 'Login failed';
+        try {
+          const data = JSON.parse(text);
+          message = data.message || message;
+        } catch (_) {}
+        throw new Error(message);
+      }
+
+      // Step 2: Wait for browser to store the cookie, then hit secure route
       const answer = await fetch(
         `https://localhost:5000/api/Movie/loginStuff/${email}`,
         {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),
-            credentials: 'include',
         }
       );
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Login failed');
-      }
+      if (!answer.ok) throw new Error('Failed to fetch user info');
 
       const dataRec = await answer.text();
       if (!dataRec) throw new Error('No username received from server');
 
-      localStorage.setItem('username', dataRec); // 💾 Save it for later use
+      localStorage.setItem('username', dataRec);
       navigate('/home');
     } catch (error: any) {
       setError(error.message || 'Error logging in.');
