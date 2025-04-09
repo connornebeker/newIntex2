@@ -8,6 +8,5 @@ namespace Intex.Data
             : base(options)
         {
         }
-
     }
 }

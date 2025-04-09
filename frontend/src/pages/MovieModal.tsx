@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import fetchPoster from '../utils/fetchPoster';
 import { fetchRecommendedMovies } from '../api/MovieAPIs';
+import './MovieModal.css';
 
 type MovieModalProps = {
   movie: Movie;
@@ -17,7 +18,6 @@ export default function MovieModal({
 }: MovieModalProps) {
   const [recMovies, setRecMovies] = useState<Movie[]>([]);
   const [userRating, setUserRating] = useState<number | 0>(0);
-  const [showMainPoster, setShowMainPoster] = useState(true);
 
   useEffect(() => {
     const loadRecMovies = async () => {
@@ -32,8 +32,7 @@ export default function MovieModal({
     action: 'Action',
     adventure: 'Adventure',
     animeSeriesInternationalTVShows: 'Anime TV Series',
-    britishTVShowsDocuseriesInternationalTVShows:
-      'British TV Show & International Docuseries',
+    britishTVShowsDocuseriesInternationalTVShows: 'British TV Show & International Docuseries',
     children: "Children's Movie",
     comedies: 'Comedy',
     comediesDramasInternationalMovies: 'International Comedy-Drama',
@@ -50,8 +49,7 @@ export default function MovieModal({
     fantasy: 'Fantasy',
     horrorMovies: 'Horror',
     internationalMoviesThrillers: 'International Thriller',
-    internationalTVShowsRomanticTVShowsTVDramas:
-      'International Romantic Dramas',
+    internationalTVShowsRomanticTVShowsTVDramas: 'International Romantic Dramas',
     kidsTV: "Children's TV",
     languageTVShows: 'Language TV Show',
     musicals: 'Musicals',
@@ -84,85 +82,73 @@ export default function MovieModal({
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content"
-        onClick={(e) => e.stopPropagation()} // prevent backdrop click
-      >
-        <button className="modal-close" onClick={onClose}>
-          ✕
-        </button>
-        <div className="modal-body">
-          {showMainPoster ? (
-            <img
-              src={movie.posterUrl}
-              alt={movie.title}
-              height="300px"
-              onError={() => setShowMainPoster(false)}
-            />
-          ) : (
-            <p></p>
-          )}
-          <h2>{movie.title}</h2>
-          <p>{movie.description}</p>
-          <p>Director: {movie.director}</p>
-          <p>Cast: {movie.cast}</p>
-          <p>
-            {movie.release_year} | {movie.duration} | {movie.country}
-          </p>
-          <p>Rating: {movie.rating}</p>
-          <h3>Genres</h3>
-          <p>{getGenres(movie).join(', ') || 'Unknown'}</p>
-          <div>
-            <h4>Rate this movie:</h4>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>✕</button>
+
+        <div className="modal-banner-wrapper">
+          <img className="modal-banner" src={movie.posterUrl} alt={movie.title} />
+          <div className="modal-banner-gradient" />
+          <div className="modal-banner-overlay">
+            <h2>{movie.title}</h2>
+            <div className="meta">
+              {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown'} | {movie.rating || 'Unrated'}
+            </div>
+            <button className="modal-play">▶ Play</button>
+          </div>
+        </div>
+
+        <div className="modal-main-info">
+          <div className="modal-columns">
+            <div className="modal-left">
+              <p className="modal-description">{movie.description}</p>
+            </div>
+            <div className="modal-right">
+              <div className="meta-row">
+                <strong>Director:</strong> <span>{movie.director || 'Unknown'}</span>
+              </div>
+              <div className="meta-row">
+                <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
+              </div>
+              <div className="meta-row">
+                <strong>Genres:</strong> <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
+              </div>
+            </div>
+          </div>
+
+          <h4 style={{ marginTop: '1.5rem' }}>Rate this movie:</h4>
+          <div style={{ marginBottom: '1rem' }}>
             {[1, 2, 3, 4, 5].map((rating) => (
               <span
                 key={rating}
-                style={{
-                  fontSize: '2rem',
-                  cursor: 'pointer',
-                  color: userRating >= rating ? 'gold' : 'gray',
-                }}
+                className={`star ${userRating >= rating ? 'active' : ''}`}
                 onClick={() => handleRatingChange(rating)}
               >
                 ★
               </span>
             ))}
           </div>
-          <h3>Recommended</h3>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            {recMoviesWithPosters.map((rec) => (
-              <div
-                key={rec.show_id}
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  onMovieSelect(rec);
-                  setShowMainPoster(true);
-                }}
-              >
-                <img
-                  src={rec.posterUrl}
-                  alt={rec.title}
-                  height="150px"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.onerror = null; // Prevent infinite loop
-                    target.style.display = 'none';
-                    const fallbackDiv = document.createElement('div');
-                    fallbackDiv.textContent = rec.title;
-                    fallbackDiv.style.height = '150px';
-                    fallbackDiv.style.width = '100px';
-                    fallbackDiv.style.display = 'flex';
-                    fallbackDiv.style.alignItems = 'center';
-                    fallbackDiv.style.justifyContent = 'center';
-                    fallbackDiv.style.backgroundColor = '#ddd';
-                    fallbackDiv.style.color = '#333';
-                    fallbackDiv.style.fontWeight = 'bold';
-                    fallbackDiv.style.border = '1px solid #ccc';
-                    target.parentNode?.appendChild(fallbackDiv);
-                  }}
-                />
-              </div>
-            ))}
+
+          <div className="modal-recommendations">
+            <h3>More Like This</h3>
+            <div className="recommendation-grid">
+              {recMoviesWithPosters.map((rec) => (
+                <div
+                  key={rec.show_id}
+                  className="recommendation-item"
+                  onClick={() => onMovieSelect(rec)}
+                >
+                  <img
+                    src={rec.posterUrl}
+                    alt={rec.title}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
