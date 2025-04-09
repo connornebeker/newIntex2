@@ -43,13 +43,13 @@ namespace Intex.Controllers
         {
             // Step 1: Get the recommendations for this user
             var intUserId = _savedMovieContext.movies_users
+
                 .Where(u => u.email == userName)
                 .Select(u => u.user_id)
                 .FirstOrDefault();
 
             var userRec = _userContext.User_Recommendations
                 .FirstOrDefault(u => u.User == intUserId);
-
             // Step 2: Gather the recommended titles into a list
             var recommendedTitles = new List<string>
             {
