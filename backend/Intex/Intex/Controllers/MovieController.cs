@@ -15,14 +15,14 @@ namespace Intex.Controllers
         private readonly UserRecDbContext _userContext;
         private readonly UserLikedDbContext _userLikedContext;
         private readonly MovieDbContext _savedMovieContext;
-        private readonly IdentityDbContext _identityContext;
+        private readonly ApplicationDbContext _identityContext;
 
         public MovieController(
             MovieRecDbContext movieTemp,
             UserRecDbContext userTemp,
             UserLikedDbContext userLikedTemp,
             MovieDbContext savedMovieTemp,
-            IdentityDbContext identityContext)
+            ApplicationDbContext identityContext)
         {
             _movieContext = movieTemp;
             _userContext = userTemp;
