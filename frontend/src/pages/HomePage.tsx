@@ -12,6 +12,7 @@ import {
   fetchUserRecommendedMovies,
 } from '../api/MovieAPIs';
 import fetchPoster from '../utils/fetchPoster';
+import AuthorizeView from '../components/AuthorizeView';
 
 const featuredMovies = ['darknight', 'godzilla', 'wicked', 'xmen'];
 export default function HomePage() {
@@ -135,162 +136,164 @@ export default function HomePage() {
   };
 
   return (
-    <div className="home-container">
-      <div className="home-content">
-        {/* Navigation */}
-        <TopAppBar />
-        {/* Hero Carousel */}
-        <div className="carousel-container">
-          <img
-            src={`./posters2/${featuredMovies[currentSlide]}.jpg`}
-            alt={`Featured: ${featuredMovies[currentSlide]}`}
-            className="carousel-image"
-          />
-          <button
-            className="carousel-nav prev"
-            onClick={() =>
-              setCurrentSlide(
-                currentSlide === 0
-                  ? featuredMovies.length - 1
-                  : currentSlide - 1
+    <AuthorizeView>
+      <div className="home-container">
+        <div className="home-content">
+          {/* Navigation */}
+          <TopAppBar />
+          {/* Hero Carousel */}
+          <div className="carousel-container">
+            <img
+              src={`./posters2/${featuredMovies[currentSlide]}.jpg`}
+              alt={`Featured: ${featuredMovies[currentSlide]}`}
+              className="carousel-image"
+            />
+            <button
+              className="carousel-nav prev"
+              onClick={() =>
+                setCurrentSlide(
+                  currentSlide === 0
+                    ? featuredMovies.length - 1
+                    : currentSlide - 1
+                )
+              }
+            >
+              &lt;
+            </button>
+            <button
+              className="carousel-nav next"
+              onClick={() =>
+                setCurrentSlide((currentSlide + 1) % featuredMovies.length)
+              }
+            >
+              &gt;
+            </button>
+            <div className="carousel-dots">
+              {featuredMovies.map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
+                  onClick={() => setCurrentSlide(index)}
+                />
+              ))}
+            </div>
+          </div>
+          {/* CATEGORIES! */}
+          <div className="category-row">
+            {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
+              (category) => (
+                <div key={category} className="category-box">
+                  {category}
+                </div>
               )
-            }
-          >
-            &lt;
-          </button>
-          <button
-            className="carousel-nav next"
-            onClick={() =>
-              setCurrentSlide((currentSlide + 1) % featuredMovies.length)
-            }
-          >
-            &gt;
-          </button>
-          <div className="carousel-dots">
-            {featuredMovies.map((_, index) => (
-              <button
-                key={index}
-                className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
-                onClick={() => setCurrentSlide(index)}
-              />
+            )}
+          </div>
+          {/* TOP 5! */}
+          {/* DON'T WORRY ABOUT THIS THING FOR NOW!! */}
+          <h2 className="top10title">Top 5 in the U.S. Today</h2>
+          <div className="top10-row">
+            {[...Array(5)].map((_, index) => (
+              <div className="top10-item" key={index}>
+                <span className="rank-number">{index + 1}</span>
+                <img
+                  src={`./top10/movie${index + 1}.jpg`}
+                  alt={`Top ${index + 1}`}
+                  className="top10-poster"
+                />
+              </div>
             ))}
           </div>
-        </div>
-        {/* CATEGORIES! */}
-        <div className="category-row">
-          {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
-            (category) => (
-              <div key={category} className="category-box">
-                {category}
+
+          {/* Movie Recommendations */}
+
+          {/* Dynamic Carousels */}
+          {carousels.map((carousel) => (
+            <section key={carousel.title} className="carousel-section">
+              <div className="carousel-title-bar">
+                <h2 className="section-title">{carousel.title}</h2>
               </div>
-            )
-          )}
-        </div>
-        {/* TOP 5! */}
-        {/* DON'T WORRY ABOUT THIS THING FOR NOW!! */}
-        <h2 className="top10title">Top 5 in the U.S. Today</h2>
-        <div className="top10-row">
-          {[...Array(5)].map((_, index) => (
-            <div className="top10-item" key={index}>
-              <span className="rank-number">{index + 1}</span>
-              <img
-                src={`./top10/movie${index + 1}.jpg`}
-                alt={`Top ${index + 1}`}
-                className="top10-poster"
-              />
-            </div>
+              <div className="carousel-hover-group">
+                <button
+                  className="scroll-button left"
+                  onClick={() =>
+                    scroll(carousel.title, 'left', carousel.itemsPerSlide)
+                  }
+                />
+                <div
+                  className={`horizontal-carousel ${
+                    carousel.showNumbers
+                      ? 'horizontal-carousel-top'
+                      : 'horizontal-carousel-normal'
+                  }`}
+                  ref={(el: HTMLDivElement | null) => {
+                    if (el) carouselRefs.current[carousel.title] = el;
+                  }}
+                >
+                  {carousel.movies.map((movie, index) => (
+                    <div
+                      key={movie.show_id}
+                      className={
+                        carousel.showNumbers
+                          ? 'top-movie-item'
+                          : 'recommendation-item'
+                      }
+                    >
+                      {carousel.showNumbers && (
+                        <div className="top-movie-number">{index + 1}</div>
+                      )}
+                      {movie.posterUrl && (
+                        <div
+                          onClick={() => setSelectedMovie(movie)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            onError={() =>
+                              handlePosterError(carousel.title, movie.show_id)
+                            }
+                            className={
+                              carousel.showNumbers
+                                ? 'top-movie-poster'
+                                : 'recommendation-image'
+                            }
+                          />
+                        </div>
+
+                        // <img
+                        //   src={movie.posterUrl}
+                        //   alt={movie.title}
+                        //   className={
+                        //     carousel.showNumbers
+                        //       ? 'top-movie-poster'
+                        //       : 'recommendation-image'
+                        //   }
+                        // />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="scroll-button right"
+                  onClick={() =>
+                    scroll(carousel.title, 'right', carousel.itemsPerSlide)
+                  }
+                />
+              </div>
+            </section>
           ))}
         </div>
-
-        {/* Movie Recommendations */}
-
-        {/* Dynamic Carousels */}
-        {carousels.map((carousel) => (
-          <section key={carousel.title} className="carousel-section">
-            <div className="carousel-title-bar">
-              <h2 className="section-title">{carousel.title}</h2>
-            </div>
-            <div className="carousel-hover-group">
-              <button
-                className="scroll-button left"
-                onClick={() =>
-                  scroll(carousel.title, 'left', carousel.itemsPerSlide)
-                }
-              />
-              <div
-                className={`horizontal-carousel ${
-                  carousel.showNumbers
-                    ? 'horizontal-carousel-top'
-                    : 'horizontal-carousel-normal'
-                }`}
-                ref={(el: HTMLDivElement | null) => {
-                  if (el) carouselRefs.current[carousel.title] = el;
-                }}
-              >
-                {carousel.movies.map((movie, index) => (
-                  <div
-                    key={movie.show_id}
-                    className={
-                      carousel.showNumbers
-                        ? 'top-movie-item'
-                        : 'recommendation-item'
-                    }
-                  >
-                    {carousel.showNumbers && (
-                      <div className="top-movie-number">{index + 1}</div>
-                    )}
-                    {movie.posterUrl && (
-                      <div
-                        onClick={() => setSelectedMovie(movie)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <img
-                          src={movie.posterUrl}
-                          alt={movie.title}
-                          onError={() =>
-                            handlePosterError(carousel.title, movie.show_id)
-                          }
-                          className={
-                            carousel.showNumbers
-                              ? 'top-movie-poster'
-                              : 'recommendation-image'
-                          }
-                        />
-                      </div>
-
-                      // <img
-                      //   src={movie.posterUrl}
-                      //   alt={movie.title}
-                      //   className={
-                      //     carousel.showNumbers
-                      //       ? 'top-movie-poster'
-                      //       : 'recommendation-image'
-                      //   }
-                      // />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <button
-                className="scroll-button right"
-                onClick={() =>
-                  scroll(carousel.title, 'right', carousel.itemsPerSlide)
-                }
-              />
-            </div>
-          </section>
-        ))}
+        <CookieConsent>
+          This website uses cookies to enhance the user experience.
+        </CookieConsent>
+        {selectedMovie && (
+          <MovieModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+            onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+          />
+        )}
       </div>
-      <CookieConsent>
-        This website uses cookies to enhance the user experience.
-      </CookieConsent>
-      {selectedMovie && (
-        <MovieModal
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-          onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
-        />
-      )}
-    </div>
+    </AuthorizeView>
   );
 }

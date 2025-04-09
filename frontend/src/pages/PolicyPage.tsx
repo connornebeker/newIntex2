@@ -1,6 +1,6 @@
-import React from "react";
-import "./PolicyPage.css";
-import { Link } from "react-router-dom";
+import React from 'react';
+import './PolicyPage.css';
+import { Link } from 'react-router-dom';
 
 const PolicyPage: React.FC = () => {
   return (
@@ -12,15 +12,21 @@ const PolicyPage: React.FC = () => {
         </div>
 
         <nav className="nav-links">
-          <Link to="/home" className="nav-link">Home</Link>
-          <Link to="/movies" className="nav-link">Movies</Link>
-          <Link to="/tvshows" className="nav-link">TV Shows</Link>
-          <Link to="/watchlist" className="nav-link">Watchlist</Link>
+          <Link to="/home" className="nav-link">
+            Home
+          </Link>
+          <Link to="/movies" className="nav-link">
+            Movies
+          </Link>
+          <Link to="/tvshows" className="nav-link">
+            TV Shows
+          </Link>
+          <Link to="/watchlist" className="nav-link">
+            Watchlist
+          </Link>
         </nav>
 
-        <div className="user-icon">
-          {/* User icon can go here */}
-        </div>
+        <div className="user-icon">{/* User icon can go here */}</div>
       </header>
 
       {/* Main Content */}
@@ -35,11 +41,13 @@ const PolicyPage: React.FC = () => {
           personal data when you use our website and services.
         </p>
         <p>
-          When you use our website, we may collect the following types of personal data:
+          When you use our website, we may collect the following types of
+          personal data:
           <br />• <strong>Account Information</strong>: name, email, password.
           <br />• <strong>User Preferences</strong>: favorite genres, settings.
           <br />• <strong>Usage Data</strong>: movie reviews, browsing.
-          <br />• <strong>Cookies</strong>: used for functionality, analytics, and personalization.
+          <br />• <strong>Cookies</strong>: used for functionality, analytics,
+          and personalization.
         </p>
 
         <h2>2. How We Use Your Information</h2>
@@ -69,7 +77,10 @@ const PolicyPage: React.FC = () => {
           <li>Remember preferences</li>
           <li>Analyze traffic and patterns</li>
         </ul>
-        <p>You can disable cookies in your browser, but some features may not work.</p>
+        <p>
+          You can disable cookies in your browser, but some features may not
+          work.
+        </p>
 
         <h2>5. Data Sharing</h2>
         <p>We do not sell your data. We may share with:</p>
@@ -99,21 +110,34 @@ const PolicyPage: React.FC = () => {
           <li>Contact a data authority</li>
         </ul>
 
-        <p>To exercise your rights, email us at: <strong>support@cineniche.com</strong></p>
+        <p>
+          To exercise your rights, email us at:{' '}
+          <strong>support@cineniche.com</strong>
+        </p>
 
         <h2>8. Data Security</h2>
-        <p>We use technical and organizational safeguards to protect your data.</p>
+        <p>
+          We use technical and organizational safeguards to protect your data.
+        </p>
 
         <h2>9. International Transfers</h2>
-        <p>If your data leaves the EEA, we use EU-approved safeguards like standard clauses.</p>
+        <p>
+          If your data leaves the EEA, we use EU-approved safeguards like
+          standard clauses.
+        </p>
 
         <h2>10. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy and notify you by email or on our site.</p>
+        <p>
+          We may update this Privacy Policy and notify you by email or on our
+          site.
+        </p>
 
         <h2>11. Contact Us</h2>
         <p>
-          CineNiche<br />
-          support@cineniche.com<br />
+          CineNiche
+          <br />
+          support@cineniche.com
+          <br />
           123 Cine Street, Film City, CA 90001
         </p>
       </div>
