@@ -9,6 +9,8 @@ import {
 import fetchPoster from '../utils/fetchPoster';
 import AuthorizeView from '../components/AuthorizeView';
 import TopAppBar from '../components/TopAppBar';
+import CookieConsent from 'react-cookie-consent';
+import MovieModal from './MovieModal';
 
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
@@ -45,7 +47,8 @@ export default function HomePage() {
             showNumbers: false,
           });
 
-          const { baseMovie, recommended } = await fetchBecauseYouWatchedMovies();
+          const { baseMovie, recommended } =
+            await fetchBecauseYouWatchedMovies();
           const formattedWatchedRecs = recommended.map((movie) => ({
             ...movie,
             posterUrl: fetchPoster(
@@ -65,7 +68,9 @@ export default function HomePage() {
           console.error('Error loading personalized carousels:', err);
         }
       } else {
-        console.info('No username in localStorage — skipping personalized carousels.');
+        console.info(
+          'No username in localStorage — skipping personalized carousels.'
+        );
       }
 
       setCarousels(updatedCarousels);
@@ -144,24 +149,24 @@ export default function HomePage() {
 
   return (
     <AuthorizeView>
-       <div className="home-container">
-         <div className="home-content">
-           <TopAppBar />
+      <div className="home-container">
+        <div className="home-content">
+          <TopAppBar />
 
-           {/* 🎥 Hero Video Section */}
-           <div className="hero-video-container">
-             <video autoPlay loop muted playsInline className="hero-video">
-               <source src="/movietrailer.mp4" type="video/mp4" />
-               Your browser does not support the video tag.
-             </video>
-             <div className="hero-overlay">
-               <h1 className="hero-title">MANIFEST</h1>
-               <button className="hero-button-5">Play</button>
-             </div>
-           </div>
+          {/* 🎥 Hero Video Section */}
+          <div className="hero-video-container">
+            <video autoPlay loop muted playsInline className="hero-video">
+              <source src="/movietrailer.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className="hero-overlay">
+              <h1 className="hero-title">MANIFEST</h1>
+              <button className="hero-button-5">Play</button>
+            </div>
+          </div>
 
-           {/* CATEGORIES */}
-           <div className="category-row">
+          {/* CATEGORIES */}
+          <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
               (category) => (
                 <div key={category} className="category-box">
@@ -255,6 +260,17 @@ export default function HomePage() {
           {/* This div will trigger the intersection observer */}
           <div ref={loadMoreRef} style={{ height: '1px' }}></div>
         </div>
+        <CookieConsent>
+          This website uses cookies to enhance the user experience.
+        </CookieConsent>
+
+        {selectedMovie && (
+          <MovieModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+            onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+          />
+        )}
       </div>
     </AuthorizeView>
   );
@@ -526,7 +542,6 @@ export default function HomePage() {
 //     </AuthorizeView>
 //   );
 // }
-
 
 // import { useEffect, useRef, useState } from 'react';
 // import { Link } from 'react-router-dom';

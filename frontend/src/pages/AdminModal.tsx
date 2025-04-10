@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Movie } from '../types/Movie';
 import './MovieModal.css';
-import './DeleteDialog.css'
+import './DeleteDialog.css';
 import { useNavigate } from 'react-router-dom';
 
 type MovieModalProps = {
@@ -10,10 +10,7 @@ type MovieModalProps = {
   onClose: () => void;
 };
 
-export default function MovieModal({
-  movie,
-  onClose,
-}: MovieModalProps) {
+export default function MovieModal({ movie, onClose }: MovieModalProps) {
   const navigate = useNavigate();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
@@ -85,15 +82,22 @@ export default function MovieModal({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
+        <button className="modal-close" onClick={onClose}>
+          ✕
+        </button>
 
         <div className="modal-banner-wrapper">
-          <img className="modal-banner" src={movie.posterUrl} alt={movie.title} />
+          <img
+            className="modal-banner"
+            src={movie.posterUrl}
+            alt={movie.title}
+          />
           <div className="modal-banner-gradient" />
           <div className="modal-banner-overlay">
             <h2>{movie.title}</h2>
             <div className="meta">
-              {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+              {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
+              {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
             </div>
           </div>
         </div>
@@ -105,13 +109,14 @@ export default function MovieModal({
             </div>
             <div className="modal-right">
               <div className="meta-row">
-                <strong>Director:</strong> <span>{movie.director || 'Unknown'}</span>
+                <strong>Director:</strong>{' '}
+                <span>{movie.director || 'Unknown'}</span>
               </div>
               <div className="meta-row">
                 <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
               </div>
               <div className="meta-row">
-                <strong>Genres:</strong> 
+                <strong>Genres:</strong>
                 <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
               </div>
             </div>
@@ -119,7 +124,9 @@ export default function MovieModal({
         </div>
 
         <div>
-          <button onClick={() => navigate(`/editMovie/${movie.show_id}`)}>Edit</button>
+          <button onClick={() => navigate(`/editMovie/${movie.show_id}`)}>
+            Edit
+          </button>
           <button onClick={showDeleteDialog}>Delete</button>
         </div>
 
@@ -129,7 +136,9 @@ export default function MovieModal({
             <div className="delete-dialog-content">
               <p>Are you sure you want to delete this movie?</p>
               <div>
-                <button onClick={() => handleDeleteMovie(movie.show_id)}>Yes</button>
+                <button onClick={() => handleDeleteMovie(movie.show_id)}>
+                  Yes
+                </button>
                 <button onClick={hideDeleteDialog}>Cancel</button>
               </div>
             </div>
@@ -139,8 +148,6 @@ export default function MovieModal({
     </div>
   );
 }
-
-
 
 // // components/MovieModal.tsx
 // // import { useEffect, useState } from 'react';
@@ -155,7 +162,6 @@ export default function MovieModal({
 // // } from '../api/MovieAPIs';
 // import './MovieModal.css';
 // import { useNavigate } from 'react-router-dom';
-
 
 // type MovieModalProps = {
 //   movie: Movie;
@@ -321,7 +327,7 @@ export default function MovieModal({
 //               </div>
 //             </div>
 //           </div>
-// {/* 
+// {/*
 //           {ratingSubmitted ? (
 //             <div className="rating-submitted">
 //               <h4>Thank you for rating this movie!</h4>
@@ -398,7 +404,7 @@ export default function MovieModal({
 //           </div> */}
 //         </div>
 //         <div>
-//             <button 
+//             <button
 //                 onClick={() => navigate(`/editMovie/${movie.show_id}`)}
 //             >
 //                 Edit

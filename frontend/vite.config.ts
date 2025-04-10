@@ -10,7 +10,7 @@ export default defineConfig({
         "default-src 'self'; " +
         "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
         "style-src 'self' 'unsafe-inline'; " +
-        "img-src 'self' data: https://image.tmdb.org https://moviesforintex.blob.core.windows.net; " +
+        "img-src 'self' data: https://image.tmdb.org https://moviesforintex.blob.core.windows.net https://dummyimage.com;" +
         "frame-ancestors 'none'; " +
         "font-src 'self' data:; " +
         "connect-src 'self' https://localhost:5000 https://*.database.windows.net; " +
