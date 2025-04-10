@@ -129,14 +129,9 @@ const AdminPage: React.FC = () => {
         <main className="admin-content">
           <h1 className="admin-title">Admin Manager</h1>
 
-          <div
-            className="search-section"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              position: 'relative',
-            }}
-          >
+
+
+          <div className="search-section" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
               type="text"
               placeholder="Search movies or TV shows..."
@@ -144,28 +139,35 @@ const AdminPage: React.FC = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-bar"
             />
+
             {searchTerm && (
               <span
                 className="clear-search"
                 onClick={() => setSearchTerm('')}
                 style={{
                   position: 'absolute',
-                  right: '3.5rem', // adjust so it's not over the "+" button
+                  left: '49.3rem',  // controls how close to "+" button
                   top: '50%',
                   transform: 'translateY(-50%)',
                   cursor: 'pointer',
-                  fontSize: '1.2rem',
+                  fontSize: '1.3rem',
                   color: '#888',
-                  zIndex: 9999,
+                  zIndex: 10,
                 }}
               >
                 ×
               </span>
             )}
+
             <button onClick={() => setShowForm(true)} className="add-button">
               ＋
             </button>
           </div>
+
+
+
+
+
 
           <div className="filter-label">Filter by Genre</div>
           <div className="genre-carousel">
@@ -244,21 +246,24 @@ const AdminPage: React.FC = () => {
           </div>
 
           <div className="pagination-controls">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              Prev
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
+            <div className="pagination-top">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Prev
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
+
             <select
               value={pageSize}
               onChange={(e) => {
