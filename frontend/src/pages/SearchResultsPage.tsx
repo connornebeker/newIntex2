@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import '../pages/CategoryMoviePage.css'; // Import the CSS
 import TopAppBar from '../components/TopAppBar';
 import { Movie } from '../types/Movie';

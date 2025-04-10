@@ -21,10 +21,10 @@ function TopAppBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('authToken');
+  //   navigate('/login');
+  // };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
