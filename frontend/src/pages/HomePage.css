@@ -1,6 +1,6 @@
 /* Layout */
 .home-container {
-  width: 100%;
+  width: auto;
   /* padding: 16px 24px; */
   background-color: #0f0f0f;
   min-height: 100vh;
@@ -8,7 +8,15 @@
 }
 
 .home-content {
-  width: 97%;
+  width: 100%;
+  max-width: 1920px; /* TVs often go up to 1920px or more */
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.home-content-2 {
+  width: 100%;
   max-width: 1920px; /* TVs often go up to 1920px or more */
   margin: 0;
   padding: 0 32px;
@@ -248,7 +256,7 @@
   height: 240px;
   max-width: 20%;
 }
- /* this is what we have before and we can change it!
+/* this is what we have before and we can change it!
 .top-movie-number {
   position: absolute;
   left: -40px;
@@ -299,7 +307,6 @@ again, this is what we had before and we can change it
   position: relative;
   z-index: 1;
 }
-
 
 .poster-ten-shift {
   transform: translateX(50px); /* Adjust this value as needed */

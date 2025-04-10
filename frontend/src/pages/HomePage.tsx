@@ -192,7 +192,8 @@ export default function HomePage() {
               <button className="hero-button-5">Play</button>
             </div>
           </div>
-
+        </div>
+        <div className="home-content-2">
           {/* CATEGORIES */}
           <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
