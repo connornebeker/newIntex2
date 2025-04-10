@@ -187,6 +187,114 @@ namespace Intex.Controllers
 
             return Ok(movieList);
         }
+        
+        [HttpGet("AllMoviesPaginated")]
+        public async Task<IActionResult> AllMoviesPaginated(
+            [FromQuery] List<string>? movieTypes,
+            [FromQuery] List<string>? startsWithLetters,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 30)
+        {
+            if (page < 1 || pageSize < 1)
+                return BadRequest("Page and pageSize must be greater than 0.");
+
+            var query = _savedMovieContext.movies_titles.AsQueryable();
+
+            // Filter by genres (each one must have a column with value 1)
+            if (movieTypes != null && movieTypes.Any())
+            {
+                foreach (var genre in movieTypes)
+                {
+                    query = query.Where(m => EF.Property<int>(m, genre) == 1);
+                }
+            }
+
+            // Filter by starting letter(s)
+            if (startsWithLetters != null && startsWithLetters.Any())
+            {
+                query = query.Where(m =>
+                    startsWithLetters.Any(letter =>
+                        m.title.ToLower().StartsWith(letter.ToLower()))
+                );
+            }
+
+            // Total pages BEFORE pagination
+            var totalMovies = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
+
+            var movies = await query
+                .OrderBy(m => m.title)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(new
+            {
+                movies,
+                totalPages
+            });
+        }
+        
+        // [HttpGet("AllMoviesPaginated")]
+        // public async Task<IActionResult> AllMoviesPaginated(
+        //     [FromQuery] List<string>? movieTypes,
+        //     [FromQuery] List<string>? startsWithLetters,
+        //     [FromQuery] int page = 1,
+        //     [FromQuery] int pageSize = 30)
+        // {
+        //     if (page < 1 || pageSize < 1)
+        //         return BadRequest("Page and pageSize must be greater than 0.");
+        //
+        //     var query = _savedMovieContext.movies_titles.AsQueryable();
+        //
+        //     bool hasGenreFilter = movieTypes != null && movieTypes.Any();
+        //     bool hasLetterFilter = startsWithLetters != null && startsWithLetters.Any();
+        //
+        //     // ✅ Apply filters if any
+        //     if (hasGenreFilter)
+        //     {
+        //         foreach (var genre in movieTypes!)
+        //         {
+        //             query = query.Where(m => EF.Property<int>(m, genre) == 1);
+        //         }
+        //     }
+        //
+        //     if (hasLetterFilter)
+        //     {
+        //         query = query.Where(m =>
+        //             startsWithLetters!.Any(letter =>
+        //                 m.title.ToLower().StartsWith(letter.ToLower()))
+        //         );
+        //     }
+        //
+        //     // ✅ Count total pages before pagination
+        //     var totalMovies = await query.CountAsync();
+        //     var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
+        //
+        //     // ✅ Shuffle if no filters
+        //     if (!hasGenreFilter && !hasLetterFilter)
+        //     {
+        //         // Use Guid for random ordering (works in most SQL backends)
+        //         query = query.OrderBy(m => Guid.NewGuid());
+        //     }
+        //     else
+        //     {
+        //         query = query.OrderBy(m => m.title);
+        //     }
+        //
+        //     var movies = await query
+        //         .Skip((page - 1) * pageSize)
+        //         .Take(pageSize)
+        //         .AsNoTracking()
+        //         .ToListAsync();
+        //
+        //     return Ok(new
+        //     {
+        //         movies,
+        //         totalPages
+        //     });
+        // }
 
 
         [HttpGet("GetMovieTypes")]
@@ -459,6 +567,52 @@ namespace Intex.Controllers
             });
         }
 
+        // DELETE: api/movies/{show_id}
+        [HttpDelete("{show_id}")]
+        public async Task<IActionResult> DeleteMovie(string show_id)
+        {
+            // Start a transaction to delete both the movie and its reviews
+            using (var transaction = await _savedMovieContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Step 1: Delete related reviews
+                    var reviews = await _savedMovieContext.movies_ratings
+                        .Where(r => r.show_id == show_id)
+                        .ToListAsync();
+
+                    if (reviews.Any())
+                    {
+                        _savedMovieContext.movies_ratings.RemoveRange(reviews);
+                        await _savedMovieContext.SaveChangesAsync();
+                    }
+
+                    // Step 2: Delete the movie itself
+                    var movie = await _savedMovieContext.movies_titles
+                        .Where(m => m.show_id == show_id)
+                        .FirstOrDefaultAsync();
+
+                    if (movie == null)
+                    {
+                        return NotFound(new { message = "Movie not found" });
+                    }
+
+                    _savedMovieContext.movies_titles.Remove(movie);
+                    await _savedMovieContext.SaveChangesAsync();
+
+                    // Commit the transaction
+                    await transaction.CommitAsync();
+
+                    return Ok(new { message = "Movie and associated reviews deleted successfully" });
+                }
+                catch (Exception ex)
+                {
+                    // If there was an error, roll back the transaction
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, new { message = "An error occurred while deleting the movie", error = ex.Message });
+                }
+            }
+        }
 
 
     }

@@ -138,9 +138,12 @@
   margin-bottom: 10px;
 }
 
-.movie-grid {
-  display: flex;
-  gap: 14px;
+.movie-grid-1 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* exactly 5 columns */
+  gap: 20px;
+  justify-items: center; /* center items horizontally */
+  margin-top: 20px;
 }
 
 .movie-card {
@@ -170,14 +173,8 @@
 
 /* i added this al ultimo porque chat told me to */
 
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
 .action-card {
+  width: 160px; /* slightly larger */
   border-radius: 12px;
   overflow: hidden;
   background-color: transparent;
@@ -205,11 +202,12 @@
 }
 
 .action-image-container {
-  position: relative;
   width: 100%;
-  height: 350px; /* adjust to fit full image nicely */
+  height: 240px; /* match poster aspect ratio */
+  border-radius: 8px;
   overflow: hidden;
-  border-radius: 12px;
+  position: relative;
+  background-color: #333;
 }
 
 .action-image {
@@ -217,7 +215,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: 0.3s ease;
 }
 
 .action-overlay {
@@ -244,4 +241,91 @@
 .action-image-container:hover .action-overlay {
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 1;
+}
+
+.genre-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.genre-carousel {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+  margin: 0 auto 20px;
+  max-width: 100%;
+}
+
+.genre-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.genre-scroll-wrapper {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto);
+  gap: 10px 16px;
+  scroll-snap-align: start;
+  min-width: max-content; /* ✅ allows full horizontal scroll */
+  padding-left: 16px; /* ✅ give room for first item to scroll in */
+}
+
+.filter-button {
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 16px;
+  color: #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-button:hover {
+  background-color: #3a3a3a;
+  border-color: #777;
+}
+
+.filter-button.active {
+  background-color: white;
+  color: #121212;
+  border-color: white;
+}
+
+.letter-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.letter-filters .filter-button {
+  font-size: 14px;
+  padding: 6px 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.letter-filters .filter-button:hover {
+  background-color: #444;
+}
+
+.letter-filters .filter-button.active {
+  background-color: white;
+  color: #121212;
+  border-color: white;
 }

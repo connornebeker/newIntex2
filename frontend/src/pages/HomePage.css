@@ -637,6 +637,7 @@ button {
   overflow: hidden;
 }
 
+
 .hero-video {
   position: absolute;
   top: 0;
@@ -646,6 +647,7 @@ button {
   object-fit: cover;
   z-index: 0;
 }
+
 
 .hero-overlay {
   position: relative;
@@ -659,6 +661,8 @@ button {
   justify-content: center;
   align-items: flex-start;
 }
+
+
 
 .hero-title {
   font-size: 3.5rem;
@@ -699,3 +703,4 @@ button {
 .hero-button:hover {
   background: linear-gradient(145deg, #f0d98c, #caa755);
 }
+
