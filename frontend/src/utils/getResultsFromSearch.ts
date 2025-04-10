@@ -1,10 +1,14 @@
 import { Movie } from '../types/Movie';
 import fetchPoster from './fetchPoster';
 
-export default async function getMoviesOneGenre(searchTerm: string, page: number = 1, pageSize: number = 20): Promise<Movie[]> {
+export default async function getMoviesOneGenre(
+  searchTerm: string,
+  page: number = 1,
+  pageSize: number = 20
+): Promise<Movie[]> {
   try {
     const res = await fetch(
-        `https://localhost:5000/api/movie/search?q=${encodeURIComponent(searchTerm)}&page=${page}&pageSize=${pageSize}`,
+      `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/movie/search?q=${encodeURIComponent(searchTerm)}&page=${page}&pageSize=${pageSize}`,
       {
         credentials: 'include',
       }
@@ -16,7 +20,7 @@ export default async function getMoviesOneGenre(searchTerm: string, page: number
     }
 
     const data = await res.json();
-    console.log('Backend response:', data);  // Log the response to see its structure
+    console.log('Backend response:', data); // Log the response to see its structure
 
     // Check if the response contains 'movies' and is an array
     if (Array.isArray(data.movies)) {
@@ -40,4 +44,3 @@ export default async function getMoviesOneGenre(searchTerm: string, page: number
     return [];
   }
 }
-

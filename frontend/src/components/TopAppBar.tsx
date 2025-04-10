@@ -11,25 +11,26 @@ function TopAppBar() {
   const [genres, setGenres] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    // const [user, setUser] = useState<any>(null); // Store user info with roles
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const categoryRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [user, setUser] = useState<any>(null); // Store user info with roles
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null);
   // Fetch genres
   useEffect(() => {
     async function fetchGenres() {
-      const response = await fetch('https://localhost:5000/api/Movie/GetMovieTypes', {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
+        {
+          credentials: 'include',
+        }
+      );
       const data = await response.json();
       setGenres(data);
     }
     fetchGenres();
   }, []);
-
-  
 
   // Check if user is admin
   useEffect(() => {
@@ -39,13 +40,15 @@ function TopAppBar() {
     async function checkAdmin() {
       try {
         const res = await fetch(
-          `https://localhost:5000/Role/CheckRoleByEmail/${userEmail}`,
+          `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/Role/CheckRoleByEmail/${userEmail}`,
           {
             credentials: 'include',
           }
         );
         const isAdminResponse = await res.text();
-        if(isAdminResponse === "User is an admin ✅"){setIsAdmin(true)};
+        if (isAdminResponse === 'User is an admin ✅') {
+          setIsAdmin(true);
+        }
       } catch (err) {
         console.error('Error checking admin status:', err);
       }
@@ -63,82 +66,82 @@ function TopAppBar() {
     }
   };
 
-// import { useState, useRef, useEffect } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import '../pages/HomePage.css';
-// import Logout from './Logout';
-// import { AuthorizedUser } from './AuthorizeView';
-// import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
-// import Cookies from 'js-cookie'; // Import js-cookie
+  // import { useState, useRef, useEffect } from 'react';
+  // import { Link, useNavigate } from 'react-router-dom';
+  // import '../pages/HomePage.css';
+  // import Logout from './Logout';
+  // import { AuthorizedUser } from './AuthorizeView';
+  // import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
+  // import Cookies from 'js-cookie'; // Import js-cookie
 
-// function TopAppBar() {
-//   const [isSearchOpen, setIsSearchOpen] = useState(false);
-//   const [searchQuery, setSearchQuery] = useState('');
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const [user, setUser] = useState<any>(null); // Store user info with roles
-//   const menuRef = useRef<HTMLDivElement>(null);
-//   const navigate = useNavigate();
-//   const [genres, setGenres] = useState<string[]>([]);
-//   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-//   const categoryRef = useRef<HTMLDivElement>(null);
+  // function TopAppBar() {
+  //   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  //   const [searchQuery, setSearchQuery] = useState('');
+  //   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  //   const [user, setUser] = useState<any>(null); // Store user info with roles
+  //   const menuRef = useRef<HTMLDivElement>(null);
+  //   const navigate = useNavigate();
+  //   const [genres, setGenres] = useState<string[]>([]);
+  //   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  //   const categoryRef = useRef<HTMLDivElement>(null);
 
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (
-//         categoryRef.current &&
-//         !categoryRef.current.contains(event.target as Node)
-//       ) {
-//         setIsCategoryOpen(false);
-//       }
-//     };
-//     document.addEventListener('mousedown', handleClickOutside);
-//     return () => document.removeEventListener('mousedown', handleClickOutside);
-//   }, []);
+  //   useEffect(() => {
+  //     const handleClickOutside = (event: MouseEvent) => {
+  //       if (
+  //         categoryRef.current &&
+  //         !categoryRef.current.contains(event.target as Node)
+  //       ) {
+  //         setIsCategoryOpen(false);
+  //       }
+  //     };
+  //     document.addEventListener('mousedown', handleClickOutside);
+  //     return () => document.removeEventListener('mousedown', handleClickOutside);
+  //   }, []);
 
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-//         setIsMenuOpen(false);
-//       }
-//     };
-//     document.addEventListener('mousedown', handleClickOutside);
-//     return () => document.removeEventListener('mousedown', handleClickOutside);
-//   }, []);
+  //   useEffect(() => {
+  //     const handleClickOutside = (event: MouseEvent) => {
+  //       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+  //         setIsMenuOpen(false);
+  //       }
+  //     };
+  //     document.addEventListener('mousedown', handleClickOutside);
+  //     return () => document.removeEventListener('mousedown', handleClickOutside);
+  //   }, []);
 
-//   useEffect(() => {
-//     // Get the cookie that stores the authentication data
-//     const authCookie = Cookies.get('AspNetCore.Identity.Application');
+  //   useEffect(() => {
+  //     // Get the cookie that stores the authentication data
+  //     const authCookie = Cookies.get('AspNetCore.Identity.Application');
 
-//     if (authCookie) {
-//       const decodedCookie = decodeURIComponent(authCookie); // Assuming it's decoded
-//       const userInfo = JSON.parse(decodedCookie); // Or adjust according to your cookie structure
+  //     if (authCookie) {
+  //       const decodedCookie = decodeURIComponent(authCookie); // Assuming it's decoded
+  //       const userInfo = JSON.parse(decodedCookie); // Or adjust according to your cookie structure
 
-//       setUser(userInfo);
-//     }
-//   }, []);
+  //       setUser(userInfo);
+  //     }
+  //   }, []);
 
-//   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     if (searchQuery.trim()) {
-//       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-//       setSearchQuery('');
-//       setIsSearchOpen(false);
-//     }
-//   };
+  //   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     if (searchQuery.trim()) {
+  //       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+  //       setSearchQuery('');
+  //       setIsSearchOpen(false);
+  //     }
+  //   };
 
-//   useEffect(() => {
-//     async function fetchGenres() {
-//       const response = await fetch(
-//         'https://localhost:5000/api/Movie/GetMovieTypes',
-//         {
-//           credentials: 'include',
-//         }
-//       );
-//       const data = await response.json();
-//       setGenres(data);
-//     }
-//     fetchGenres();
-//   }, []);
+  //   useEffect(() => {
+  //     async function fetchGenres() {
+  //       const response = await fetch(
+  //         'https://localhost:5000/api/Movie/GetMovieTypes',
+  //         {
+  //           credentials: 'include',
+  //         }
+  //       );
+  //       const data = await response.json();
+  //       setGenres(data);
+  //     }
+  //     fetchGenres();
+  //   }, []);
 
   return (
     <nav className="nav-container">
@@ -172,8 +175,8 @@ function TopAppBar() {
           </div>
         </div>
       </div>
-            {/* Conditionally render the Admin button */}
-            {isAdmin && (
+      {/* Conditionally render the Admin button */}
+      {isAdmin && (
         <div className="admin-button-container">
           <Link to="/admin" className="admin-button">
             Admin
@@ -237,14 +240,11 @@ function TopAppBar() {
           )}
         </div>
       </div>
-
-
     </nav>
   );
 }
 
 export default TopAppBar;
-
 
 // import { useState, useRef, useEffect } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';

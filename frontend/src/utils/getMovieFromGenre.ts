@@ -1,13 +1,16 @@
 import { Movie } from '../types/Movie';
 import fetchPoster from './fetchPoster';
-export default async function getMoviesOneGenre(genre: string, page: number = 1, pageSize: number = 20): Promise<Movie[]> {
+export default async function getMoviesOneGenre(
+  genre: string,
+  page: number = 1,
+  pageSize: number = 20
+): Promise<Movie[]> {
   try {
     const res = await fetch(
-      `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=${page}&pageSize=${pageSize}`,
+      `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=${page}&pageSize=${pageSize}`,
       {
         credentials: 'include',
       }
-
     );
     if (!res.ok) {
       console.warn(`Failed to fetch movies for genre: ${genre}`);

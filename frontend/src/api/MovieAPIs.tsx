@@ -10,7 +10,8 @@ interface BecauseYouWatchedResponse {
   recommended: Movie[];
 }
 
-const API_URL = 'https://localhost:5000/api/Movie';
+const API_URL =
+  'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie';
 
 const getUsername = (): string => {
   const username = localStorage.getItem('username');
