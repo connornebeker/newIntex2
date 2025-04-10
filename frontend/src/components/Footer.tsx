@@ -1,3 +1,4 @@
+// display copyright and privacy policy link in the footer
 function Footer() {
   return (
     <footer className="bg-gray-800 text-white py-4 text-sm text-center flex justify-center items-center gap-4 flex-wrap sm:flex-nowrap">
