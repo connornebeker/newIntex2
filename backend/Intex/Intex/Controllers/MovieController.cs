@@ -264,66 +264,6 @@ namespace Intex.Controllers
             });
         }
         
-        // [HttpGet("AllMoviesPaginated")]
-        // public async Task<IActionResult> AllMoviesPaginated(
-        //     [FromQuery] List<string>? movieTypes,
-        //     [FromQuery] List<string>? startsWithLetters,
-        //     [FromQuery] int page = 1,
-        //     [FromQuery] int pageSize = 30)
-        // {
-        //     if (page < 1 || pageSize < 1)
-        //         return BadRequest("Page and pageSize must be greater than 0.");
-        //
-        //     var query = _savedMovieContext.movies_titles.AsQueryable();
-        //
-        //     bool hasGenreFilter = movieTypes != null && movieTypes.Any();
-        //     bool hasLetterFilter = startsWithLetters != null && startsWithLetters.Any();
-        //
-        //     // ✅ Apply filters if any
-        //     if (hasGenreFilter)
-        //     {
-        //         foreach (var genre in movieTypes!)
-        //         {
-        //             query = query.Where(m => EF.Property<int>(m, genre) == 1);
-        //         }
-        //     }
-        //
-        //     if (hasLetterFilter)
-        //     {
-        //         query = query.Where(m =>
-        //             startsWithLetters!.Any(letter =>
-        //                 m.title.ToLower().StartsWith(letter.ToLower()))
-        //         );
-        //     }
-        //
-        //     // ✅ Count total pages before pagination
-        //     var totalMovies = await query.CountAsync();
-        //     var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
-        //
-        //     // ✅ Shuffle if no filters
-        //     if (!hasGenreFilter && !hasLetterFilter)
-        //     {
-        //         // Use Guid for random ordering (works in most SQL backends)
-        //         query = query.OrderBy(m => Guid.NewGuid());
-        //     }
-        //     else
-        //     {
-        //         query = query.OrderBy(m => m.title);
-        //     }
-        //
-        //     var movies = await query
-        //         .Skip((page - 1) * pageSize)
-        //         .Take(pageSize)
-        //         .AsNoTracking()
-        //         .ToListAsync();
-        //
-        //     return Ok(new
-        //     {
-        //         movies,
-        //         totalPages
-        //     });
-        // }
-        
         [HttpGet("GetMoviesByTitles")]
         public async Task<IActionResult> GetMoviesByTitles()
         {
@@ -710,7 +650,5 @@ namespace Intex.Controllers
                 }
             }
         }
-
-
     }
 }
