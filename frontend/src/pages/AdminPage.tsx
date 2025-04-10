@@ -7,6 +7,7 @@ import { Movie } from '../types/Movie';
 import fetchPoster from '../utils/fetchPoster';
 import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 import AdminModal from './AdminModal';
+import AddModal from './AddModal';
 
 const AdminPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -18,6 +19,8 @@ const AdminPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [showForm, setShowForm] = useState(false);
+
 
   useEffect(() => {
     fetchGenres();
@@ -116,15 +119,18 @@ const AdminPage: React.FC = () => {
         <main className="admin-content">
           <h1 className="admin-title">Admin Manager</h1>
 
-          <div className="search-section">
-            <input
-              type="text"
-              placeholder="Search movies or TV shows..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-bar"
-            />
-          </div>
+          <div className="search-section" style={{ display: 'flex', alignItems: 'center' }}>
+              <input
+                type="text"
+                placeholder="Search movies or TV shows..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-bar"
+              />
+              <button onClick={() => setShowForm(true)} className="add-button">＋</button>
+            </div>
+
+
 
           <div className="filter-label">Filter by Genre</div>
           <div className="genre-carousel">
@@ -236,8 +242,17 @@ const AdminPage: React.FC = () => {
           <AdminModal
             movie={selectedMovie}
             onClose={() => setSelectedMovie(null)}
+            
           />
         )}
+        {showForm && (
+          <div className="form-modal">
+            <AddModal onClose={() => setShowForm(false)} />
+            <button onClick={() => setShowForm(false)}>Close</button>
+          </div>
+        )}
+
+
       </div>
     </AuthorizeView>
   );

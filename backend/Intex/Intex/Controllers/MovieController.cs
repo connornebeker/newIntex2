@@ -29,6 +29,19 @@ namespace Intex.Controllers
             _savedMovieContext = savedMovieTemp;
         }
 
+        private string GetNextShowId()
+        {
+            // Pull all show_ids into memory first
+            var numericIds = _savedMovieContext.movies_titles
+                .Select(m => m.show_id)
+                .AsEnumerable() // :point_left: Force evaluation in memory (LINQ to Objects)
+                .Where(id => id.StartsWith("s") && int.TryParse(id.Substring(1), out _))
+                .Select(id => int.Parse(id.Substring(1)))
+                .ToList();
+            var maxNumeric = numericIds.Any() ? numericIds.Max() : 0;
+            return $"s{maxNumeric + 1}";
+        }
+
         [HttpPost("loginStuff/{email}")]
         public IActionResult LoginStuff(string email)
         {
@@ -579,6 +592,19 @@ namespace Intex.Controllers
                 movies = paginatedResults
             });
         }
+
+        [HttpPost("AddMovie")]
+        public async Task<IActionResult> AddMovie([FromBody] movie_title movie)
+        {
+            if (movie == null) return BadRequest("Invalid movie data");
+            movie.show_id = GetNextShowId();
+            _savedMovieContext.movies_titles.Add(movie);
+            await _savedMovieContext.SaveChangesAsync();
+
+            return Ok(new { message = "Movie added successfully", movie.show_id});
+        }
+
+
 
         // DELETE: api/movies/{show_id}
         [HttpDelete("{show_id}")]
