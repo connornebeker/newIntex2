@@ -64,10 +64,12 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       });
       console.log('Movie deleted successfully');
       onClose(); // Close the modal after deletion
+      window.location.reload(); // Reloads the entire page
     } catch (err) {
       console.error('Failed to delete the movie. Please try again.');
     }
   };
+  
 
   // Function to show the confirmation dialog
   const showDeleteDialog = () => {
