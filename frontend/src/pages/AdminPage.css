@@ -392,3 +392,21 @@
   color: white;
   font-size: 1rem;
 }
+
+
+.add-button {
+  margin-left: 1rem; /* space from search bar */
+  background: linear-gradient(145deg, #e0c28c, #b89152); /* gold gradient */
+  color: #0f0f0f;  /* black text */
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-button:hover {
+  background: linear-gradient(145deg, #f0d98c, #caa755);
+}

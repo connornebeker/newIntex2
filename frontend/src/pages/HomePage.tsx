@@ -188,12 +188,19 @@ export default function HomePage() {
               Your browser does not support the video tag.
             </video>
             <div className="hero-overlay">
-              <h1 className="hero-title">MANIFEST</h1>
+              {/* <h1 className="hero-title">MANIFEST</h1> */}
+                        <img 
+                src="public/anyone.png" 
+                alt="Anyone But You" 
+                className="hero-title-image"
+              />
               <button className="hero-button-5">Play</button>
             </div>
           </div>
         </div>
         <div className="home-content-2">
+
+
           {/* CATEGORIES */}
           <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
