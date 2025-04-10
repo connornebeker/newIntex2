@@ -4,6 +4,8 @@ import '../pages/CategoryMoviePage.css'; // Import the CSS
 import TopAppBar from '../components/TopAppBar';
 import { Movie } from '../types/Movie';
 import getResultsFromSearch from '../utils/getResultsFromSearch';
+import AuthorizeView from '../components/AuthorizeView';
+import MovieModal from './MovieModal';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -12,11 +14,11 @@ function useQuery() {
 function SearchResultsPage() {
   const query = useQuery();
   const searchTerm = query.get('q');
-  
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   // IntersectionObserver to trigger lazy load
   const observer = useRef<IntersectionObserver | null>(null);
@@ -62,6 +64,7 @@ function SearchResultsPage() {
   }, [searchTerm, page, hasMore]);
 
   return (
+    <AuthorizeView>
     <div> 
       <TopAppBar />
       <h2>Search Results for: {searchTerm}</h2>
@@ -74,15 +77,20 @@ function SearchResultsPage() {
                 <div
                   key={movie.show_id}
                   className="movie-card"
-                  ref={isLast ? lastMovieRef : null} // Attach ref to last movie
+                  ref={isLast ? lastMovieRef : null}
                 >
-                  <Link to={`/movies/${movie.show_id}`} state={{ movie }}>
+                  <div 
+                    onClick={() => setSelectedMovie(movie)}
+                    style={{ cursor: 'pointer' }}>
+                  {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
                     <img
                       src={movie.posterUrl}
                       alt={movie.title}
                       className="movie-poster"
                     />
-                  </Link>
+                  {/* </Link> */}
+            
+                  </div>
                 </div>
               );
             })}
@@ -90,7 +98,15 @@ function SearchResultsPage() {
         </div>
         {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
       </div>
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+          onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+        />
+      )}
     </div>
+    </AuthorizeView>
   );
 }
 
