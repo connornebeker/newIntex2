@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import fetchPoster from '../utils/fetchPoster';
 
@@ -153,8 +153,8 @@ function LoginPage() {
     if (!email || !password) return setError('Please fill in all fields.');
 
     const loginUrl = rememberme
-      ? 'https://localhost:5000/login?useCookies=true'
-      : 'https://localhost:5000/login?useSessionCookies=true';
+      ? 'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/login?useCookies=true'
+      : 'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/login?useSessionCookies=true';
 
     try {
       // Step 1: Log in
@@ -177,7 +177,7 @@ function LoginPage() {
 
       // Step 2: Wait for browser to store the cookie, then hit secure route
       const answer = await fetch(
-        `https://localhost:5000/api/Movie/loginStuff/${email}`,
+        `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/loginStuff/${email}`,
         {
           method: 'POST',
           credentials: 'include',

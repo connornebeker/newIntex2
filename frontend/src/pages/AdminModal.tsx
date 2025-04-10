@@ -59,9 +59,12 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
   // Function to handle the deletion of the movie
   const handleDeleteMovie = async (show_id: string) => {
     try {
-      await axios.delete(`https://localhost:5000/api/Movie/${show_id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/${show_id}`,
+        {
+          withCredentials: true,
+        }
+      );
       console.log('Movie deleted successfully');
       onClose(); // Close the modal after deletion
       window.location.reload(); // Reloads the entire page
@@ -69,7 +72,6 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       console.error('Failed to delete the movie. Please try again.');
     }
   };
-  
 
   // Function to show the confirmation dialog
   const showDeleteDialog = () => {

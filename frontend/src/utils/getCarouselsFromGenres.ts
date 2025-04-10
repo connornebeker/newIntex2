@@ -6,7 +6,7 @@ export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
   const carousels: Carousel[] = [];
 
   const genresRes = await fetch(
-    'https://localhost:5000/api/Movie/GetMovieTypes',
+    'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
     {
       credentials: 'include',
     }
@@ -21,7 +21,7 @@ export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
   for (const genre of genres) {
     try {
       const res = await fetch(
-        `https://localhost:5000/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=1&pageSize=100`,
+        `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMoviesByGenre?genre=${encodeURIComponent(genre)}&page=1&pageSize=100`,
         {
           credentials: 'include',
         }

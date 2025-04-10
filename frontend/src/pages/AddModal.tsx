@@ -19,6 +19,17 @@ type MovieFormData = {
   description: string;
   genres: string[];
 };
+  type: string;
+  title: string;
+  director: string;
+  cast: string;
+  country: string;
+  releaseYear: string;
+  rating: string;
+  duration: string;
+  description: string;
+  genres: string[];
+};
 
 export default function MovieModal({onClose }: MovieModalProps) {
 
@@ -90,16 +101,19 @@ export default function MovieModal({onClose }: MovieModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     // Map genre names to keys used in your backend
     const genreKeys = Object.keys(genreMap);
-  
+
     // Build the genre object: { action: 1, comedies: 0, ... }
-    const genreBooleans = genreKeys.reduce((acc, key) => {
-      acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0; // Ensure 0 or 1
-      return acc;
-    }, {} as Record<string, number>);
-  
+    const genreBooleans = genreKeys.reduce(
+      (acc, key) => {
+        acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0; // Ensure 0 or 1
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
     // Construct the full Movie object
     const movieToSubmit = {
       type: formData.type,
@@ -113,9 +127,13 @@ export default function MovieModal({onClose }: MovieModalProps) {
       description: formData.description,
       ...genreBooleans, // spread genre flags into the object
     };
-  
+
     // Validate input fields (optional but useful for preventing empty values)
-    if (!movieToSubmit.title || !movieToSubmit.director || !movieToSubmit.release_year) {
+    if (
+      !movieToSubmit.title ||
+      !movieToSubmit.director ||
+      !movieToSubmit.release_year
+    ) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -127,9 +145,13 @@ export default function MovieModal({onClose }: MovieModalProps) {
 
     // pass the movie to submit to the api
     try {
-      await axios.post('https://localhost:5000/api/Movie/AddMovie', movieToSubmitWithId, {
-        withCredentials: true,
-      });
+      await axios.post(
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/AddMovie',
+        movieToSubmitWithId,
+        {
+          withCredentials: true,
+        }
+      );
       alert('Movie added!');
       onClose();
     } catch (err) {
@@ -137,7 +159,6 @@ export default function MovieModal({onClose }: MovieModalProps) {
       alert('Failed to add movie.');
     }
   };
-   
 
   return (
     <div className="modal-overlay" onClick={onClose}>

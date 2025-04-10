@@ -22,7 +22,7 @@ export default function HomePage() {
 
   async function fetchMoviesByTitles(): Promise<Movie[]> {
     const res = await fetch(
-      `https://localhost:5000/api/Movie/GetMoviesByTitles`,
+      `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMoviesByTitles`,
       {
         credentials: 'include',
       }
@@ -192,7 +192,8 @@ export default function HomePage() {
               <button className="hero-button-5">Play</button>
             </div>
           </div>
-
+        </div>
+        <div className="home-content-2">
           {/* CATEGORIES */}
           <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Movie } from '../types/Movie';
 import TopAppBar from '../components/TopAppBar';
 import '../pages/CategoryMoviePage.css';
@@ -22,9 +22,9 @@ export default function CategoryMoviePage() {
 
       if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver(entries => {
+      observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPage(prev => prev + 1);
+          setPage((prev) => prev + 1);
         }
       });
 
@@ -45,7 +45,7 @@ export default function CategoryMoviePage() {
 
       setIsLoading(true);
       const newMovies = await getMoviesOneGenre(categoryName, page, 20);
-      setMovies(prev => [...prev, ...newMovies]);
+      setMovies((prev) => [...prev, ...newMovies]);
       setIsLoading(false);
 
       if (newMovies.length < 20) setHasMore(false); // No more data
@@ -58,51 +58,50 @@ export default function CategoryMoviePage() {
 
   return (
     <AuthorizeView>
-    <div>
-      <TopAppBar />
-      <h2>{categoryName}</h2>
-      <div className="home-thing-1">
-        <div className="home-slice-1">
-          <div className="movie-grid">
-            {movies.map((movie, index) => {
-              const isLast = index === movies.length - 1;
-              return (
-                <div
-                  key={movie.show_id}
-                  className="movie-card"
-                  ref={isLast ? lastMovieRef : null}
-                >
-                  <div 
-                    onClick={() => setSelectedMovie(movie)}
-                    style={{ cursor: 'pointer' }}>
-                  {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
-                    <img
-                      src={movie.posterUrl}
-                      alt={movie.title}
-                      className="movie-poster"
-                    />
-                  {/* </Link> */}
-            
+      <div>
+        <TopAppBar />
+        <h2>{categoryName}</h2>
+        <div className="home-thing-1">
+          <div className="home-slice-1">
+            <div className="movie-grid">
+              {movies.map((movie, index) => {
+                const isLast = index === movies.length - 1;
+                return (
+                  <div
+                    key={movie.show_id}
+                    className="movie-card"
+                    ref={isLast ? lastMovieRef : null}
+                  >
+                    <div
+                      onClick={() => setSelectedMovie(movie)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
+                      <img
+                        src={movie.posterUrl}
+                        alt={movie.title}
+                        className="movie-poster"
+                      />
+                      {/* </Link> */}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+          {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
         </div>
-        {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
+        {selectedMovie && (
+          <MovieModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+            onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+          />
+        )}
       </div>
-      {selectedMovie && (
-        <MovieModal
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-          onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
-        />
-      )}
-    </div>
     </AuthorizeView>
   );
 }
-
 
 // import { useEffect, useState } from 'react';
 // import { Link, useParams } from 'react-router-dom';
@@ -118,7 +117,6 @@ export default function CategoryMoviePage() {
 //   const [loading, setLoading] = useState(false);
 //   const [hasMore, setHasMore] = useState(true); // to prevent further fetches if no more data
 
-
 //   // useEffect(() => {
 //   //   async function fetchMovies() {
 //   //     if (categoryName) {
@@ -129,7 +127,6 @@ export default function CategoryMoviePage() {
 
 //   //   fetchMovies();
 //   // }, [categoryName]); // Re-run when categoryName changes
-
 
 // useEffect(() => {
 //   async function fetchMovies() {
@@ -144,7 +141,6 @@ export default function CategoryMoviePage() {
 
 //   fetchMovies();
 // }, [page, categoryName]);
-
 
 // useEffect(() => {
 //   function handleScroll() {
@@ -161,7 +157,6 @@ export default function CategoryMoviePage() {
 //   window.addEventListener('scroll', handleScroll);
 //   return () => window.removeEventListener('scroll', handleScroll);
 // }, [loading, hasMore]);
-
 
 //   function changeGenreName(genre: string): string {
 //     switch (genre.toLowerCase()) {
@@ -215,14 +210,13 @@ export default function CategoryMoviePage() {
 //         return genre; // if the genre doesn't match any condition, return it unchanged
 //     }
 //   }
-  
+
 //   function formatGenreName(genre: string): string {
 //     // Convert camelCase or PascalCase to spaced and capitalized words
 //     return genre
 //       .replace(/([a-z])([A-Z])/g, '$1 $2')
 //       .replace(/^./, (char) => char.toUpperCase());
 //   }
-
 
 //   return (
 //     <div>
@@ -250,5 +244,3 @@ export default function CategoryMoviePage() {
 //     </div>
 //   );
 // }
-
-

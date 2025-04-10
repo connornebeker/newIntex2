@@ -17,12 +17,20 @@ body {
 }
 
 .logo {
-  height: 5em;
-  padding: 1em;
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
+  height: 3rem;
+  object-fit: contain;
 }
+/* .logo {
+  padding: 0.5em;
+  font-size: 24px;
+  width: 198px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+} */
+
 .logo:hover {
   transform: scale(1.05);
   filter: drop-shadow(0 0 1.5em #e50914aa);
