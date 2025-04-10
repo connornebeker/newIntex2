@@ -2,7 +2,7 @@ import { JSX } from 'react';
 import './LandingPage.css';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
-
+import fetchPoster from '../utils/fetchPoster';
 
 const titles: string[] = [
   'Countdown: Inspiration4 Mission to Space',
@@ -150,7 +150,9 @@ export default function LandingPage(): JSX.Element {
       {/* Background Carousel Grid */}
       <header className="landing-header">
         <img src="/logo.png" alt="CineNiche Logo" className="logo-top" />
-        <button className="signin-button" onClick={() => navigate('/login')}>Sign In</button>
+        <button className="signin-button" onClick={() => navigate('/login')}>
+          Sign In
+        </button>
       </header>
       <div className="poster-carousel">
         {grouped.map((group, rowIndex) => (
@@ -161,11 +163,12 @@ export default function LandingPage(): JSX.Element {
             {[...group, ...group].map((title, i) => (
               <img
                 key={`${title}-${i}`}
-                src={`./posters/${title}.jpg`}
+                src={fetchPoster(title)} // ✅ remote Azure URL
                 alt={`poster-${title}`}
                 className="poster-img"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(title)}`;
+                  (e.target as HTMLImageElement).src = fallbackUrl;
                 }}
               />
             ))}
@@ -188,11 +191,12 @@ export default function LandingPage(): JSX.Element {
             placeholder="Email address"
             className="email-input"
           />
-          <button className="cta-button" onClick={() => navigate('/register')}>Get Started</button>
+          <button className="cta-button" onClick={() => navigate('/register')}>
+            Get Started
+          </button>
         </form>
         <Footer />
       </div>
-      
     </div>
   );
 }

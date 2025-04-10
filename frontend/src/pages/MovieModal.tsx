@@ -40,7 +40,7 @@ export default function MovieModal({
         const rating = await fetchUserRating(movie.show_id);
         if (rating) {
           setUserRating(rating);
-          setRatingSubmitted(true); // Because they’ve rated it before
+          setRatingSubmitted(true); // Because they've rated it before
         } else {
           setUserRating(0);
           setRatingSubmitted(false);
@@ -117,7 +117,7 @@ export default function MovieModal({
     posterUrl: fetchPoster(
       m.title
         .normalize('NFD')
-        .replace(/[:'()’!.&-]/g, '')
+        .replace(/[:'()'!.&-]/g, '')
         .trim()
     ),
   }));
@@ -144,7 +144,7 @@ export default function MovieModal({
                 {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
               </div>
 
-              <button className="modal-play">▶ Play</button>
+              <button className="modal-play ">▶ Play</button>
 
               <p className="modal-description">{movie.description}</p>
 

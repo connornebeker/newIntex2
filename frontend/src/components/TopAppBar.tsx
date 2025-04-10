@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../pages/HomePage.css';
 import Logout from './Logout';
 import { AuthorizedUser } from './AuthorizeView';
+import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 
 function TopAppBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -10,6 +11,22 @@ function TopAppBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [genres, setGenres] = useState<string[]>([]);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        categoryRef.current &&
+        !categoryRef.current.contains(event.target as Node)
+      ) {
+        setIsCategoryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,25 +52,69 @@ function TopAppBar() {
     }
   };
 
+  useEffect(() => {
+    async function fetchGenres() {
+      const response = await fetch(
+        'https://localhost:5000/api/Movie/GetMovieTypes',
+        {
+          credentials: 'include',
+        }
+      );
+      const data = await response.json();
+      setGenres(data);
+    }
+    fetchGenres();
+  }, []);
+
   return (
     <nav className="nav-container">
       <div className="nav-left">
         <img src="/logo.png" alt="CineNiche Logo" className="logo" />
         <div className="nav-links">
-          <Link to="/home" className="nav-link-1">Home</Link>
-          <Link to="/category" className="nav-link-1">Categories</Link>
+          <Link to="/home" className="nav-link-1">
+            Home
+          </Link>
+          <div className="dropdown-container" ref={categoryRef}>
+            <button
+              className="nav-link-1 dropdown-trigger"
+              onClick={() => setIsCategoryOpen((prev) => !prev)}
+            >
+              Categories
+            </button>
+            {isCategoryOpen && (
+              <div className="category-dropdown">
+                {genres.map((genre) => (
+                  <Link
+                    key={genre}
+                    to={`/category/${genre}`}
+                    className="dropdown-item"
+                    onClick={() => setIsCategoryOpen(false)} // Close on click
+                  >
+                    {formatGenreName(changeGenreName(genre))}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="nav-right">
-        <form onSubmit={handleSearchSubmit} className={`search-wrapper ${isSearchOpen ? 'active' : ''}`}>
+        <form
+          onSubmit={handleSearchSubmit}
+          className={`search-wrapper ${isSearchOpen ? 'active' : ''}`}
+        >
           <button
             type="button"
             className="search-icon"
             onClick={() => setIsSearchOpen((prev) => !prev)}
             aria-label="Toggle search"
           >
-            <img src="/magnifying-glass.svg" alt="Search" className="search-icon-img" />
+            <img
+              src="/magnifying-glass.svg"
+              alt="Search"
+              className="search-icon-img"
+            />
           </button>
           <input
             type="search"
@@ -88,7 +149,7 @@ function TopAppBar() {
           {isMenuOpen && (
             <div className="user-dropdown">
               <Logout>
-                Log out <AuthorizedUser value='email' />
+                Log out <AuthorizedUser value="email" />
               </Logout>
             </div>
           )}
@@ -99,4 +160,3 @@ function TopAppBar() {
 }
 
 export default TopAppBar;
-
