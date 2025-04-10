@@ -1,14 +1,16 @@
-/* Global background and layout */
+/* === GLOBAL LAYOUT === */
 html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-family:
+    'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #0f0f0f;
   color: white;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -22,14 +24,40 @@ body {
   height: 100%;
 }
 
-.landing-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #0f0f0f;
+/* === HEADER === */
+.landing-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  box-sizing: border-box;
 }
 
+.logo-top {
+  height: 3.5rem;
+  object-fit: contain;
+}
+
+.signin-button {
+  background: linear-gradient(145deg, #e0c28c, #b89152);
+  color: #0f0f0f;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.signin-button:hover {
+  background: linear-gradient(145deg, #f0d98c, #caa755);
+}
+
+/* === POSTER CAROUSEL === */
 .poster-carousel {
   position: absolute;
   inset: 0;
@@ -56,6 +84,7 @@ body {
   height: 140px;
   width: auto;
   object-fit: cover;
+  opacity: 0.8 !important;
 }
 
 @keyframes scroll-left {
@@ -76,30 +105,132 @@ body {
   }
 }
 
+/* === OVERLAY === */
+.login-overlay,
 .overlay {
   position: absolute;
   inset: 0;
-  z-index: 10;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.95)
-  );
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
 }
 
+/* === CONTENT CONTAINER === */
+.login-content,
 .content {
   position: relative;
-  z-index: 20;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  height: 100vh;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* === AUTH CARD (Login/Register) === */
+.login-card {
+  background-color: transparent;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: white;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  color: white;
-  text-align: center;
-  padding: 1rem;
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
 }
 
+.login-card h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-card .subtitle {
+  font-size: 0.95rem;
+  text-align: center;
+  color: #cccccc;
+  margin-bottom: 1.5rem;
+}
+
+.login-card input,
+.login-card input[type='email'],
+.login-card input[type='password'] {
+  width: 93%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #1f1f1f;
+  color: white;
+  font-size: 1rem;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(145deg, #e0c28c, #b89152);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #0f0f0f;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-card button:hover {
+  background: linear-gradient(145deg, #f0d98c, #caa755);
+}
+
+/* === OPTIONS / EXTRAS === */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  color: #ccc;
+  gap: 1rem;
+}
+
+.login-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.login-options input[type='checkbox'] {
+  margin: 0;
+  transform: scale(1.1);
+}
+
+.login-options a {
+  color: #e0c28c;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+.login-error {
+  color: #ff4c4c;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* === LANDING PAGE SECTIONS === */
 .title {
   font-size: 3rem;
   font-weight: 700;
@@ -152,42 +283,146 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.landing-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 30;
+/* === Register Extras === */
+.extras-container-8 {
+  background-color: #0f0f0f;
+  color: white;
+  padding: 4rem 2rem;
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.section-title-8 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.reasons-grid-8 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.reason-card-8 {
+  background-color: #1c1c1c;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.reason-card-8:hover {
+  background-color: #2a2a2a;
+}
+
+.reason-icon-8 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.faq-8 {
+  max-width: 2150px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.faq-item-8 {
+  background-color: #1c1c1c;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.faq-item-8:hover {
+  background-color: #2a2a2a;
+}
+
+.faq-question-8 {
+  padding: 1.25rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  box-sizing: border-box;
-}
-
-.logo-top {
-  height: 4rem;
-  object-fit: contain;
-}
-
-.signin-button {
-  background: linear-gradient(145deg, #e0c28c, #b89152);
-  color: #0f0f0f;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border: 1px solid #d4af37;
   cursor: pointer;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
 }
 
-.signin-button:hover {
-  background: linear-gradient(145deg, #f0d98c, #caa755);
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+.faq-question-8 span:last-child {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-left: 1rem;
+}
+
+.faq-answer-8 {
+  padding: 1rem 1.5rem 1.5rem;
+  font-size: 1.1rem;
+  color: #cccccc;
+  line-height: 1.6;
+  border-top: 1px solid #333;
+  background-color: #222;
+}
+
+.hero-card {
+  background-color: transparent;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  color: white;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.75);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 90%;
+  width: auto;
+  align-items: center;
+}
+
+.hero-card .title {
+  white-space: nowrap;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-card .subtitle,
+.hero-card .cta-form button {
+  text-align: center;
+  align-items: center;
+}
+
+.hero-card .cta-form input {
+  text-align: left;
+}
+
+.hero-card .cta-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cta-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto; /* ✅ This centers the row horizontally */
+  display: inline-flex;
+}
+
+.cta-row .email-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.cta-row .cta-button {
+  white-space: nowrap;
+  padding: 0.75rem 1.25rem;
 }
