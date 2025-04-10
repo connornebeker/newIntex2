@@ -130,23 +130,31 @@ export default function MovieModal({
         </button>
 
           <div className="modal-banner-wrapper-horizontal">
-            <img
-              className="modal-banner-horizontal"
-              src={movie.posterUrl}
-              alt={movie.title}
-            />
-
+            <img className="modal-banner-horizontal" src={movie.posterUrl} alt={movie.title}/>
             <div className="modal-info-horizontal">
               <h2>{movie.title}</h2>
-
               <div className="meta">
                 {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
                 {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
               </div>
-
               <button className="modal-play ">▶ Play</button>
-
               <p className="modal-description">{movie.description}</p>
+
+{/* 
+          <div className="modal-banner-wrapper-horizontal">
+            <img className="modal-banner-horizontal" src={movie.posterUrl} alt={movie.title} />
+
+            <div className="modal-info-horizontal">
+              <h2>{movie.title}</h2>
+              <div className="meta">
+                {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+              </div>
+              <button className="modal-play">▶ Play</button>
+              <p className="modal-description">{movie.description}</p>
+            </div>
+          </div> */}
+
+
 
               {/* Move all this info here */}
               <div className="meta-row">

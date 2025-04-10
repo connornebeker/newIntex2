@@ -248,7 +248,7 @@
   height: 240px;
   max-width: 20%;
 }
-
+ /* this is what we have before and we can change it!
 .top-movie-number {
   position: absolute;
   left: -40px;
@@ -257,6 +257,19 @@
   color: #bebaba;
   font-size: 240px;
   font-family: 'League Gothic', sans-serif;
+  'Impact', 'Arial', sans-serif
+  line-height: 1;
+  opacity: 0.2;
+} */
+
+.top-movie-number {
+  position: absolute;
+  left: -40px;
+  bottom: 10px;
+  z-index: 0;
+  color: #bebaba;
+  font-size: 240px;
+  font-family: 'Impact', 'Arial', sans-serif;
   line-height: 1;
   opacity: 0.2;
 }
@@ -266,6 +279,8 @@
   font-size: 240px;
 }
 
+/* 
+again, this is what we had before and we can change it
 .top-movie-poster {
   z-index: 1;
   width: 160px;
@@ -273,7 +288,18 @@
   border-radius: 8px;
   object-fit: cover;
   transition: transform 0.2s;
+} */
+
+.top-movie-poster {
+  width: 160px;
+  height: 240px;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 1;
 }
+
 
 .poster-ten-shift {
   transform: translateX(50px); /* Adjust this value as needed */
@@ -507,7 +533,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
