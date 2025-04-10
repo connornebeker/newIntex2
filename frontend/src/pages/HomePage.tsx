@@ -12,18 +12,18 @@ import TopAppBar from '../components/TopAppBar';
 import CookieConsent from 'react-cookie-consent';
 import MovieModal from './MovieModal';
 
-const top10Titles = [
-  'Squid Game',
-  'Attack on Titan',
-  'Inception',
-  'The Crown',
-  'Bridgerton',
-  'Stranger Things',
-  'A Wednesday',
-  'The Good Place',
-  'Avatar: The Last Airbender',
-  'Nailed It',
-];
+// const top10Titles = [
+//   'Squid Game',
+//   'Attack on Titan',
+//   'Inception',
+//   'The Crown',
+//   'Bridgerton',
+//   'Stranger Things',
+//   'A Wednesday',
+//   'The Good Place',
+//   'Avatar: The Last Airbender',
+//   'Nailed It',
+// ];
 
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
@@ -33,12 +33,9 @@ export default function HomePage() {
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref to the div at the bottom
 
-  async function fetchMoviesByTitles(titles: string[]): Promise<Movie[]> {
-    const params = new URLSearchParams();
-    titles.forEach((title) => params.append('titles', title));
-
+  async function fetchMoviesByTitles(): Promise<Movie[]> {
     const res = await fetch(
-      `https://localhost:5000/api/Movie/GetMoviesByTitles?${params.toString()}`,
+      `https://localhost:5000/api/Movie/GetMoviesByTitles`,
       {
         credentials: 'include',
       }
@@ -100,7 +97,7 @@ export default function HomePage() {
             itemsPerSlide: 8,
             showNumbers: false,
           });
-          const top10Movies = await fetchMoviesByTitles(top10Titles);
+          const top10Movies = await fetchMoviesByTitles();
 
           updatedCarousels.unshift({
             title: 'Top 10 in the U.S. Today',

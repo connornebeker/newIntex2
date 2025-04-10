@@ -310,16 +310,31 @@ namespace Intex.Controllers
         // }
         
         [HttpGet("GetMoviesByTitles")]
-        public async Task<IActionResult> GetMoviesByTitles([FromQuery] List<string> titles)
+        public async Task<IActionResult> GetMoviesByTitles()
         {
-            if (titles == null || !titles.Any())
-                return BadRequest("No titles provided.");
 
-            var matchedMovies = await _savedMovieContext.movies_titles
-                .Where(m => titles.Contains(m.title))
-                .ToListAsync();
+            var topRatedIds = _savedMovieContext.movies_ratings
+                .GroupBy(r => r.show_id)
+                .Select(g => new
+                {
+                    ShowId = g.Key,
+                    AvgRating = g.Average(r => r.rating)
+                })
+                .OrderByDescending(g => g.AvgRating)
+                .Take(11)
+                .Select(g => g.ShowId)
+                .ToList();
+            
+            var topMovies = _savedMovieContext.movies_titles
+                .Where(m => topRatedIds.Contains(m.show_id))
+                .ToList();
 
-            return Ok(matchedMovies);
+            var orderedTopMovies = topRatedIds
+                .Select(id => topMovies.FirstOrDefault(m => m.show_id == id))
+                .Where(m => m != null)
+                .ToList();
+            
+            return Ok(orderedTopMovies);
         }
 
 
