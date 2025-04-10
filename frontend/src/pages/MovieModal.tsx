@@ -1,6 +1,7 @@
 // components/MovieModal.tsx
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
+import { useNavigate } from 'react-router-dom';
 import fetchPoster from '../utils/fetchPoster';
 import {
   fetchRecommendedMovies,
@@ -25,6 +26,7 @@ export default function MovieModal({
   const [userRating, setUserRating] = useState<number | 0>(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [hasRatedBefore, setHasRatedBefore] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadRecMovies = async () => {

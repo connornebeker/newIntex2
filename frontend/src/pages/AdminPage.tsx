@@ -6,6 +6,7 @@ import AuthorizeView from '../components/AuthorizeView';
 import { Movie } from '../types/Movie';
 import fetchPoster from '../utils/fetchPoster';
 import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
+import AdminModal from './AdminModal';
 
 const AdminPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -16,7 +17,7 @@ const AdminPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
-  const [randomSeed, setRandomSeed] = useState<number | null>(null);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   useEffect(() => {
     fetchGenres();
@@ -177,7 +178,10 @@ const AdminPage: React.FC = () => {
             {filteredMovies.map((movie) => (
               <div key={movie.show_id} className="action-card">
                 <div className="action-image-container">
-                  <Link to={`/movies/${movie.show_id}`} state={{ movie }}>
+                  <div
+                    onClick={() => setSelectedMovie(movie)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {movie.posterUrl ? (
                       <img
                         src={movie.posterUrl}
@@ -192,7 +196,7 @@ const AdminPage: React.FC = () => {
                       <div className="no-poster-placeholder">{movie.title}</div>
                     )}
                     <div className="action-overlay">{movie.title}</div>
-                  </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -228,6 +232,12 @@ const AdminPage: React.FC = () => {
             </select>
           </div>
         </main>
+        {selectedMovie && (
+          <AdminModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+          />
+        )}
       </div>
     </AuthorizeView>
   );
