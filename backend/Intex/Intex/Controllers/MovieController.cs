@@ -591,6 +591,34 @@ namespace Intex.Controllers
             return Ok(new { message = "Movie added successfully", movie.show_id});
         }
 
+        [HttpPut("EditMovie")]
+        public async Task<IActionResult> EditMovie([FromBody] movie_title movie)
+        {
+            if (movie == null) return BadRequest("Invalid movie data");
+            var existingMovie = await _savedMovieContext.movies_titles
+                .FirstOrDefaultAsync(m => m.show_id == movie.show_id);
+            if (existingMovie == null) return NotFound("Movie not found");
+            // Update the existing movie's properties
+            existingMovie.title = movie.title;
+            existingMovie.type = movie.type;
+            existingMovie.director = movie.director;
+            existingMovie.cast = movie.cast;
+            existingMovie.country = movie.country;
+            existingMovie.release_year = movie.release_year;
+            existingMovie.rating = movie.rating;
+            existingMovie.duration = movie.duration;
+            existingMovie.description = movie.description;
+            // Update genre flags
+            foreach (var property in typeof(movie_title).GetProperties())
+            {
+                if (property.PropertyType == typeof(int) && property.Name != "show_id")
+                {
+                    property.SetValue(existingMovie, property.GetValue(movie));
+                }
+            }
+            await _savedMovieContext.SaveChangesAsync();
+            return Ok(new { message = "Movie updated successfully" });
+        }
 
 
         // DELETE: api/movies/{show_id}

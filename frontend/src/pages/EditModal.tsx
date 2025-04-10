@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 type MovieModalProps = {
   onClose: () => void;
+  movie: Movie;
 };
 
 type MovieFormData = {
+    show_id: string; // Added show_id property
     type: string;
     title: string;
     director: string;
@@ -22,7 +24,7 @@ type MovieFormData = {
     genres: string[];
   };
 
-export default function MovieModal({onClose }: MovieModalProps) {
+export default function EditModal({onClose, movie }: MovieModalProps) {
 
   const genreMap: { [key: string]: string } = {
     action: 'Action',
@@ -66,18 +68,20 @@ export default function MovieModal({onClose }: MovieModalProps) {
       .filter((key) => movie[key] === 1)
       .map((key) => genreMap[key]);
 
-    const [formData, setFormData] = useState<MovieFormData>({
-        type: '',
-        title: '',
-        director: '',
-        cast: '',
-        country: '',
-        releaseYear: '',
-        rating: '',
-        duration: '',
-        description: '',
-        genres: [],
-    });
+    const [formData, setFormData] = useState<MovieFormData>(() => ({
+        show_id: movie.show_id,
+        type: movie.type || '',
+        title: movie.title || '',
+        director: movie.director || '',
+        cast: movie.cast || '',
+        country: movie.country || '',
+        releaseYear: movie.release_year?.toString() || '',
+        rating: movie.rating || '',
+        duration: movie.duration || '',
+        description: movie.description || '',
+        genres: getGenres(movie) || [],
+      }));
+      
 
     
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -97,51 +101,89 @@ export default function MovieModal({onClose }: MovieModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    // Map genre names to keys used in your backend
     const genreKeys = Object.keys(genreMap);
-  
-    // Build the genre object: { action: 1, comedies: 0, ... }
     const genreBooleans = genreKeys.reduce((acc, key) => {
-      acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0; // Ensure 0 or 1
+      acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0;
       return acc;
     }, {} as Record<string, number>);
   
-    // Construct the full Movie object
     const movieToSubmit = {
+      show_id: formData.show_id, // Make sure this is set before editing
       type: formData.type,
       title: formData.title,
       director: formData.director,
       cast: formData.cast,
       country: formData.country,
-      release_year: parseInt(formData.releaseYear), // Ensure this is an integer
+      release_year: parseInt(formData.releaseYear),
       rating: formData.rating,
       duration: formData.duration,
       description: formData.description,
-      ...genreBooleans, // spread genre flags into the object
+      ...genreBooleans,
     };
   
-    // Validate input fields (optional but useful for preventing empty values)
-    if (!movieToSubmit.title || !movieToSubmit.director || !movieToSubmit.release_year) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    const movieToSubmitWithId = {
-        ...movieToSubmit,
-        show_id: `s10000`, // you can generate this based on current max number
-      };
-    console.log('Movie to submit:', movieToSubmitWithId);
     try {
-      await axios.post('https://localhost:5000/api/Movie/AddMovie', movieToSubmitWithId, {
-        withCredentials: true,
-      });
-      alert('Movie added!');
+      await axios.put(
+        'https://localhost:5000/api/Movie/EditMovie',
+        movieToSubmit,
+        { withCredentials: true }
+      );
+      alert('Movie updated!');
       onClose();
+      window.location.reload();
     } catch (err) {
-      console.error('Error adding movie:', err);
-      alert('Failed to add movie.');
+      console.error('Error updating movie:', err);
+      alert('Failed to update movie.');
     }
   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+  
+//     // Map genre names to keys used in your backend
+//     const genreKeys = Object.keys(genreMap);
+  
+//     // Build the genre object: { action: 1, comedies: 0, ... }
+//     const genreBooleans = genreKeys.reduce((acc, key) => {
+//       acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0; // Ensure 0 or 1
+//       return acc;
+//     }, {} as Record<string, number>);
+  
+//     // Construct the full Movie object
+//     const movieToSubmit = {
+//       type: formData.type,
+//       title: formData.title,
+//       director: formData.director,
+//       cast: formData.cast,
+//       country: formData.country,
+//       release_year: parseInt(formData.releaseYear), // Ensure this is an integer
+//       rating: formData.rating,
+//       duration: formData.duration,
+//       description: formData.description,
+//       ...genreBooleans, // spread genre flags into the object
+//     };
+  
+//     // Validate input fields (optional but useful for preventing empty values)
+//     if (!movieToSubmit.title || !movieToSubmit.director || !movieToSubmit.release_year) {
+//       alert('Please fill in all required fields.');
+//       return;
+//     }
+
+//     // const movieToSubmitWithId = {
+//     //     ...movieToSubmit,
+//     //     show_id: `s10000`, // you can generate this based on current max number
+//     //   };
+//     // console.log('Movie to submit:', movieToSubmitWithId);
+//     try {
+//       await axios.post('https://localhost:5000/api/Movie/editMovie', movieToSubmit, {
+//         withCredentials: true,
+//       });
+//       alert('Movie added!');
+//       onClose();
+//     } catch (err) {
+//       console.error('Error adding movie:', err);
+//       alert('Failed to add movie.');
+//     }
+//   };
    
 
   return (
@@ -154,13 +196,14 @@ export default function MovieModal({onClose }: MovieModalProps) {
         <div className="modal-banner-wrapper">
           <div className="modal-banner-gradient" />
           <div className="modal-banner-overlay">
-            <h2>Add to the Collection</h2>
+            <h2>Edit {formData.title}</h2>
           </div>
         </div>
 
         <div className="modal-main-info">
         <form onSubmit={handleSubmit} className="movie-form">
       <div>
+        <input name="show_id" value={formData.show_id} hidden />
         <label>Type:</label>
         <input name="type" value={formData.type} onChange={handleChange} />
       </div>

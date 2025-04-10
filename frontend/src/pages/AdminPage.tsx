@@ -251,8 +251,7 @@ const AdminPage: React.FC = () => {
             <button onClick={() => setShowForm(false)}>Close</button>
           </div>
         )}
-
-
+      
       </div>
     </AuthorizeView>
   );

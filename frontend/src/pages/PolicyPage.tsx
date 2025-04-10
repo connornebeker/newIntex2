@@ -15,15 +15,6 @@ const PolicyPage: React.FC = () => {
           <Link to="/home" className="nav-link">
             Home
           </Link>
-          <Link to="/movies" className="nav-link">
-            Movies
-          </Link>
-          <Link to="/tvshows" className="nav-link">
-            TV Shows
-          </Link>
-          <Link to="/watchlist" className="nav-link">
-            Watchlist
-          </Link>
         </nav>
 
         <div className="user-icon">{/* User icon can go here */}</div>

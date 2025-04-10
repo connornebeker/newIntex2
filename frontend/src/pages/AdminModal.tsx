@@ -4,6 +4,7 @@ import { Movie } from '../types/Movie';
 import './MovieModal.css';
 import './DeleteDialog.css';
 import { useNavigate } from 'react-router-dom';
+import EditModal from './EditModal';
 
 type MovieModalProps = {
   movie: Movie;
@@ -13,7 +14,10 @@ type MovieModalProps = {
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
   const navigate = useNavigate();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
+  
   const genreMap: { [key: string]: string } = {
     action: 'Action',
     adventure: 'Adventure',
@@ -56,6 +60,12 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       .filter((key) => movie[key] === 1)
       .map((key) => genreMap[key]);
 
+  // const handleEdit = (movie: Movie) => {
+  //   setSelectedMovie(movie);
+  //   setIsEditing(true);
+  // };
+    
+
   // Function to handle the deletion of the movie
   const handleDeleteMovie = async (show_id: string) => {
     try {
@@ -93,6 +103,10 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
             className="modal-banner"
             src={movie.posterUrl}
             alt={movie.title}
+            onError={(e) => {
+              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+              (e.target as HTMLImageElement).src = fallbackUrl;
+            }}
           />
           <div className="modal-banner-gradient" />
           <div className="modal-banner-overlay">
@@ -126,7 +140,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
         </div>
 
         <div>
-          <button onClick={() => navigate(`/editMovie/${movie.show_id}`)}>
+          <button onClick={() => setShowForm(true)} className="add-button">
             Edit
           </button>
           <button onClick={showDeleteDialog}>Delete</button>
@@ -144,6 +158,12 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
                 <button onClick={hideDeleteDialog}>Cancel</button>
               </div>
             </div>
+          </div>
+        )}
+        {showForm && (
+          <div className="form-modal">
+            <EditModal onClose={() => setShowForm(false)} movie={movie} />
+            <button onClick={() => setShowForm(false)}>Close</button>
           </div>
         )}
       </div>
