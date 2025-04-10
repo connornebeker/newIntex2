@@ -62,7 +62,9 @@ export default function MovieModal({
   // Function to handle the deletion of the movie
   const handleDeleteMovie = async (show_id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/Movie/${show_id}`);
+      await axios.delete(`https://localhost:5000/api/Movie/${show_id}`, {
+        withCredentials: true,
+      });
       console.log('Movie deleted successfully');
       onClose(); // Close the modal after deletion
     } catch (err) {
