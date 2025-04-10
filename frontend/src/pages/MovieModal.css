@@ -183,9 +183,9 @@
     padding-top: 12px;
   }
   
-  .recommendation-item img {
-    width: 190px;
-    height: 235px;
+  .recommendation-item-2 img {
+    width: 100px;
+    height:155px;
     object-fit: cover;
     border-radius: 6px;
     transition: transform 0.3s ease;
@@ -208,3 +208,37 @@
   cursor: pointer;
   transition: border-color 0.25s;
 } */
+
+
+
+.modal-banner-wrapper-horizontal {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.modal-banner-horizontal {
+  width: 300px;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.modal-info-horizontal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.modal-info-horizontal .meta {
+  margin-top: 0.5rem;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.modal-description {
+  margin-top: 1rem;
+  color: #ccc;
+  line-height: 1.5;
+}
