@@ -19,17 +19,6 @@ type MovieFormData = {
   description: string;
   genres: string[];
 };
-  type: string;
-  title: string;
-  director: string;
-  cast: string;
-  country: string;
-  releaseYear: string;
-  rating: string;
-  duration: string;
-  description: string;
-  genres: string[];
-};
 
 export default function MovieModal({onClose }: MovieModalProps) {
 

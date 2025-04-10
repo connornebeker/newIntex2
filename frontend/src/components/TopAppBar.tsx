@@ -62,48 +62,47 @@ function TopAppBar() {
     }
   };
 
+
   return (
     <nav className="nav-container">
-  <div className="nav-left">
-    <img src="/logo.png" alt="CineNiche Logo" className="logo" />
-    <div className="nav-links">
-      <Link to="/home" className="nav-link-1">
-        Home
-      </Link>
-
-      <div className="dropdown-container" ref={categoryRef}>
-        <button
-          className="nav-link-1 dropdown-trigger"
-          onClick={() => setIsCategoryOpen((prev) => !prev)}
-        >
-          Categories
-        </button>
-        {isCategoryOpen && (
-          <div className="category-dropdown">
-            {genres.map((genre) => (
-              <Link
-                key={genre}
-                to={`/category/${genre}`}
-                className="dropdown-item"
-                onClick={() => setIsCategoryOpen(false)}
-              >
-                {formatGenreName(changeGenreName(genre))}
-              </Link>
-            ))}
+      <div className="nav-left">
+        <img src="/logo.png" alt="CineNiche Logo" className="logo" />
+        <div className="nav-links">
+          <Link to="/home" className="nav-link-1">
+            Home
+          </Link>
+          <div className="dropdown-container" ref={categoryRef}>
+            <button
+              className="nav-link-1 dropdown-trigger"
+              onClick={() => setIsCategoryOpen((prev) => !prev)}
+            >
+              Categories
+            </button>
+            {isCategoryOpen && (
+              <div className="category-dropdown">
+                {genres.map((genre) => (
+                  <Link
+                    key={genre}
+                    to={`/category/${genre}`}
+                    className="dropdown-item"
+                    onClick={() => setIsCategoryOpen(false)} // Close on click
+                  >
+                    {formatGenreName(changeGenreName(genre))}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-
-      {isAdmin && (
-        <Link to="/admin" className="nav-link-1">
-          Admin
-        </Link>
+            {/* Conditionally render the Admin button */}
+            {isAdmin && (
+        <div className="admin-button-container">
+          <Link to="/admin" className="admin-button">
+            Admin
+          </Link>
+        </div>
       )}
-    </div>
-  </div>
-
-      
-
 
       <div className="nav-right">
         <form
