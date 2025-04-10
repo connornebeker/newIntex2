@@ -61,11 +61,11 @@
 }
 
 .admin-title {
-  font-size: 48px;
+  font-size: 40px;
   text-align: left;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .search-section {
@@ -74,8 +74,8 @@
 
 .search-bar {
   width: 778px;
-  height: 41px;
-  border-radius: 20px;
+  height: 37px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -277,7 +277,7 @@
   padding: 6px 12px;
   font-size: 13px;
   background-color: #2a2a2a;
-  border: 1px solid #555;
+  /* border: 1px solid #555; */
   border-radius: 16px;
   color: #eee;
   cursor: pointer;
@@ -315,7 +315,7 @@
   justify-content: center;
   border-radius: 50%;
   background-color: #2a2a2a;
-  border: 1px solid #444;
+  /* border: 1px solid #444; */
   color: white;
   transition: background-color 0.2s ease;
 }
@@ -328,4 +328,63 @@
   background-color: white;
   color: #121212;
   border-color: white;
+}
+
+/* pagination */
+
+.pagination-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem; /* space between lines */
+  margin-top: 1.5rem;
+}
+
+.pagination-controls button {
+  background-color: #222; /* dark button */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; /* super rounded */
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #444;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pagination-controls span {
+  color: white;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.pagination-controls select {
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+
+.pagination-top {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* space between prev / page info / next */
+}
+
+.page-info {
+  color: white;
+  font-size: 1rem;
 }

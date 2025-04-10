@@ -8,6 +8,7 @@ import fetchPoster from '../utils/fetchPoster';
 import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 import AdminModal from './AdminModal';
 import AddModal from './AddModal';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -20,7 +21,7 @@ const AdminPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [showForm, setShowForm] = useState(false);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchGenres();
@@ -28,11 +29,11 @@ const AdminPage: React.FC = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedGenres, selectedLetters, pageSize]);
+  }, [selectedGenres, selectedLetters, pageSize, searchTerm]);
 
   useEffect(() => {
     fetchFilteredMovies();
-  }, [selectedGenres, selectedLetters, currentPage, pageSize]);
+  }, [selectedGenres, selectedLetters, currentPage, pageSize, searchTerm]);
 
   const fetchGenres = async () => {
     try {
@@ -54,6 +55,7 @@ const AdminPage: React.FC = () => {
       const params = new URLSearchParams();
       selectedGenres.forEach((g) => params.append('movieTypes', g));
       selectedLetters.forEach((l) => params.append('startsWithLetters', l));
+      if (searchTerm.trim()) params.append('searchTerm', searchTerm.trim());
       params.append('page', currentPage.toString());
       params.append('pageSize', pageSize.toString());
 
@@ -100,6 +102,14 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const handleAdminSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm('');
+    }
+  };
+
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -119,16 +129,43 @@ const AdminPage: React.FC = () => {
         <main className="admin-content">
           <h1 className="admin-title">Admin Manager</h1>
 
-          <div className="search-section" style={{ display: 'flex', alignItems: 'center' }}>
-              <input
-                type="text"
-                placeholder="Search movies or TV shows..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-bar"
-              />
-              <button onClick={() => setShowForm(true)} className="add-button">＋</button>
-            </div>
+
+
+          <div className="search-section" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <input
+              type="text"
+              placeholder="Search movies or TV shows..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-bar"
+            />
+
+            {searchTerm && (
+              <span
+                className="clear-search"
+                onClick={() => setSearchTerm('')}
+                style={{
+                  position: 'absolute',
+                  left: '49.3rem',  // controls how close to "+" button
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  fontSize: '1.3rem',
+                  color: '#888',
+                  zIndex: 10,
+                }}
+              >
+                ×
+              </span>
+            )}
+
+            <button onClick={() => setShowForm(true)} className="add-button">
+              ＋
+            </button>
+          </div>
+
+
+
 
 
 
@@ -209,21 +246,24 @@ const AdminPage: React.FC = () => {
           </div>
 
           <div className="pagination-controls">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              Prev
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
+            <div className="pagination-top">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Prev
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
+
             <select
               value={pageSize}
               onChange={(e) => {
@@ -242,7 +282,6 @@ const AdminPage: React.FC = () => {
           <AdminModal
             movie={selectedMovie}
             onClose={() => setSelectedMovie(null)}
-            
           />
         )}
         {showForm && (
@@ -251,7 +290,6 @@ const AdminPage: React.FC = () => {
             <button onClick={() => setShowForm(false)}>Close</button>
           </div>
         )}
-      
       </div>
     </AuthorizeView>
   );
