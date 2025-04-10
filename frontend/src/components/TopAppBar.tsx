@@ -10,25 +10,26 @@ function TopAppBar() {
   const [genres, setGenres] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    // const [user, setUser] = useState<any>(null); // Store user info with roles
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const categoryRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [user, setUser] = useState<any>(null); // Store user info with roles
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null);
   // Fetch genres
   useEffect(() => {
     async function fetchGenres() {
-      const response = await fetch('https://localhost:5000/api/Movie/GetMovieTypes', {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
+        {
+          credentials: 'include',
+        }
+      );
       const data = await response.json();
       setGenres(data);
     }
     fetchGenres();
   }, []);
-
-  
 
   // Check if user is admin
   useEffect(() => {
@@ -44,7 +45,9 @@ function TopAppBar() {
           }
         );
         const isAdminResponse = await res.text();
-        if(isAdminResponse === "User is an admin ✅"){setIsAdmin(true)};
+        if (isAdminResponse === 'User is an admin ✅') {
+          setIsAdmin(true);
+        }
       } catch (err) {
         console.error('Error checking admin status:', err);
       }
@@ -61,7 +64,6 @@ function TopAppBar() {
       setIsSearchOpen(false);
     }
   };
-
 
   return (
     <nav className="nav-container">
@@ -95,8 +97,8 @@ function TopAppBar() {
           </div>
         </div>
       </div>
-            {/* Conditionally render the Admin button */}
-            {isAdmin && (
+      {/* Conditionally render the Admin button */}
+      {isAdmin && (
         <div className="admin-button-container">
           <Link to="/admin" className="admin-button">
             Admin
@@ -160,8 +162,6 @@ function TopAppBar() {
           )}
         </div>
       </div>
-
-
     </nav>
   );
 }
