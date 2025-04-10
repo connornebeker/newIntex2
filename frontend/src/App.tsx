@@ -10,6 +10,7 @@ import PolicyPage from './pages/PolicyPage';
 import Category from './pages/CategoryPage.tsx';
 import CategoryMoviePage from './pages/CategoryMoviePage.tsx';
 import SearchResultsPage from './pages/SearchResultsPage.tsx';
+import EditMovie from './pages/EditMovie.tsx';
 // import { useEffect } from 'react';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/category" element={<Category />} />
           <Route path="/category/:categoryName" element={<CategoryMoviePage />} />
           <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/editMovie/:show_id" element={<EditMovie />} />
 
         </Routes>
       </Router>
