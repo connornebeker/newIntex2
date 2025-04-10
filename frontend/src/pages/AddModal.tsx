@@ -102,7 +102,7 @@ export default function MovieModal({onClose }: MovieModalProps) {
   
     // Build the genre object: { action: 1, comedies: 0, ... }
     const genreBooleans = genreKeys.reduce((acc, key) => {
-      acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0;
+      acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0; // Ensure 0 or 1
       return acc;
     }, {} as Record<string, number>);
   
@@ -113,15 +113,26 @@ export default function MovieModal({onClose }: MovieModalProps) {
       director: formData.director,
       cast: formData.cast,
       country: formData.country,
-      release_year: parseInt(formData.releaseYear),
+      release_year: parseInt(formData.releaseYear), // Ensure this is an integer
       rating: formData.rating,
       duration: formData.duration,
       description: formData.description,
       ...genreBooleans, // spread genre flags into the object
     };
   
+    // Validate input fields (optional but useful for preventing empty values)
+    if (!movieToSubmit.title || !movieToSubmit.director || !movieToSubmit.release_year) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const movieToSubmitWithId = {
+        ...movieToSubmit,
+        show_id: `s10000`, // you can generate this based on current max number
+      };
+    console.log('Movie to submit:', movieToSubmitWithId);
     try {
-      await axios.post('https://localhost:5000/api/Movie/AddMovie', movieToSubmit, {
+      await axios.post('https://localhost:5000/api/Movie/AddMovie', movieToSubmitWithId, {
         withCredentials: true,
       });
       alert('Movie added!');
@@ -131,6 +142,50 @@ export default function MovieModal({onClose }: MovieModalProps) {
       alert('Failed to add movie.');
     }
   };
+  
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+  
+//     // Map genre names to keys used in your backend
+//     const genreKeys = Object.keys(genreMap);
+  
+//     // Build the genre object: { action: 1, comedies: 0, ... }
+//     const genreBooleans = genreKeys.reduce((acc, key) => {
+//       acc[key] = formData.genres.includes(genreMap[key]) ? 1 : 0;
+//       return acc;
+//     }, {} as Record<string, number>);
+  
+//     // Construct the full Movie object
+//     const movieToSubmit = {
+//       type: formData.type,
+//       title: formData.title,
+//       director: formData.director,
+//       cast: formData.cast,
+//       country: formData.country,
+//       release_year: parseInt(formData.releaseYear),
+//       rating: formData.rating,
+//       duration: formData.duration,
+//       description: formData.description,
+//       ...genreBooleans, // spread genre flags into the object
+//     };
+  
+//     console.log(movieToSubmit); // Check the genres object in the console
+//     // const { genreBooleans.posterUrl, ...dataToSubmit } = formData;
+
+
+
+//     try {
+//       await axios.post('https://localhost:5000/api/Movie/AddMovie', movieToSubmit, {
+//         withCredentials: true,
+//       });
+//       alert('Movie added!');
+//       onClose();
+//     } catch (err) {
+//       console.error('Error adding movie:', err);
+//       alert('Failed to add movie.');
+//     }
+//   };
   
   
 
@@ -172,7 +227,7 @@ export default function MovieModal({onClose }: MovieModalProps) {
       </div>
       <div>
         <label>Release Year:</label>
-        <input name="releaseYear" value={formData.releaseYear} onChange={handleChange} />
+        <input type = 'number' name="releaseYear" value={formData.releaseYear} onChange={handleChange} />
       </div>
       <div>
         <label>Rating:</label>

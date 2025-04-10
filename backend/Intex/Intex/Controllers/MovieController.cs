@@ -31,14 +31,15 @@ namespace Intex.Controllers
 
         private string GetNextShowId()
         {
-            var lastId = _savedMovieContext.movies_titles
-                .OrderByDescending(m => m.show_id)
+            // Pull all show_ids into memory first
+            var numericIds = _savedMovieContext.movies_titles
                 .Select(m => m.show_id)
-                .FirstOrDefault();
-            if (string.IsNullOrEmpty(lastId) || !lastId.StartsWith("s"))
-                return "s1";
-            var numericPart = int.Parse(lastId.Substring(1));
-            return $"s{numericPart + 1}";
+                .AsEnumerable() // :point_left: Force evaluation in memory (LINQ to Objects)
+                .Where(id => id.StartsWith("s") && int.TryParse(id.Substring(1), out _))
+                .Select(id => int.Parse(id.Substring(1)))
+                .ToList();
+            var maxNumeric = numericIds.Any() ? numericIds.Max() : 0;
+            return $"s{maxNumeric + 1}";
         }
 
         [HttpPost("loginStuff/{email}")]
