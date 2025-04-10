@@ -1,126 +1,183 @@
 .login-wrapper {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  .login-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center; /* ensures it's centered */
-    z-index: 0;
-  }
-  
-  
-  .login-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 1;
-  }
-  
-  .login-content {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  
-  .login-card {
-    background-color: rgba(0, 0, 0, 0.25); /* less dark */
-    padding: 3rem 2rem; /* taller box */
-    border-radius: 1rem;
-    max-width: 400px;
-    width: 100%;
-    min-height: 250px; /* ← taller! */
-    color: white;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-    backdrop-filter: blur(100px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  
-  .login-card h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-  
-  .login-card .subtitle {
-    font-size: 0.95rem;
-    text-align: center;
-    color: #cccccc;
-    margin-bottom: 1.5rem;
-  }
-  
-  .login-card input[type="email"],
-  .login-card input[type="password"] {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    background-color: #1f1f1f;
-    color: white;
-    font-size: 1rem;
-  }
-  
-  .login-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    margin-bottom: 1.25rem;
-    color: #ccc;
-  }
-  
-  .login-options a {
-    color: #e0c28c;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  .login-options a:hover {
-    text-decoration: underline;
-  }
-  
-  .login-card button {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 0.75rem;
-    background: linear-gradient(145deg, #e0c28c, #b89152);
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    color: #0f0f0f;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  
-  .login-card button:hover {
-    background: linear-gradient(145deg, #f0d98c, #caa755);
-  }
-  
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  .landing-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 1rem 2rem;
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center; /* ensures it's centered */
+  z-index: 0;
+}
 
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Make sure there's no semi-dark background unless you want one */
+  background: transparent;
+  opacity: 2 !;
+}
+
+.login-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-card {
+  background-color: rgba(0, 0, 0, 0.25); /* less dark */
+  padding: 3rem 2rem; /* taller box */
+  border-radius: 1rem;
+  max-width: 400px;
+  width: 100%;
+  min-height: 250px; /* ← taller! */
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+  backdrop-filter: blur(100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-card h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-card .subtitle {
+  font-size: 0.95rem;
+  text-align: center;
+  color: #cccccc;
+  margin-bottom: 1.5rem;
+}
+
+.login-card input[type='email'],
+.login-card input[type='password'] {
+  width: 93%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #1f1f1f;
+  color: white;
+  font-size: 1rem;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  color: #ccc;
+  gap: 1rem;
+}
+
+.login-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.login-options input[type='checkbox'] {
+  margin: 0;
+  transform: scale(1.1); /* optional: make checkbox a bit larger */
+}
+
+.login-options a {
+  color: #e0c28c;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(145deg, #e0c28c, #b89152);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #0f0f0f;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-card button:hover {
+  background: linear-gradient(145deg, #f0d98c, #caa755);
+}
+
+.landing-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem 2rem;
+}
+
+.logo-top {
+  height: 3.5rem;
+}
+
+.poster-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.carousel-row {
+  display: flex;
+  gap: 4px;
+  width: max-content;
+  animation: scroll-left 60s linear infinite;
+}
+
+.carousel-row.scroll-right {
+  animation: scroll-right 60s linear infinite;
+}
+
+.poster-img {
+  height: 140px;
+  width: auto;
+  object-fit: cover;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
   }
-  
-  .logo-top {
-    height: 3.5rem;
+  100% {
+    transform: translateX(-50%);
   }
-  
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
