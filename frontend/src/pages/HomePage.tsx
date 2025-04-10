@@ -12,19 +12,6 @@ import TopAppBar from '../components/TopAppBar';
 import CookieConsent from 'react-cookie-consent';
 import MovieModal from './MovieModal';
 
-// const top10Titles = [
-//   'Squid Game',
-//   'Attack on Titan',
-//   'Inception',
-//   'The Crown',
-//   'Bridgerton',
-//   'Stranger Things',
-//   'A Wednesday',
-//   'The Good Place',
-//   'Avatar: The Last Airbender',
-//   'Nailed It',
-// ];
-
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
   const [loadedCarousels, setLoadedCarousels] = useState(5); // Track the number of carousels loaded
