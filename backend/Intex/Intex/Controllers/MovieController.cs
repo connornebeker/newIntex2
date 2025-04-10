@@ -459,6 +459,52 @@ namespace Intex.Controllers
             });
         }
 
+        // DELETE: api/movies/{show_id}
+        [HttpDelete("{show_id}")]
+        public async Task<IActionResult> DeleteMovie(string show_id)
+        {
+            // Start a transaction to delete both the movie and its reviews
+            using (var transaction = await _savedMovieContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Step 1: Delete related reviews
+                    var reviews = await _savedMovieContext.movies_ratings
+                        .Where(r => r.show_id == show_id)
+                        .ToListAsync();
+
+                    if (reviews.Any())
+                    {
+                        _savedMovieContext.movies_ratings.RemoveRange(reviews);
+                        await _savedMovieContext.SaveChangesAsync();
+                    }
+
+                    // Step 2: Delete the movie itself
+                    var movie = await _savedMovieContext.movies_titles
+                        .Where(m => m.show_id == show_id)
+                        .FirstOrDefaultAsync();
+
+                    if (movie == null)
+                    {
+                        return NotFound(new { message = "Movie not found" });
+                    }
+
+                    _savedMovieContext.movies_titles.Remove(movie);
+                    await _savedMovieContext.SaveChangesAsync();
+
+                    // Commit the transaction
+                    await transaction.CommitAsync();
+
+                    return Ok(new { message = "Movie and associated reviews deleted successfully" });
+                }
+                catch (Exception ex)
+                {
+                    // If there was an error, roll back the transaction
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, new { message = "An error occurred while deleting the movie", error = ex.Message });
+                }
+            }
+        }
 
 
     }
