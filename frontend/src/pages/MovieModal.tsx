@@ -1,6 +1,7 @@
 // components/MovieModal.tsx
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
+import { useNavigate } from 'react-router-dom';
 import fetchPoster from '../utils/fetchPoster';
 import {
   fetchRecommendedMovies,
@@ -25,6 +26,7 @@ export default function MovieModal({
   const [userRating, setUserRating] = useState<number | 0>(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [hasRatedBefore, setHasRatedBefore] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadRecMovies = async () => {
@@ -127,42 +129,40 @@ export default function MovieModal({
           ✕
         </button>
 
-        <div className="modal-banner-wrapper">
-          <img
-            className="modal-banner"
-            src={movie.posterUrl}
-            alt={movie.title}
-          />
-          <div className="modal-banner-gradient" />
-          <div className="modal-banner-overlay">
-            <h2>{movie.title}</h2>
-            <div className="meta">
-              {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
-              {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
-            </div>
-            <button className="modal-play">▶ Play</button>
-          </div>
-        </div>
+          <div className="modal-banner-wrapper-horizontal">
+            <img
+              className="modal-banner-horizontal"
+              src={movie.posterUrl}
+              alt={movie.title}
+            />
 
-        <div className="modal-main-info">
-          <div className="modal-columns">
-            <div className="modal-left">
+            <div className="modal-info-horizontal">
+              <h2>{movie.title}</h2>
+
+              <div className="meta">
+                {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
+                {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+              </div>
+
+              <button className="modal-play">▶ Play</button>
+
               <p className="modal-description">{movie.description}</p>
-            </div>
-            <div className="modal-right">
+
+              {/* Move all this info here */}
               <div className="meta-row">
-                <strong>Director:</strong>{' '}
-                <span>{movie.director || 'Unknown'}</span>
+                <strong>Director:</strong> {movie.director || 'Unknown'}
               </div>
+
               <div className="meta-row">
-                <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
+                <strong>Cast:</strong> {movie.cast || 'Unknown'}
               </div>
+
               <div className="meta-row">
-                <strong>Genres:</strong>{' '}
-                <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
+                <strong>Genres:</strong> {getGenres(movie).join(', ') || 'Unknown'}
               </div>
             </div>
           </div>
+
 
           {ratingSubmitted ? (
             <div className="rating-submitted">
@@ -218,7 +218,7 @@ export default function MovieModal({
               {recMoviesWithPosters.map((rec) => (
                 <div
                   key={rec.show_id}
-                  className="recommendation-item"
+                  className="recommendation-item-2"
                   onClick={() => {
                     onMovieSelect(rec);
                     setRatingSubmitted(false);
@@ -240,6 +240,6 @@ export default function MovieModal({
           </div>
         </div>
       </div>
-    </div>
+   
   );
 }
