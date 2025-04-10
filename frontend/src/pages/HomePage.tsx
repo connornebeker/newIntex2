@@ -12,6 +12,19 @@ import TopAppBar from '../components/TopAppBar';
 import CookieConsent from 'react-cookie-consent';
 import MovieModal from './MovieModal';
 
+const top10Titles = [
+  'Squid Game',
+  'Attack on Titan',
+  'Inception',
+  'The Crown',
+  'Bridgerton',
+  'Stranger Things',
+  'A Wednesday',
+  'The Good Place',
+  'Avatar: The Last Airbender',
+  'Nailed It',
+];
+
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
   const [loadedCarousels, setLoadedCarousels] = useState(5); // Track the number of carousels loaded
@@ -19,6 +32,29 @@ export default function HomePage() {
 
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref to the div at the bottom
+
+  async function fetchMoviesByTitles(titles: string[]): Promise<Movie[]> {
+    const params = new URLSearchParams();
+    titles.forEach((title) => params.append('titles', title));
+
+    const res = await fetch(
+      `https://localhost:5000/api/Movie/GetMoviesByTitles?${params.toString()}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    const data = await res.json();
+    return data.map((movie: Movie) => ({
+      ...movie,
+      posterUrl: fetchPoster(
+        movie.title
+          .normalize('NFD')
+          .replace(/[:'()’!.&-]/g, '')
+          .trim()
+      ),
+    }));
+  }
 
   // Fetch carousels on load
   useEffect(() => {
@@ -63,6 +99,14 @@ export default function HomePage() {
             movies: formattedWatchedRecs,
             itemsPerSlide: 8,
             showNumbers: false,
+          });
+          const top10Movies = await fetchMoviesByTitles(top10Titles);
+
+          updatedCarousels.unshift({
+            title: 'Top 10 in the U.S. Today',
+            movies: top10Movies,
+            itemsPerSlide: 5,
+            showNumbers: true,
           });
         } catch (err) {
           console.error('Error loading personalized carousels:', err);
@@ -176,20 +220,6 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* TOP 5 */}
-          <h2 className="top10title">Top 5 in the U.S. Today</h2>
-          <div className="top10-row">
-            {[...Array(5)].map((_, index) => (
-              <div className="top10-item" key={index}>
-                <span className="rank-number">{index + 1}</span>
-                <img
-                  src={`./top10/movie${index + 1}.jpg`}
-                  alt={`Top ${index + 1}`}
-                  className="top10-poster"
-                />
-              </div>
-            ))}
-          </div>
           {/* Carousels */}
           {carousels.slice(0, loadedCarousels).map((carousel) => (
             <section key={carousel.title} className="carousel-section">
@@ -223,8 +253,15 @@ export default function HomePage() {
                       }
                     >
                       {carousel.showNumbers && (
-                        <div className="top-movie-number">{index + 1}</div>
+                        <div
+                          className={`top-movie-number ${
+                            index === 9 ? 'number-ten-adjust' : ''
+                          }`}
+                        >
+                          {index + 1}
+                        </div>
                       )}
+
                       {movie.posterUrl && (
                         <div
                           onClick={() => setSelectedMovie(movie)}
@@ -238,7 +275,7 @@ export default function HomePage() {
                             }
                             className={
                               carousel.showNumbers
-                                ? 'top-movie-poster'
+                                ? `top-movie-poster ${index === 9 ? 'poster-ten-shift' : ''}`
                                 : 'recommendation-image'
                             }
                           />
