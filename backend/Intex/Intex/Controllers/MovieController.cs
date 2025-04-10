@@ -295,6 +295,19 @@ namespace Intex.Controllers
         //         totalPages
         //     });
         // }
+        
+        [HttpGet("GetMoviesByTitles")]
+        public async Task<IActionResult> GetMoviesByTitles([FromQuery] List<string> titles)
+        {
+            if (titles == null || !titles.Any())
+                return BadRequest("No titles provided.");
+
+            var matchedMovies = await _savedMovieContext.movies_titles
+                .Where(m => titles.Contains(m.title))
+                .ToListAsync();
+
+            return Ok(matchedMovies);
+        }
 
 
         [HttpGet("GetMovieTypes")]
