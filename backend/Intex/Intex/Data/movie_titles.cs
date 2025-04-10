@@ -6,6 +6,7 @@ namespace Intex.Data
 {
     public class movie_title
     {
+        internal object movies_ratings;
         [Key]
         [Required]
         public string show_id { get; set; }
@@ -74,6 +75,6 @@ namespace Intex.Data
         public int TalkShowsTVComedies { get; set; }
         public int Thrillers { get; set; }
 
-        public ICollection<movies_rating> movies_ratings { get; set; }
+        //public ICollection<movies_rating> movies_ratings { get; set; }
     }
 }

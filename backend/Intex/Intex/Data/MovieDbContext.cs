@@ -19,16 +19,16 @@ namespace Intex.Data
             modelBuilder.Entity<movies_rating>()
                 .HasKey(mr => new { mr.user_id, mr.show_id });  // Composite primary key
 
-            // Configure the relationship between MoviesRating and MoviesUser
-            modelBuilder.Entity<movies_rating>()
-                .HasOne(mr => mr.movies_user)  // Navigation property for user
-                .WithMany(mu => (IEnumerable<movies_rating>)mu.movies_ratings)  // Each MoviesUser can have many MoviesRatings
-                .HasForeignKey(mr => mr.user_id);  // Foreign key on UserId
+            //// Configure the relationship between MoviesRating and MoviesUser
+            //modelBuilder.Entity<movies_rating>()
+            //    .HasOne(mr => mr.movies_user)  // Navigation property for user
+            //    .WithMany(mu => mu.movies_ratings)  // Each MoviesUser can have many MoviesRatings
+            //    .HasForeignKey(mr => mr.user_id);  // Foreign key on UserId
 
             // Configure the relationship between MoviesRating and MoviesTitle
             modelBuilder.Entity<movies_rating>()
                 .HasOne(mr => mr.movie_title)  // Navigation property for show
-                .WithMany(mt => mt.movies_ratings)  // Each MoviesTitle can have many MoviesRatings
+                .WithMany(mt => (IEnumerable<movies_rating>)mt.movies_ratings)  // Explicit cast to IEnumerable<movies_rating>
                 .HasForeignKey(mr => mr.show_id);  // Foreign key on ShowId
         }
     }
