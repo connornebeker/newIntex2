@@ -180,7 +180,16 @@ namespace Intex.Controllers
 
             // Step 4: Return the movies in the expected format
             return Ok(new { movies = recommendedMovies });
+            
         }
+        
+        [HttpGet("AllMoviesFlat")]
+        public IActionResult AllMoviesFlat()
+        {
+            var allMovies = _savedMovieContext.movies_titles.ToList();
+            return Ok(allMovies);
+        }
+
 
         [HttpGet("AllMovies")]
         public async Task<IActionResult> AllMovies([FromQuery] List<string>? movieTypes)
@@ -205,6 +214,7 @@ namespace Intex.Controllers
         public async Task<IActionResult> AllMoviesPaginated(
             [FromQuery] List<string>? movieTypes,
             [FromQuery] List<string>? startsWithLetters,
+            [FromQuery] string? searchTerm,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 30)
         {
@@ -212,6 +222,11 @@ namespace Intex.Controllers
                 return BadRequest("Page and pageSize must be greater than 0.");
 
             var query = _savedMovieContext.movies_titles.AsQueryable();
+            
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(m => m.title.ToLower().Contains(searchTerm.ToLower()));
+            }
 
             // Filter by genres (each one must have a column with value 1)
             if (movieTypes != null && movieTypes.Any())
