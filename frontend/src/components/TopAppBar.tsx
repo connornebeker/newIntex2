@@ -95,17 +95,20 @@ function TopAppBar() {
                 ))}
               </div>
             )}
+            
           </div>
-        </div>
-      </div>
-      {/* Conditionally render the Admin button */}
+           {/* Conditionally render the Admin button */}
       {isAdmin && (
-        <div className="admin-button-container">
-          <Link to="/admin" className="admin-button">
+        <div className="nav-left">
+          <Link to="/admin" className="admin-button nav-link-1">
             Admin
           </Link>
         </div>
       )}
+        </div>
+        
+      </div>
+   
 
       <div className="nav-right">
         <form
