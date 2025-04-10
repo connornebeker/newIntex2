@@ -1,3 +1,4 @@
+
 /* === Modal Overlay === */
 .modal-overlay {
   position: fixed;
@@ -93,7 +94,6 @@
 }
 
 
-
 /* === Play Button === */
 .modal-banner-overlay .modal-play {
   background-color: white;
@@ -155,8 +155,9 @@
   margin-top: 0.3rem;
 }
 
+/* === star ===11111 */
 .modal-main-info .star {
-  font-size: 2rem;
+  font-size: 40px;
   cursor: pointer;
   color: gray;
 }
@@ -242,4 +243,17 @@ font-size: 0.9rem;
 margin-top: 1rem;
 color: #ccc;
 line-height: 1.5;
+}
+
+/* new changes that will make the star work!!! */
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  color: gray;
+}
+
+.star:hover,
+.star.active {
+  color: gold;
 }
