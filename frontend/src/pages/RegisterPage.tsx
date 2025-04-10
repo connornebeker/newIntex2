@@ -162,13 +162,16 @@ function Register() {
       setError('Passwords do not match.');
     } else {
       setError('');
-      fetch('https://localhost:5000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      })
+      fetch(
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      )
         .then((data) => {
           console.log(data);
           if (data.ok) setError('Successful registration. Please log in.');

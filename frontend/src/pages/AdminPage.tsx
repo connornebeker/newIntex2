@@ -38,7 +38,7 @@ const AdminPage: React.FC = () => {
   const fetchGenres = async () => {
     try {
       const res = await fetch(
-        'https://localhost:5000/api/Movie/GetMovieTypes',
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
         {
           credentials: 'include',
         }
@@ -59,7 +59,7 @@ const AdminPage: React.FC = () => {
       params.append('page', currentPage.toString());
       params.append('pageSize', pageSize.toString());
 
-      const query = `https://localhost:5000/api/Movie/AllMoviesPaginated?${params.toString()}`;
+      const query = `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/AllMoviesPaginated?${params.toString()}`;
       const res = await fetch(query, { credentials: 'include' });
       const result = await res.json();
 
@@ -129,9 +129,14 @@ const AdminPage: React.FC = () => {
         <main className="admin-content">
           <h1 className="admin-title">Admin Manager</h1>
 
-
-
-          <div className="search-section" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div
+            className="search-section"
+            style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <input
               type="text"
               placeholder="Search movies or TV shows..."
@@ -146,7 +151,7 @@ const AdminPage: React.FC = () => {
                 onClick={() => setSearchTerm('')}
                 style={{
                   position: 'absolute',
-                  left: '49.3rem',  // controls how close to "+" button
+                  left: '49.3rem', // controls how close to "+" button
                   top: '50%',
                   transform: 'translateY(-50%)',
                   cursor: 'pointer',
@@ -163,11 +168,6 @@ const AdminPage: React.FC = () => {
               ＋
             </button>
           </div>
-
-
-
-
-
 
           <div className="filter-label">Filter by Genre</div>
           <div className="genre-carousel">
@@ -257,7 +257,9 @@ const AdminPage: React.FC = () => {
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

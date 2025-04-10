@@ -7,9 +7,12 @@ export default function CategoryPage() {
 
   useEffect(() => {
     async function fetchGenres() {
-      const response = await fetch('https://localhost:5000/api/Movie/GetMovieTypes',        {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
+        {
+          credentials: 'include',
+        }
+      );
       const data = await response.json();
       setGenres(data); // assuming it's an array of strings
     }
@@ -68,7 +71,7 @@ export default function CategoryPage() {
         return genre; // if the genre doesn't match any condition, return it unchanged
     }
   }
-  
+
   function formatGenreName(genre: string): string {
     // Convert camelCase or PascalCase to spaced and capitalized words
     return genre
@@ -83,7 +86,9 @@ export default function CategoryPage() {
         <div className="category-row">
           {genres.map((genre) => (
             <div key={genre} className="category-box">
-              <Link to={`/category/${genre}`}>{formatGenreName(changeGenreName(genre))}</Link>
+              <Link to={`/category/${genre}`}>
+                {formatGenreName(changeGenreName(genre))}
+              </Link>
             </div>
           ))}
         </div>
