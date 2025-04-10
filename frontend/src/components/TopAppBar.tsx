@@ -39,7 +39,7 @@ function TopAppBar() {
     async function checkAdmin() {
       try {
         const res = await fetch(
-          `https://localhost:5000/Role/CheckRoleByEmail/${userEmail}`,
+          `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/Role/CheckRoleByEmail/${userEmail}`,
           {
             credentials: 'include',
           }
