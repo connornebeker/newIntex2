@@ -20,13 +20,14 @@ type MovieFormData = {
   genres: string[];
 };
 
-export default function MovieModal({ onClose }: MovieModalProps) {
+export default function MovieModal({onClose }: MovieModalProps) {
+
+  // map out the genres
   const genreMap: { [key: string]: string } = {
     action: 'Action',
     adventure: 'Adventure',
     animeSeriesInternationalTVShows: 'Anime TV Series',
-    britishTVShowsDocuseriesInternationalTVShows:
-      'British TV Show & International Docuseries',
+    britishTVShowsDocuseriesInternationalTVShows: 'British TV Show & International Docuseries',
     children: "Children's Movie",
     comedies: 'Comedy',
     comediesDramasInternationalMovies: 'International Comedy-Drama',
@@ -43,8 +44,7 @@ export default function MovieModal({ onClose }: MovieModalProps) {
     fantasy: 'Fantasy',
     horrorMovies: 'Horror',
     internationalMoviesThrillers: 'International Thriller',
-    internationalTVShowsRomanticTVShowsTVDramas:
-      'International Romantic Dramas',
+    internationalTVShowsRomanticTVShowsTVDramas: 'International Romantic Dramas',
     kidsTV: "Children's TV",
     languageTVShows: 'Language TV Show',
     musicals: 'Musicals',
@@ -58,11 +58,7 @@ export default function MovieModal({ onClose }: MovieModalProps) {
     thrillers: 'Thriller',
   };
 
-  // const getGenres = (movie: any): string[] =>
-  //   Object.keys(genreMap)
-  //     .filter((key) => movie[key] === 1)
-  //     .map((key) => genreMap[key]);
-
+  // sets up the formData object to store input values
   const [formData, setFormData] = useState<MovieFormData>({
     type: '',
     title: '',
@@ -76,13 +72,13 @@ export default function MovieModal({ onClose }: MovieModalProps) {
     genres: [],
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  // when inputs change, update the formData object
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // when checkboxes change, update the formData object
   const handleCheckboxChange = (genre: string) => {
     setFormData((prev) => {
       const genres = prev.genres.includes(genre)
@@ -132,10 +128,11 @@ export default function MovieModal({ onClose }: MovieModalProps) {
     }
 
     const movieToSubmitWithId = {
-      ...movieToSubmit,
-      show_id: `s10000`, // you can generate this based on current max number
-    };
-    console.log('Movie to submit:', movieToSubmitWithId);
+        ...movieToSubmit,
+        show_id: `s10000`, // fake show_id that will be taken care of in the backend
+      };
+
+    // pass the movie to submit to the api
     try {
       await axios.post(
         'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/AddMovie',
@@ -170,94 +167,56 @@ export default function MovieModal({ onClose }: MovieModalProps) {
           <form onSubmit={handleSubmit} className="movie-form">
             <div>
               <label>Type:</label>
-              <input
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-              />
+              <input name="type" value={formData.type} onChange={handleChange} />
             </div>
             <div>
               <label>Title:</label>
-              <input
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-              />
+              <input name="title" value={formData.title} onChange={handleChange} />
             </div>
             <div>
               <label>Director:</label>
-              <input
-                name="director"
-                value={formData.director}
-                onChange={handleChange}
-              />
+              <input name="director" value={formData.director} onChange={handleChange} />
             </div>
             <div>
               <label>Cast:</label>
-              <input
-                name="cast"
-                value={formData.cast}
-                onChange={handleChange}
-              />
+              <input name="cast" value={formData.cast} onChange={handleChange} />
             </div>
             <div>
               <label>Country:</label>
-              <input
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-              />
+              <input name="country" value={formData.country} onChange={handleChange} />
             </div>
             <div>
               <label>Release Year:</label>
-              <input
-                type="number"
-                name="releaseYear"
-                value={formData.releaseYear}
-                onChange={handleChange}
-              />
+              <input type = 'number' name="releaseYear" value={formData.releaseYear} onChange={handleChange} />
             </div>
             <div>
               <label>Rating:</label>
-              <input
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
-              />
+              <input name="rating" value={formData.rating} onChange={handleChange} />
             </div>
             <div>
               <label>Duration:</label>
-              <input
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-              />
+              <input name="duration" value={formData.duration} onChange={handleChange} />
             </div>
             <div>
               <label>Description:</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-              />
+              <textarea name="description" value={formData.description} onChange={handleChange} />
             </div>
 
             <div>
               <h4>Genres</h4>
               <div className="checkbox-group">
                 {Object.entries(genreMap).map(([key, label]) => (
-                  <label key={key}>
-                    <input
-                      type="checkbox"
-                      checked={formData.genres.includes(label)}
-                      onChange={() => handleCheckboxChange(label)}
-                    />
-                    {label}
-                  </label>
-                ))}
+                    <label key={key}>
+                        <input
+                        type="checkbox"
+                        checked={formData.genres.includes(label)}
+                        onChange={() => handleCheckboxChange(label)}
+                        />
+                        {label}
+                    </label>
+                    ))}
               </div>
             </div>
-
             <button type="submit">Submit</button>
           </form>
         </div>

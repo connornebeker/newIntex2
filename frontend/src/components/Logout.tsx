@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 function Logout(props: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
+  // when logout button is clicked, log out the user through the api
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 

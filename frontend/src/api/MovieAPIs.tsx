@@ -13,12 +13,14 @@ interface BecauseYouWatchedResponse {
 const API_URL =
   'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie';
 
+// get Username from local storage so we can get user recommendations
 const getUsername = (): string => {
   const username = localStorage.getItem('username');
   if (!username) throw new Error('No username found in localStorage');
   return username;
 };
 
+//get all movies
 export const fetchAllMovies = async (): Promise<FetchMoviesResponse> => {
   try {
     const response = await fetch(`${API_URL}/AllMovies`, {
@@ -35,7 +37,7 @@ export const fetchAllMovies = async (): Promise<FetchMoviesResponse> => {
   }
 };
 
-// ✅ Fetch recommendations based on user login (username from localStorage)
+// Fetch recommendations based on user login (username from localStorage)
 export const fetchUserRecommendedMovies = async (): Promise<Movie[]> => {
   try {
     const username = getUsername();
@@ -50,13 +52,12 @@ export const fetchUserRecommendedMovies = async (): Promise<Movie[]> => {
   }
 };
 
+// Fetch recommendations based on movie title
 export const fetchRecommendedMovies = async (
   title: string
 ): Promise<FetchMoviesResponse> => {
   try {
-    const response = await fetch(
-      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`,
-      {
+    const response = await fetch(`${API_URL}/MovieRec?title=${encodeURIComponent(title)}`, {
         credentials: 'include',
       }
     );
@@ -71,7 +72,7 @@ export const fetchRecommendedMovies = async (
   }
 };
 
-// ✅ Fetch "Because You Watched..." recs (username from localStorage)
+// Fetch "Because You Watched..." recs (username from localStorage)
 export const fetchBecauseYouWatchedMovies =
   async (): Promise<BecauseYouWatchedResponse> => {
     try {
@@ -87,6 +88,7 @@ export const fetchBecauseYouWatchedMovies =
     }
   };
 
+// saves movie star rating 
 export const sendMovieRating = async (
   show_id: string,
   rating: number
@@ -107,6 +109,7 @@ export const sendMovieRating = async (
   }
 };
 
+// retreives the star rating the user has given
 export const fetchUserRating = async (
   showId: string
 ): Promise<number | null> => {
@@ -124,6 +127,7 @@ export const fetchUserRating = async (
   return parseInt(rating);
 };
 
+// updates star rating
 export const updateMovieRating = async (
   showId: string,
   rating: number

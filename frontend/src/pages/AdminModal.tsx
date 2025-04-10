@@ -14,12 +14,12 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  // map out the genres
   const genreMap: { [key: string]: string } = {
     action: 'Action',
     adventure: 'Adventure',
     animeSeriesInternationalTVShows: 'Anime TV Series',
-    britishTVShowsDocuseriesInternationalTVShows:
-      'British TV Show & International Docuseries',
+    britishTVShowsDocuseriesInternationalTVShows: 'British TV Show & International Docuseries',
     children: "Children's Movie",
     comedies: 'Comedy',
     comediesDramasInternationalMovies: 'International Comedy-Drama',
@@ -36,8 +36,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     fantasy: 'Fantasy',
     horrorMovies: 'Horror',
     internationalMoviesThrillers: 'International Thriller',
-    internationalTVShowsRomanticTVShowsTVDramas:
-      'International Romantic Dramas',
+    internationalTVShowsRomanticTVShowsTVDramas: 'International Romantic Dramas',
     kidsTV: "Children's TV",
     languageTVShows: 'Language TV Show',
     musicals: 'Musicals',
@@ -51,15 +50,11 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     thrillers: 'Thriller',
   };
 
+  // get genres to filter from
   const getGenres = (movie: any): string[] =>
     Object.keys(genreMap)
       .filter((key) => movie[key] === 1)
       .map((key) => genreMap[key]);
-
-  // const handleEdit = (movie: Movie) => {
-  //   setSelectedMovie(movie);
-  //   setIsEditing(true);
-  // };
 
   // Function to handle the deletion of the movie
   const handleDeleteMovie = async (show_id: string) => {
@@ -101,19 +96,20 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
             src={movie.posterUrl}
             alt={movie.title}
             onError={(e) => {
-              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+              const fallbackUrl = 
+                `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
               (e.target as HTMLImageElement).src = fallbackUrl;
             }}
           />
           <div className="modal-banner-gradient" />
-          <div className="modal-banner-overlay">
-            <h2>{movie.title}</h2>
-            <div className="meta">
-              {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
-              {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+            <div className="modal-banner-overlay">
+              <h2>{movie.title}</h2>
+              <div className="meta">
+                {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
+                {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+              </div>
             </div>
           </div>
-        </div>
 
         <div className="modal-main-info">
           <div className="modal-columns">

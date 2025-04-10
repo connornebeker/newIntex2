@@ -1,3 +1,5 @@
+// Makes sure that the user is authorized before displaying the view
+
 import React, { useState, useEffect, createContext } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -9,8 +11,7 @@ interface User {
 
 function AuthorizeView(props: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true); // add a loading state
-  //const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(true); 
   let emptyuser: User = { email: '' };
 
   const [user, setUser] = useState(emptyuser);
@@ -19,7 +20,6 @@ function AuthorizeView(props: { children: React.ReactNode }) {
     async function fetchWithRetry(url: string, options: any) {
       try {
         const response = await fetch(url, options);
-        //console.log('AuthorizeView: Raw Response:', response);
 
         const contentType = response.headers.get('content-type');
 

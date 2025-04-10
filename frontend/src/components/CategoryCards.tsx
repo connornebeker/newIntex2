@@ -5,6 +5,7 @@ import './Category.css';
 export default function CategoryPage() {
   const [genres, setGenres] = useState<string[]>([]);
 
+  // gets all the genres and stores them in an array
   useEffect(() => {
     async function fetchGenres() {
       const response = await fetch(
@@ -19,6 +20,7 @@ export default function CategoryPage() {
     fetchGenres();
   }, []);
 
+  // changes the name of the genres to be more readable
   function changeGenreName(genre: string): string {
     switch (genre.toLowerCase()) {
       case 'comediesdramas':
@@ -71,7 +73,8 @@ export default function CategoryPage() {
         return genre; // if the genre doesn't match any condition, return it unchanged
     }
   }
-
+  
+  // formats the genre name to be prettier
   function formatGenreName(genre: string): string {
     // Convert camelCase or PascalCase to spaced and capitalized words
     return genre
@@ -86,9 +89,8 @@ export default function CategoryPage() {
         <div className="category-row">
           {genres.map((genre) => (
             <div key={genre} className="category-box">
-              <Link to={`/category/${genre}`}>
-                {formatGenreName(changeGenreName(genre))}
-              </Link>
+              {/* formats and changes genre name to be displayed */}
+              <Link to={`/category/${genre}`}>{formatGenreName(changeGenreName(genre))}</Link>
             </div>
           ))}
         </div>
