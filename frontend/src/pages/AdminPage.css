@@ -329,3 +329,51 @@
   color: #121212;
   border-color: white;
 }
+
+
+
+/* button X */
+
+/* Search Section Container */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space between input and + button */
+  margin-bottom: 1rem;
+}
+
+/* Input + X inside container */
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Search Input */
+.search-bar {
+  width: 100%;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;  /* space for the x icon */
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background-color: #222;
+  color: white;
+}
+
+/* X Icon */
+/* .clear-search {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.clear-search:hover {
+  color: white;
+} */
