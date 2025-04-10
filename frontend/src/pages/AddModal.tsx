@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Movie } from '../types/Movie';
 import './MovieModal.css';
 import './DeleteDialog.css';
-import { useNavigate } from 'react-router-dom';
 
 type MovieModalProps = {
   onClose: () => void;
@@ -60,10 +58,10 @@ export default function MovieModal({ onClose }: MovieModalProps) {
     thrillers: 'Thriller',
   };
 
-  const getGenres = (movie: any): string[] =>
-    Object.keys(genreMap)
-      .filter((key) => movie[key] === 1)
-      .map((key) => genreMap[key]);
+  // const getGenres = (movie: any): string[] =>
+  //   Object.keys(genreMap)
+  //     .filter((key) => movie[key] === 1)
+  //     .map((key) => genreMap[key]);
 
   const [formData, setFormData] = useState<MovieFormData>({
     type: '',

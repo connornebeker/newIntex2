@@ -8,9 +8,6 @@ import AuthorizeView from '../components/AuthorizeView';
 
 function MoviesPage() {
   // const { show_id, title } = useParams<{ show_id: string, title: string  }>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [curMovie, setCurMovie] = useState<Movie>();
   const [loadingRec, setLoadingRec] = useState(true);
   const [errorRec, setErrorRec] = useState(null);
   const [recMovies, setRecMovies] = useState<Movie[]>([]);
@@ -64,12 +61,12 @@ function MoviesPage() {
       .map((key) => genreMap[key]);
   };
 
-  useEffect(() => {
-    const loadMovie = async () => {
-      setCurMovie(movie);
-    };
-    loadMovie();
-  }, []);
+  // useEffect(() => {
+  //   const loadMovie = async () => {
+  //     setCurMovie(movie);
+  //   };
+  //   loadMovie();
+  // }, []);
 
   useEffect(() => {
     const loadRecMovies = async () => {
@@ -107,8 +104,6 @@ function MoviesPage() {
   return (
     <AuthorizeView>
       <div>
-        {loading}
-        {error && <p>Error loading movie.</p>}
         {movie && (
           <>
             <div className="row">
@@ -187,7 +182,7 @@ function MoviesPage() {
                   to={`/movies/${movie.show_id}`}
                   state={{ movie }}
                   onClick={() => {
-                    setCurMovie(movie);
+                    // setCurMovie(movie);
                     setShowMainPoster(true);
                   }}
                 >

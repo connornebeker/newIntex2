@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Movie } from '../types/Movie';
 import './MovieModal.css';
 import './DeleteDialog.css';
-import { useNavigate } from 'react-router-dom';
 import EditModal from './EditModal';
 
 type MovieModalProps = {
@@ -12,10 +11,8 @@ type MovieModalProps = {
 };
 
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
-  const navigate = useNavigate();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const genreMap: { [key: string]: string } = {
     action: 'Action',

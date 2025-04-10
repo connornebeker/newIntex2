@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './AdminPage.css';
 import TopAppBar from '../components/TopAppBar';
 import AuthorizeView from '../components/AuthorizeView';
@@ -8,7 +7,6 @@ import fetchPoster from '../utils/fetchPoster';
 import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 import AdminModal from './AdminModal';
 import AddModal from './AddModal';
-import { useNavigate } from 'react-router-dom';
 
 const AdminPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -21,7 +19,6 @@ const AdminPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchGenres();
@@ -102,13 +99,13 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const handleAdminSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-      setSearchTerm('');
-    }
-  };
+  // const handleAdminSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (searchTerm.trim()) {
+  //     navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+  //     setSearchTerm('');
+  //   }
+  // };
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())

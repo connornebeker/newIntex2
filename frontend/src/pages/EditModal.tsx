@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Movie } from '../types/Movie';
 import './MovieModal.css';
 import './DeleteDialog.css';
-import { useNavigate } from 'react-router-dom';
 
 type MovieModalProps = {
   onClose: () => void;

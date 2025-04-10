@@ -7,7 +7,6 @@ import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 
 function TopAppBar() {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -55,7 +54,7 @@ function TopAppBar() {
     }
 
     checkAdmin();
-  }, [userEmail]);
+  }, []);
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

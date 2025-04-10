@@ -1,7 +1,6 @@
 // components/MovieModal.tsx
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { useNavigate } from 'react-router-dom';
 import fetchPoster from '../utils/fetchPoster';
 import {
   fetchRecommendedMovies,
@@ -26,7 +25,6 @@ export default function MovieModal({
   const [userRating, setUserRating] = useState<number | 0>(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [hasRatedBefore, setHasRatedBefore] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadRecMovies = async () => {
@@ -129,18 +127,22 @@ export default function MovieModal({
           ✕
         </button>
 
-          <div className="modal-banner-wrapper-horizontal">
-            <img className="modal-banner-horizontal" src={movie.posterUrl} alt={movie.title}/>
-            <div className="modal-info-horizontal">
-              <h2>{movie.title}</h2>
-              <div className="meta">
-                {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
-                {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
-              </div>
-              <button className="modal-play ">▶ Play</button>
-              <p className="modal-description">{movie.description}</p>
+        <div className="modal-banner-wrapper-horizontal">
+          <img
+            className="modal-banner-horizontal"
+            src={movie.posterUrl}
+            alt={movie.title}
+          />
+          <div className="modal-info-horizontal">
+            <h2>{movie.title}</h2>
+            <div className="meta">
+              {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
+              {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+            </div>
+            <button className="modal-play ">▶ Play</button>
+            <p className="modal-description">{movie.description}</p>
 
-{/* 
+            {/* 
           <div className="modal-banner-wrapper-horizontal">
             <img className="modal-banner-horizontal" src={movie.posterUrl} alt={movie.title} />
 
@@ -154,100 +156,97 @@ export default function MovieModal({
             </div>
           </div> */}
 
-
-
-              {/* Move all this info here */}
-              <div className="meta-row">
-                <strong>Director:</strong> {movie.director || 'Unknown'}
-              </div>
-
-              <div className="meta-row">
-                <strong>Cast:</strong> {movie.cast || 'Unknown'}
-              </div>
-
-              <div className="meta-row">
-                <strong>Genres:</strong> {getGenres(movie).join(', ') || 'Unknown'}
-              </div>
+            {/* Move all this info here */}
+            <div className="meta-row">
+              <strong>Director:</strong> {movie.director || 'Unknown'}
             </div>
-          </div>
 
+            <div className="meta-row">
+              <strong>Cast:</strong> {movie.cast || 'Unknown'}
+            </div>
 
-          {ratingSubmitted ? (
-            <div className="rating-submitted">
-              <h4>Thank you for rating this movie!</h4>
-              <p>
-                Your rating: {userRating} <span className="star active">★</span>
-                {userRating > 1 ? 's' : ''}
-              </p>
-              <button
-                onClick={() => {
-                  {
-                    setRatingSubmitted(false);
-                  }
-                  setHasRatedBefore(true);
-                }}
-              >
-                Change Rating
-              </button>
-            </div>
-          ) : (
-            <div>
-              <div className="rating-message">
-                Rate this movie to help us improve your recommendations!
-              </div>
-              <h4 style={{ marginTop: '1.5rem' }}>Rate this movie:</h4>
-              <div
-                className="star-rating-container"
-                style={{ marginBottom: '1rem' }}
-              >
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <span
-                    key={rating}
-                    className={`star ${userRating >= rating ? 'active' : ''}`}
-                    onClick={() => setUserRating(rating)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-              <div>
-                <button
-                  className="submit-rating"
-                  onClick={() => handleRatingChange(userRating)}
-                >
-                  Submit Rating
-                </button>
-              </div>
-            </div>
-          )}
-          <div className="modal-recommendations">
-            <h3>More Like This</h3>
-            <div className="recommendation-grid">
-              {recMoviesWithPosters.map((rec) => (
-                <div
-                  key={rec.show_id}
-                  className="recommendation-item-2"
-                  onClick={() => {
-                    onMovieSelect(rec);
-                    setRatingSubmitted(false);
-                    setUserRating(0);
-                  }}
-                >
-                  <img
-                    src={rec.posterUrl}
-                    alt={rec.title}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null;
-                      target.style.display = 'none';
-                    }}
-                  />
-                </div>
-              ))}
+            <div className="meta-row">
+              <strong>Genres:</strong>{' '}
+              {getGenres(movie).join(', ') || 'Unknown'}
             </div>
           </div>
         </div>
+
+        {ratingSubmitted ? (
+          <div className="rating-submitted">
+            <h4>Thank you for rating this movie!</h4>
+            <p>
+              Your rating: {userRating} <span className="star active">★</span>
+              {userRating > 1 ? 's' : ''}
+            </p>
+            <button
+              onClick={() => {
+                {
+                  setRatingSubmitted(false);
+                }
+                setHasRatedBefore(true);
+              }}
+            >
+              Change Rating
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="rating-message">
+              Rate this movie to help us improve your recommendations!
+            </div>
+            <h4 style={{ marginTop: '1.5rem' }}>Rate this movie:</h4>
+            <div
+              className="star-rating-container"
+              style={{ marginBottom: '1rem' }}
+            >
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <span
+                  key={rating}
+                  className={`star ${userRating >= rating ? 'active' : ''}`}
+                  onClick={() => setUserRating(rating)}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <div>
+              <button
+                className="submit-rating"
+                onClick={() => handleRatingChange(userRating)}
+              >
+                Submit Rating
+              </button>
+            </div>
+          </div>
+        )}
+        <div className="modal-recommendations">
+          <h3>More Like This</h3>
+          <div className="recommendation-grid">
+            {recMoviesWithPosters.map((rec) => (
+              <div
+                key={rec.show_id}
+                className="recommendation-item-2"
+                onClick={() => {
+                  onMovieSelect(rec);
+                  setRatingSubmitted(false);
+                  setUserRating(0);
+                }}
+              >
+                <img
+                  src={rec.posterUrl}
+                  alt={rec.title}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-   
+    </div>
   );
 }
