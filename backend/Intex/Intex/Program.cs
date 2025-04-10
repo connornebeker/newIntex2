@@ -101,7 +101,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
+            policy.WithOrigins("http://localhost:3000", "https://jolly-wave-05aa96f1e.6.azurestaticapps.net") // Replace with your frontend URL
                 .AllowCredentials() // Allow credentials (cookies)
                 .AllowAnyMethod()
                 .AllowAnyHeader();
@@ -122,6 +122,19 @@ if (app.Environment.IsDevelopment())
 
 // Enable CORS policy
 app.UseCors("AllowFrontend");
+
+// app.UseDefaultFiles(); // Serves index.html by default
+// app.UseStaticFiles(new StaticFileOptions
+// {
+//     ContentTypeProvider = new FileExtensionContentTypeProvider
+//     {
+//         Mappings = {
+//             [".js"] = "application/javascript",
+//             [".css"] = "text/css",
+//             [".json"] = "application/json"
+//         }
+//     }
+// });
 
 // HTTPS redirection
 app.UseHttpsRedirection();

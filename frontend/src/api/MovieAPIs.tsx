@@ -57,7 +57,9 @@ export const fetchRecommendedMovies = async (
   title: string
 ): Promise<FetchMoviesResponse> => {
   try {
-    const response = await fetch(`${API_URL}/MovieRec?title=${encodeURIComponent(title)}`, {
+    const response = await fetch(
+      `${API_URL}/MovieRec?title=${encodeURIComponent(title)}`,
+      {
         credentials: 'include',
       }
     );
@@ -88,7 +90,7 @@ export const fetchBecauseYouWatchedMovies =
     }
   };
 
-// saves movie star rating 
+// saves movie star rating
 export const sendMovieRating = async (
   show_id: string,
   rating: number
