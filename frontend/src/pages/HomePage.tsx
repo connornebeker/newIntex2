@@ -136,20 +136,20 @@ export default function HomePage() {
   }, [carousels.length]); // Depend on carousels.length to update observer when data changes
 
   // handles what happens when a movie title does not match the poster
-  const handlePosterError = (carouselTitle: string, movieId: string) => {
-    setCarousels((prevCarousels) =>
-      prevCarousels.map((carousel) =>
-        carousel.title === carouselTitle
-          ? {
-              ...carousel,
-              movies: carousel.movies.filter(
-                (movie) => movie.show_id !== movieId
-              ),
-            }
-          : carousel
-      )
-    );
-  };
+  // const handlePosterError = (carouselTitle: string, movieId: string) => {
+  //   setCarousels((prevCarousels) =>
+  //     prevCarousels.map((carousel) =>
+  //       carousel.title === carouselTitle
+  //         ? {
+  //             ...carousel,
+  //             movies: carousel.movies.filter(
+  //               (movie) => movie.show_id !== movieId
+  //             ),
+  //           }
+  //         : carousel
+  //     )
+  //   );
+  // };
 
   // horizontal scrolling function for carousels
   const scroll = (
@@ -270,9 +270,10 @@ export default function HomePage() {
                           <img
                             src={movie.posterUrl}
                             alt={movie.title}
-                            onError={() =>
-                              handlePosterError(carousel.title, movie.show_id)
-                            }
+                            onError={(e) => {
+                              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+                              (e.target as HTMLImageElement).src = fallbackUrl;
+                            }}
                             className={
                               carousel.showNumbers
                                 ? `top-movie-poster ${index === 9 ? 'poster-ten-shift' : ''}`
