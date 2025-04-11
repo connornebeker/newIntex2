@@ -12,3 +12,4 @@ export interface LikedMovie {
   recommendation9: string;
   recommendation10: string;
 }
+// // liked movie type

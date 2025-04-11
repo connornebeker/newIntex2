@@ -1,3 +1,5 @@
+// uses the searchTerm to fetch movies from the backend based on the search and relevance
+
 import { Movie } from '../types/Movie';
 import fetchPoster from './fetchPoster';
 

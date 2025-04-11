@@ -10,6 +10,7 @@ import {
 } from '../api/MovieAPIs';
 import './MovieModal.css';
 
+// importing props
 type MovieModalProps = {
   movie: Movie;
   onClose: () => void;
@@ -26,6 +27,7 @@ export default function MovieModal({
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [hasRatedBefore, setHasRatedBefore] = useState(false);
 
+  // fetching the recommended movies, and the user rating to display
   useEffect(() => {
     const loadRecMovies = async () => {
       if (!movie.title) return;
@@ -52,6 +54,7 @@ export default function MovieModal({
     loadUserRating();
   }, [movie]);
 
+  // Mapping the genres to their respective names
   const genreMap: { [key: string]: string } = {
     action: 'Action',
     adventure: 'Adventure',
@@ -89,11 +92,13 @@ export default function MovieModal({
     thrillers: 'Thriller',
   };
 
+  // Function to get the genres of the movie
   const getGenres = (movie: any): string[] =>
     Object.keys(genreMap)
       .filter((key) => movie[key] === 1)
       .map((key) => genreMap[key]);
 
+  // Function to handle the rating change
   const handleRatingChange = async (rating: number) => {
     setUserRating(rating);
 
@@ -110,6 +115,7 @@ export default function MovieModal({
     }
   };
 
+  // Fetching the poster URLs for the recommended movies
   const recMoviesWithPosters = recMovies.map((m) => ({
     ...m,
     posterUrl: fetchPoster(
@@ -142,20 +148,6 @@ export default function MovieModal({
             <button className="modal-play ">▶ Play</button>
             <p className="modal-description">{movie.description}</p>
 
-            {/* 
-          <div className="modal-banner-wrapper-horizontal">
-            <img className="modal-banner-horizontal" src={movie.posterUrl} alt={movie.title} />
-
-            <div className="modal-info-horizontal">
-              <h2>{movie.title}</h2>
-              <div className="meta">
-                {movie.release_year} | {movie.duration || 'Unknown Duration'} | {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
-              </div>
-              <button className="modal-play">▶ Play</button>
-              <p className="modal-description">{movie.description}</p>
-            </div>
-          </div> */}
-
             {/* Move all this info here */}
             <div className="meta-row">
               <strong>Director:</strong> {movie.director || 'Unknown'}
@@ -172,6 +164,7 @@ export default function MovieModal({
           </div>
         </div>
 
+        {/*if statement to either show the rating or allow the user to rate the movie.*/}
         {ratingSubmitted ? (
           <div className="rating-submitted">
             <h4>Thank you for rating this movie!</h4>
@@ -220,6 +213,7 @@ export default function MovieModal({
             </div>
           </div>
         )}
+        {/* Displaying the recommended movies */}
         <div className="modal-recommendations">
           <h3>More Like This</h3>
           <div className="recommendation-grid">
