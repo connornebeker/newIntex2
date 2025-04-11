@@ -713,14 +713,13 @@ button {
   position: relative;
   z-index: 1;
   /* background: linear-gradient(to top, rgba(85, 85, 85, 0), #000); */
-  /* color: white;
+/* color: white;
   height: 100%;
   padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start; */
-
 
 .hero-overlay {
   position: relative;
@@ -731,8 +730,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; 
-  padding-left: 4rem; 
+  align-items: flex-start;
+  padding-left: 4rem;
 }
 
 /* .hero-overlay {
@@ -744,15 +743,12 @@ button {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Keep everything left */
-}
 @media (max-width: 768px) {
   .hero-overlay {
     padding-left: 2rem; /* less space for small screens */
   }
-} */
-
-
-.hero-title {
+}
+*/ .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
@@ -761,11 +757,9 @@ button {
 .hero-title-image {
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
   margin-bottom: -45px;
 }
-
-
 
 .hero-subtitle {
   font-size: 1.2rem;
@@ -842,10 +836,81 @@ button {
   color: #f0c14b;
 }
 
-
-
 .hero-title-image {
-  width: 250px;  /* adjust based on size you want */
+  width: 250px; /* adjust based on size you want */
   max-width: 100%;
   object-fit: contain;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 999;
+  min-width: 180px;
+}
+
+.dropdown-link {
+  color: #f0d98c;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.dropdown-link:hover {
+  text-decoration: underline;
+  color: #fff1b1;
+}
+
+.user-dropdown:hover {
+  background-color: #2a2a2a;
+}
+
+.user-dropdown button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.user-dropdown button:hover {
+  color: #e0c28c;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logout {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #2a2a2a;
+  padding: 0.6em 1.2em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.logout:hover {
+  background-color: #b00610;
 }

@@ -67,48 +67,52 @@ function SearchResultsPage() {
     <AuthorizeView>
       <div>
         <TopAppBar />
-        <h2>Search Results for: {searchTerm}</h2>
-        <div className="home-thing-1">
-          <div className="home-slice-1">
-            <div className="movie-grid">
-              {movies.map((movie, index) => {
-                const isLast = index === movies.length - 1;
-                return (
-                  <div
-                    key={movie.show_id}
-                    className="movie-card"
-                    ref={isLast ? lastMovieRef : null}
-                  >
-                    <div
-                      onClick={() => setSelectedMovie(movie)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
-                      <img
-                        src={movie.posterUrl}
-                        alt={movie.title}
-                        className="movie-poster"
-                        onError={(e) => {
-                          const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
-                          (e.target as HTMLImageElement).src = fallbackUrl;
-                        }}
-                      />
-                      {/* </Link> */}
-                    </div>
-                  </div>
-                );
-              })}
+        <div className="home-container-1">
+          <div className="category-page-wrapper">
+            <h2 className="category-title">Search Results for: {searchTerm}</h2>
+            <div className="home-content-1">
+              <div className="movie-grid-wrapper">
+                <div className="movie-grid">
+                  {movies.map((movie, index) => {
+                    const isLast = index === movies.length - 1;
+                    return (
+                      <div
+                        key={movie.show_id}
+                        className="movie-card"
+                        ref={isLast ? lastMovieRef : null}
+                      >
+                        <div
+                          onClick={() => setSelectedMovie(movie)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {/* <Link to={`/movies/${movie.show_id}`} state={{ movie }}> */}
+                          <img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            className="movie-poster"
+                            onError={(e) => {
+                              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+                              (e.target as HTMLImageElement).src = fallbackUrl;
+                            }}
+                          />
+                          {/* </Link> */}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
+            {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
           </div>
-          {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
+          {selectedMovie && (
+            <MovieModal
+              movie={selectedMovie}
+              onClose={() => setSelectedMovie(null)}
+              onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
+            />
+          )}
         </div>
-        {selectedMovie && (
-          <MovieModal
-            movie={selectedMovie}
-            onClose={() => setSelectedMovie(null)}
-            onMovieSelect={(newMovie) => setSelectedMovie(newMovie)}
-          />
-        )}
       </div>
     </AuthorizeView>
   );

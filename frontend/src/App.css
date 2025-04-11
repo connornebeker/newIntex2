@@ -33,7 +33,6 @@ body {
 
 .logo:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 1.5em #e50914aa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 1.5em #61dafbaa);
@@ -58,21 +57,6 @@ body {
   border-radius: 8px;
   padding: 1em;
   margin: 1em 0;
-}
-
-.logout {
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: #e50914;
-  padding: 0.6em 1.2em;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.logout:hover {
-  background-color: #b00610;
 }
 
 .resultsCount {
