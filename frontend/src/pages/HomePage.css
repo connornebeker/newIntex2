@@ -849,3 +849,77 @@ button {
   max-width: 100%;
   object-fit: contain;
 }
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 999;
+  min-width: 180px;
+}
+
+.dropdown-link {
+  color: #f0d98c;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.dropdown-link:hover {
+  text-decoration: underline;
+  color: #fff1b1;
+}
+
+
+.user-dropdown:hover {
+  background-color: #2a2a2a;
+}
+
+.user-dropdown button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.user-dropdown button:hover {
+  color: #e0c28c;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logout {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #2a2a2a;
+  padding: 0.6em 1.2em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.logout:hover {
+  background-color: #b00610;
+}

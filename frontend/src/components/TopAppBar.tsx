@@ -16,6 +16,40 @@ function TopAppBar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        categoryRef.current &&
+        !categoryRef.current.contains(event.target as Node)
+      ) {
+        setIsCategoryOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !menuRef.current?.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Fetch genres
   useEffect(() => {
     async function fetchGenres() {
@@ -68,7 +102,9 @@ function TopAppBar() {
   return (
     <nav className="nav-container">
       <div className="nav-left">
-        <img src="/logo.png" alt="CineNiche Logo" className="logo" />
+        <Link to="/home">
+          <img src="/logo.png" alt="CineNiche Logo" className="logo" />
+        </Link>
         <div className="nav-links">
           <Link to="/home" className="nav-link-1">
             Home
@@ -94,20 +130,17 @@ function TopAppBar() {
                 ))}
               </div>
             )}
-            
           </div>
-           {/* Conditionally render the Admin button */}
-      {isAdmin && (
-        <div className="nav-left">
-          <Link to="/admin" className="admin-button nav-link-1">
-            Admin
-          </Link>
+          {/* Conditionally render the Admin button */}
+          {isAdmin && (
+            <div className="nav-left">
+              <Link to="/admin" className="admin-button nav-link-1">
+                Admin
+              </Link>
+            </div>
+          )}
         </div>
-      )}
-        </div>
-        
       </div>
-   
 
       <div className="nav-right">
         <form
@@ -157,10 +190,13 @@ function TopAppBar() {
           </svg>
 
           {isMenuOpen && (
-            <div className="user-dropdown">
+            <div className="user-dropdown" ref={dropdownRef}>
               <Logout>
                 Log out <AuthorizedUser value="email" />
               </Logout>
+              <Link to="/policy" className="dropdown-link">
+                Privacy Policy
+              </Link>
             </div>
           )}
         </div>
