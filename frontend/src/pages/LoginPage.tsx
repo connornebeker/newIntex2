@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import fetchPoster from '../utils/fetchPoster';
 
+// the list of movies that we want to display in the background carousel
 const loginTitles: string[] = [
   'Money Heist From Tokyo to Berlin',
   'The Witcher Nightmare of the Wolf',
@@ -140,6 +141,7 @@ function LoginPage() {
     loginTitles.slice(i * postersPerRow, (i + 1) * postersPerRow)
   );
 
+  // Function to handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, value } = e.target;
     if (type === 'checkbox') setRememberme(checked);
@@ -200,11 +202,6 @@ function LoginPage() {
 
   return (
     <div className="login-wrapper">
-      {/* <img
-        src="/background.png"
-        alt="Background"
-        className="login-background"
-      /> */}
       <div className="login-overlay" />
 
       {/* Logo Header */}
@@ -212,6 +209,7 @@ function LoginPage() {
         <img src="/logo.png" alt="CineNiche Logo" className="logo-top" />
       </header>
 
+      {/* Background Carousel Grid */}
       <div className="poster-carousel">
         {grouped.map((group, rowIndex) => (
           <div
@@ -237,7 +235,8 @@ function LoginPage() {
           </div>
         ))}
       </div>
-
+      {/* Overlay Gradient */}
+      {/* Foreground Content */}
       <div className="login-content">
         <div className="login-card">
           <h2>Sign In</h2>

@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Carousel } from '../types/Carousel';
 import getCarouselsFromGenres from '../utils/getCarouselsFromGenres';
 import { Movie } from '../types/Movie';
-import { fetchBecauseYouWatchedMovies, fetchUserRecommendedMovies } from '../api/MovieAPIs';
+import {
+  fetchBecauseYouWatchedMovies,
+  fetchUserRecommendedMovies,
+} from '../api/MovieAPIs';
 import fetchPoster from '../utils/fetchPoster';
 import AuthorizeView from '../components/AuthorizeView';
 import TopAppBar from '../components/TopAppBar';
@@ -191,9 +194,9 @@ export default function HomePage() {
             </video>
             <div className="hero-overlay">
               {/* <h1 className="hero-title">MANIFEST</h1> */}
-                        <img 
-                src="public/anyone.png" 
-                alt="Anyone But You" 
+              <img
+                src="../../public/anyone.png"
+                alt="Anyone But You"
                 className="hero-title-image"
               />
               <button className="hero-button-5">Play</button>
@@ -201,8 +204,6 @@ export default function HomePage() {
           </div>
         </div>
         <div className="home-content-2">
-
-
           {/* CATEGORIES */}
           <div className="category-row">
             {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
@@ -240,7 +241,8 @@ export default function HomePage() {
                   {carousel.movies.map((movie, index) => (
                     <div
                       key={movie.show_id}
-                      className={carousel.showNumbers
+                      className={
+                        carousel.showNumbers
                           ? 'top-movie-item'
                           : 'recommendation-item'
                       }

@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import fetchPoster from '../utils/fetchPoster';
 
+// storing the list of movies that we want to display in the background carousel
 const titles: string[] = [
   'Money Heist From Tokyo to Berlin',
   'The Witcher Nightmare of the Wolf',
@@ -128,6 +129,9 @@ const titles: string[] = [
   'Untold Caitlyn Jenner',
 ];
 
+// The LandingPage component is the main entry point of the application
+// It displays a full-screen background carousel with a gradient overlay
+// and a foreground content area with a hero card and a call-to-action form
 export default function LandingPage(): JSX.Element {
   const rows = 5;
   const postersPerRow = Math.ceil(titles.length / rows);
@@ -154,11 +158,12 @@ export default function LandingPage(): JSX.Element {
             {[...group, ...group].map((title, i) => (
               <img
                 key={`${title}-${i}`}
-                src={fetchPoster(title)} // ✅ remote Azure URL
+                src={fetchPoster(title)} // remote Azure URL
                 alt={`poster-${title}`}
                 className="poster-img"
                 onError={(e) => {
                   const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(title)}`;
+                  // Fallback to dummy image if the poster fails to load
                   (e.target as HTMLImageElement).src = fallbackUrl;
                 }}
               />
