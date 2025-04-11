@@ -138,6 +138,10 @@ export default function MovieModal({
             className="modal-banner-horizontal"
             src={movie.posterUrl}
             alt={movie.title}
+            onError={(e) => {
+              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+              (e.target as HTMLImageElement).src = fallbackUrl;
+            }}
           />
           <div className="modal-info-horizontal">
             <h2>{movie.title}</h2>
