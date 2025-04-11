@@ -165,7 +165,7 @@ const AdminPage: React.FC = () => {
             )}
 
             <button onClick={() => setShowForm(true)} className="add-button">
-              ＋
+              Add a Movie
             </button>
           </div>
 
