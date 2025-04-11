@@ -3,7 +3,8 @@ import axios from 'axios';
 import './MovieModal.css';
 import './DeleteDialog.css';
 
-type MovieModalProps = {
+//
+type AddModalProps = {
   onClose: () => void;
 };
 
@@ -20,7 +21,7 @@ type MovieFormData = {
   genres: string[];
 };
 
-export default function MovieModal({onClose }: MovieModalProps) {
+export default function AddModal({onClose }: AddModalProps) {
 
   // map out the genres
   const genreMap: { [key: string]: string } = {
@@ -128,9 +129,9 @@ export default function MovieModal({onClose }: MovieModalProps) {
     }
 
     const movieToSubmitWithId = {
-        ...movieToSubmit,
-        show_id: `s10000`, // fake show_id that will be taken care of in the backend
-      };
+      ...movieToSubmit,
+      show_id: `s10000`, // fake show_id that will be taken care of in the backend
+    };
 
     // pass the movie to submit to the api
     try {
@@ -158,68 +159,67 @@ export default function MovieModal({onClose }: MovieModalProps) {
 
         <div className="modal-banner-wrapper">
           <div className="modal-banner-gradient" />
-          <div className="modal-banner-overlay">
-            <h2>Add to the Collection</h2>
+            <div className="modal-banner-overlay">
+              <h2>Add to the Collection</h2>
+            </div>
           </div>
-        </div>
 
-        <div className="modal-main-info">
-          <form onSubmit={handleSubmit} className="movie-form">
-            <div>
-              <label>Type:</label>
-              <input name="type" value={formData.type} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Title:</label>
-              <input name="title" value={formData.title} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Director:</label>
-              <input name="director" value={formData.director} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Cast:</label>
-              <input name="cast" value={formData.cast} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Country:</label>
-              <input name="country" value={formData.country} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Release Year:</label>
-              <input type = 'number' name="releaseYear" value={formData.releaseYear} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Rating:</label>
-              <input name="rating" value={formData.rating} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Duration:</label>
-              <input name="duration" value={formData.duration} onChange={handleChange} />
-            </div>
-            <div>
-              <label>Description:</label>
-              <textarea name="description" value={formData.description} onChange={handleChange} />
-            </div>
-
-            <div>
-              <h4>Genres</h4>
-              <div className="checkbox-group">
-                {Object.entries(genreMap).map(([key, label]) => (
-                    <label key={key}>
-                        <input
-                        type="checkbox"
-                        checked={formData.genres.includes(label)}
-                        onChange={() => handleCheckboxChange(label)}
-                        />
-                        {label}
-                    </label>
-                    ))}
+          <div className="modal-main-info">
+            <form onSubmit={handleSubmit} className="movie-form">
+              <div>
+                <label>Type:</label>
+                <input name="type" value={formData.type} onChange={handleChange} />
               </div>
-            </div>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+              <div>
+                <label>Title:</label>
+                <input name="title" value={formData.title} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Director:</label>
+                <input name="director" value={formData.director} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Cast:</label>
+                <input name="cast" value={formData.cast} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Country:</label>
+                <input name="country" value={formData.country} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Release Year:</label>
+                <input type = 'number' name="releaseYear" value={formData.releaseYear} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Rating:</label>
+                <input name="rating" value={formData.rating} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Duration:</label>
+                <input name="duration" value={formData.duration} onChange={handleChange} />
+              </div>
+              <div>
+                <label>Description:</label>
+                <textarea name="description" value={formData.description} onChange={handleChange} />
+              </div>
+              <div>
+                <h4>Genres</h4>
+                <div className="checkbox-group">
+                  {Object.entries(genreMap).map(([key, label]) => (
+                      <label key={key}>
+                          <input
+                          type="checkbox"
+                          checked={formData.genres.includes(label)}
+                          onChange={() => handleCheckboxChange(label)}
+                          />
+                          {label}
+                      </label>
+                      ))}
+                </div>
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
       </div>
     </div>
   );

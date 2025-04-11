@@ -1,3 +1,5 @@
+// fetches movies from the backend by the genre name
+
 import { Movie } from '../types/Movie';
 import fetchPoster from './fetchPoster';
 export default async function getMoviesOneGenre(

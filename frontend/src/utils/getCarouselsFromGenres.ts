@@ -5,6 +5,7 @@ import fetchPoster from './fetchPoster';
 export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
   const carousels: Carousel[] = [];
 
+  // Fetching the genres from the API
   const genresRes = await fetch(
     'https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMovieTypes',
     {
@@ -56,7 +57,7 @@ export default async function getCarouselsFromGenres(): Promise<Carousel[]> {
     }
   }
 
-  return carousels;
+  return carousels; // returns the carousels
 }
 
 function changeGenreName(genre: string): string {

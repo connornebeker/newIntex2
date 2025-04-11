@@ -13,10 +13,11 @@
   }
   
   .delete-dialog-content {
-    background: white;
+    background: black;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
+    color:white;
   }
   
   .delete-dialog button {

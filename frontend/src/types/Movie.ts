@@ -43,3 +43,4 @@ export interface Movie {
   thrillers: number;
   posterUrl?: string;
 }
+// movie type

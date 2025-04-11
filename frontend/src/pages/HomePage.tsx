@@ -11,15 +11,18 @@ import AuthorizeView from '../components/AuthorizeView';
 import TopAppBar from '../components/TopAppBar';
 import CookieConsent from 'react-cookie-consent';
 import MovieModal from './MovieModal';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
   const [loadedCarousels, setLoadedCarousels] = useState(5); // Track the number of carousels loaded
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
+  // used with referrencing carousels and loading more carousels
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref to the div at the bottom
 
+  // retrieve all movies
   async function fetchMoviesByTitles(): Promise<Movie[]> {
     const res = await fetch(
       `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMoviesByTitles`,
@@ -107,6 +110,7 @@ export default function HomePage() {
     loadData();
   }, []);
 
+  // lazy load movies
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -131,6 +135,7 @@ export default function HomePage() {
     };
   }, [carousels.length]); // Depend on carousels.length to update observer when data changes
 
+  // handles what happens when a movie title does not match the poster
   const handlePosterError = (carouselTitle: string, movieId: string) => {
     setCarousels((prevCarousels) =>
       prevCarousels.map((carousel) =>
@@ -146,6 +151,7 @@ export default function HomePage() {
     );
   };
 
+  // horizontal scrolling function for carousels
   const scroll = (
     carouselTitle: string,
     direction: 'left' | 'right',
@@ -189,9 +195,9 @@ export default function HomePage() {
             </video>
             <div className="hero-overlay">
               {/* <h1 className="hero-title">MANIFEST</h1> */}
-                        <img 
-                src="public/anyone.png" 
-                alt="Anyone But You" 
+              <img
+                src="../../public/anyone.png"
+                alt="Anyone But You"
                 className="hero-title-image"
               />
               <button className="hero-button-5">Play</button>
@@ -199,17 +205,20 @@ export default function HomePage() {
           </div>
         </div>
         <div className="home-content-2">
-
-
           {/* CATEGORIES */}
           <div className="category-row">
-            {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
-              (category) => (
-                <div key={category} className="category-box">
-                  {category}
-                </div>
-              )
-            )}
+            {[
+              { name: 'Action', key: 'Action' },
+              { name: 'Comedies', key: 'Comedies' },
+              { name: 'Thrillers', key: 'Thrillers' },
+              { name: 'Family Movies', key: 'FamilyMovies' },
+              { name: 'Adventure', key: 'Adventure' },
+              { name: 'Romantic Comedies', key: 'ComediesRomanticMovies' },
+            ].map(({ name, key }) => (
+              <Link key={key} to={`/category/${key}`} className="category-box">
+                {name}
+              </Link>
+            ))}
           </div>
 
           {/* Carousels */}
