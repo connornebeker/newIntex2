@@ -276,7 +276,7 @@ namespace Intex.Controllers
                     AvgRating = g.Average(r => r.rating)
                 })
                 .OrderByDescending(g => g.AvgRating)
-                .Take(11)
+                .Take(10)
                 .Select(g => g.ShowId)
                 .ToList();
             

@@ -90,7 +90,7 @@ export default function HomePage() {
           const top10Movies = await fetchMoviesByTitles();
 
           updatedCarousels.unshift({
-            title: 'Top 11 Today',
+            title: 'Top 10 Today',
             movies: top10Movies,
             itemsPerSlide: 5,
             showNumbers: true,
