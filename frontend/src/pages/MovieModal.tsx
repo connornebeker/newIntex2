@@ -235,7 +235,7 @@ export default function MovieModal({
                   src={rec.posterUrl}
                   alt={rec.title}
                   onError={(e) => {
-                    const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+                    const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(rec.title)}`;
                     (e.target as HTMLImageElement).src = fallbackUrl;
                   }}
                 />
