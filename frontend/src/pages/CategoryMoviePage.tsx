@@ -14,9 +14,9 @@ export default function CategoryMoviePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  
+
   const observer = useRef<IntersectionObserver | null>(null);
-  
+
   // Function to be called when the last movie in the list is visible in the viewport
   const lastMovieRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -33,7 +33,8 @@ export default function CategoryMoviePage() {
 
       // Observe the last movie node
       if (node) observer.current.observe(node);
-    }, [isLoading, hasMore]
+    },
+    [isLoading, hasMore]
   );
 
   // resets state when the category changes
@@ -59,36 +60,39 @@ export default function CategoryMoviePage() {
     fetchMovies();
   }, [categoryName, page]);
 
-
   return (
     <AuthorizeView>
       <div>
         <TopAppBar />
-        <h2>{categoryName}</h2>
-        <div className="home-thing-1">
-          <div className="home-slice-1">
-            <div className="movie-grid">
-              {movies.map((movie, index) => {
-                const isLast = index === movies.length - 1;
-                return (
-                  <div
-                    key={movie.show_id}
-                    className="movie-card"
-                    ref={isLast ? lastMovieRef : null}
-                  >
-                    <div
-                      onClick={() => setSelectedMovie(movie)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <img
-                        src={movie.posterUrl}
-                        alt={movie.title}
-                        className="movie-poster"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+        <div className="home-container-1">
+          <div className="category-page-wrapper">
+            <h2 className="category-title">{categoryName}</h2>
+            <div className="home-content-1">
+              <div className="movie-grid-wrapper">
+                <div className="movie-grid">
+                  {movies.map((movie, index) => {
+                    const isLast = index === movies.length - 1;
+                    return (
+                      <div
+                        key={movie.show_id}
+                        className="movie-card"
+                        ref={isLast ? lastMovieRef : null}
+                      >
+                        <div
+                          onClick={() => setSelectedMovie(movie)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            className="movie-poster"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
           {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}

@@ -134,6 +134,7 @@ function LoginPage() {
   const [rememberme, setRememberme] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   // For carousels
   const rows = 5;
   const postersPerRow = Math.ceil(loginTitles.length / rows);
@@ -277,6 +278,81 @@ function LoginPage() {
             {error && <p className="login-error">{error}</p>}
           </form>
         </div>
+      </div>
+      {/* Reasons to Join + FAQ */}
+      <div className="extras-container-8">
+        <section className="reasons-8">
+          <h2 className="section-title-8">More Reasons to Join</h2>
+          <div className="reasons-grid-8">
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📺</div>
+              <h3>Enjoy on your TV</h3>
+              <p>
+                Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
+                Blu-ray players, and more.
+              </p>
+            </div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📥</div>
+              <h3>Download your shows to watch offline</h3>
+              <p>
+                Save your favorites easily and always have something to watch.
+              </p>
+            </div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">📱</div>
+              <h3>Watch everywhere</h3>
+              <p>
+                Stream unlimited movies and TV shows on your phone, tablet,
+                laptop, and TV.
+              </p>
+            </div>
+            <div className="reason-card-8">
+              <div className="reason-icon-8">🧒</div>
+              <h3>Create profiles for kids</h3>
+              <p>
+                Send kids on adventures with their favorite characters in a
+                space made just for them — free with your membership.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="faq-8">
+          <h2 className="section-title-8">Frequently Asked Questions</h2>
+          {[
+            {
+              q: 'What is CineNiche?',
+              a: 'CineNiche is a streaming service that offers a wide variety of curated movies including indie, international, and cult classics.',
+            },
+            {
+              q: 'Where can I watch?',
+              a: 'Watch anywhere, on your phone, tablet, laptop, smart TV, or streaming device.',
+            },
+            {
+              q: 'How do I cancel?',
+              a: 'You can cancel your subscription anytime in your account settings — no commitments.',
+            },
+            {
+              q: 'What can I watch on CineNiche?',
+              a: 'We offer indie gems, award-winning documentaries, global hits, and more. Content is always being added!',
+            },
+          ].map((faq, i) => (
+            <div
+              key={i}
+              className={`faq-item-8 ${i === expandedIndex ? 'open' : ''}`}
+              onClick={() => setExpandedIndex(i === expandedIndex ? null : i)}
+            >
+              <div className="faq-question-8">
+                <span>{faq.q}</span>
+                <span>{i === expandedIndex ? '✖' : '+'}</span>
+              </div>
+              {i === expandedIndex && (
+                <div className="faq-answer-8">{faq.a}</div>
+              )}
+            </div>
+          ))}
+        </section>
       </div>
     </div>
   );

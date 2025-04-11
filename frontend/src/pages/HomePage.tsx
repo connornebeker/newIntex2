@@ -11,6 +11,7 @@ import AuthorizeView from '../components/AuthorizeView';
 import TopAppBar from '../components/TopAppBar';
 import CookieConsent from 'react-cookie-consent';
 import MovieModal from './MovieModal';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const [carousels, setCarousels] = useState<Carousel[]>([]);
@@ -206,13 +207,18 @@ export default function HomePage() {
         <div className="home-content-2">
           {/* CATEGORIES */}
           <div className="category-row">
-            {['Action', 'Horror', 'Comedy', 'Romance', 'Adventure'].map(
-              (category) => (
-                <div key={category} className="category-box">
-                  {category}
-                </div>
-              )
-            )}
+            {[
+              { name: 'Action', key: 'Action' },
+              { name: 'Comedies', key: 'Comedies' },
+              { name: 'Thrillers', key: 'Thrillers' },
+              { name: 'Family Movies', key: 'FamilyMovies' },
+              { name: 'Adventure', key: 'Adventure' },
+              { name: 'Romantic Comedies', key: 'ComediesRomanticMovies' },
+            ].map(({ name, key }) => (
+              <Link key={key} to={`/category/${key}`} className="category-box">
+                {name}
+              </Link>
+            ))}
           </div>
 
           {/* Carousels */}

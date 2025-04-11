@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import fetchPoster from '../utils/fetchPoster';
+import { useLocation } from 'react-router-dom';
 
 const registerTitles: string[] = [
   'Money Heist From Tokyo to Berlin',
@@ -128,7 +129,6 @@ const registerTitles: string[] = [
 ];
 
 function Register() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -140,6 +140,11 @@ function Register() {
   const grouped = Array.from({ length: rows }, (_, i) =>
     registerTitles.slice(i * postersPerRow, (i + 1) * postersPerRow)
   );
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const passedEmail = params.get('email') || ''; // fallback to empty string if null
+
+  const [email, setEmail] = useState(passedEmail);
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -230,6 +235,7 @@ function Register() {
               value={email}
               onChange={handleChange}
             />
+
             <input
               type="password"
               name="password"

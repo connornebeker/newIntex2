@@ -125,10 +125,10 @@
 .category-title {
   font-size: 25px;
   font-weight: 700;
-  text-align: left;
-
+  text-align: center;
   color: #fff;
   margin-bottom: 10px;
+  margin-top: 50px;
 }
 
 .movie-grid-1 {
@@ -368,8 +368,6 @@
   font-weight: 500;
   cursor: pointer;
 }
-
-
 
 .pagination-top {
   display: flex;
