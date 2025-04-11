@@ -713,14 +713,13 @@ button {
   position: relative;
   z-index: 1;
   /* background: linear-gradient(to top, rgba(85, 85, 85, 0), #000); */
-  /* color: white;
+/* color: white;
   height: 100%;
   padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start; */
-
 
 .hero-overlay {
   position: relative;
@@ -731,8 +730,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; 
-  padding-left: 4rem; 
+  align-items: flex-start;
+  padding-left: 4rem;
 }
 
 /* .hero-overlay {
@@ -744,15 +743,12 @@ button {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Keep everything left */
-}
 @media (max-width: 768px) {
   .hero-overlay {
     padding-left: 2rem; /* less space for small screens */
   }
-} */
-
-
-.hero-title {
+}
+*/ .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
@@ -761,11 +757,9 @@ button {
 .hero-title-image {
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
   margin-bottom: -45px;
 }
-
-
 
 .hero-subtitle {
   font-size: 1.2rem;
@@ -842,10 +836,8 @@ button {
   color: #f0c14b;
 }
 
-
-
 .hero-title-image {
-  width: 250px;  /* adjust based on size you want */
+  width: 250px; /* adjust based on size you want */
   max-width: 100%;
   object-fit: contain;
 }
@@ -877,7 +869,6 @@ button {
   text-decoration: underline;
   color: #fff1b1;
 }
-
 
 .user-dropdown:hover {
   background-color: #2a2a2a;

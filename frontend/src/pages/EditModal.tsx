@@ -3,24 +3,6 @@ import axios from 'axios';
 import { Movie } from '../types/Movie';
 import './FormModal.css';
 
-const ratingOptions = [
-  'G',
-  'NR',
-  'PG',
-  'PG-13',
-  'R',
-  'TV-14',
-  'TV-G',
-  'TV-MA',
-  'TV-PG',
-  'TV-Y',
-  'TV-Y7',
-  'TV-Y7-FV',
-  'UR',
-];
-
-const typeOptions = ['Movie', 'TV Show'];
-
 type EditModalProps = {
   onClose: () => void;
   movie: Movie;
