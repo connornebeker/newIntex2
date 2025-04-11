@@ -136,20 +136,20 @@ export default function HomePage() {
   }, [carousels.length]); // Depend on carousels.length to update observer when data changes
 
   // handles what happens when a movie title does not match the poster
-  const handlePosterError = (carouselTitle: string, movieId: string) => {
-    setCarousels((prevCarousels) =>
-      prevCarousels.map((carousel) =>
-        carousel.title === carouselTitle
-          ? {
-              ...carousel,
-              movies: carousel.movies.filter(
-                (movie) => movie.show_id !== movieId
-              ),
-            }
-          : carousel
-      )
-    );
-  };
+  // const handlePosterError = (carouselTitle: string, movieId: string) => {
+  //   setCarousels((prevCarousels) =>
+  //     prevCarousels.map((carousel) =>
+  //       carousel.title === carouselTitle
+  //         ? {
+  //             ...carousel,
+  //             movies: carousel.movies.filter(
+  //               (movie) => movie.show_id !== movieId
+  //             ),
+  //           }
+  //         : carousel
+  //     )
+  //   );
+  // };
 
   // horizontal scrolling function for carousels
   const scroll = (
@@ -196,7 +196,7 @@ export default function HomePage() {
             <div className="hero-overlay">
               {/* <h1 className="hero-title">MANIFEST</h1> */}
               <img
-                src="../../public/anyone.png"
+                src="/anyone.png"
                 alt="Anyone But You"
                 className="hero-title-image"
               />
@@ -212,7 +212,6 @@ export default function HomePage() {
               { name: 'Comedies', key: 'Comedies' },
               { name: 'Thrillers', key: 'Thrillers' },
               { name: 'Family Movies', key: 'FamilyMovies' },
-              { name: 'Adventure', key: 'Adventure' },
               { name: 'Romantic Comedies', key: 'ComediesRomanticMovies' },
             ].map(({ name, key }) => (
               <Link key={key} to={`/category/${key}`} className="category-box">
@@ -271,9 +270,10 @@ export default function HomePage() {
                           <img
                             src={movie.posterUrl}
                             alt={movie.title}
-                            onError={() =>
-                              handlePosterError(carousel.title, movie.show_id)
-                            }
+                            onError={(e) => {
+                              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+                              (e.target as HTMLImageElement).src = fallbackUrl;
+                            }}
                             className={
                               carousel.showNumbers
                                 ? `top-movie-poster ${index === 9 ? 'poster-ten-shift' : ''}`
