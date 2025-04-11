@@ -33,7 +33,14 @@ const AdminPage: React.FC = () => {
   // fetches movies based on filters and search term
   useEffect(() => {
     fetchFilteredMovies();
-  }, [selectedGenres, selectedLetters, currentPage, pageSize, searchTerm]);
+  }, [
+    selectedGenres,
+    selectedLetters,
+    currentPage,
+    pageSize,
+    searchTerm,
+    movies,
+  ]);
 
   // fetches all genres from the backend
   const fetchGenres = async () => {

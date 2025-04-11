@@ -18,7 +18,8 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     action: 'Action',
     adventure: 'Adventure',
     animeSeriesInternationalTVShows: 'Anime TV Series',
-    britishTVShowsDocuseriesInternationalTVShows: 'British TV Show & International Docuseries',
+    britishTVShowsDocuseriesInternationalTVShows:
+      'British TV Show & International Docuseries',
     children: "Children's Movie",
     comedies: 'Comedy',
     comediesDramasInternationalMovies: 'International Comedy-Drama',
@@ -35,7 +36,8 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     fantasy: 'Fantasy',
     horrorMovies: 'Horror',
     internationalMoviesThrillers: 'International Thriller',
-    internationalTVShowsRomanticTVShowsTVDramas: 'International Romantic Dramas',
+    internationalTVShowsRomanticTVShowsTVDramas:
+      'International Romantic Dramas',
     kidsTV: "Children's TV",
     languageTVShows: 'Language TV Show',
     musicals: 'Musicals',
@@ -66,7 +68,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       );
       console.log('Movie deleted successfully');
       onClose(); // Close the modal after deletion
-      window.location.reload(); // Reloads the entire page
+      // window.location.reload(); Reloads the entire page
     } catch (err) {
       console.error('Failed to delete the movie. Please try again.');
     }
@@ -88,15 +90,14 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
         <button className="modal-close-3" onClick={onClose}>
           ✕
         </button>
-  
+
         <div className="modal-banner-wrapper-3">
           <img
             className="modal-banner-3"
             src={movie.posterUrl}
             alt={movie.title}
             onError={(e) => {
-              const fallbackUrl =
-                `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
               (e.target as HTMLImageElement).src = fallbackUrl;
             }}
           />
@@ -106,43 +107,50 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
             <div className="meta-3">
               {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
               {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
-           
-  
-        <div className="modal-info-3">
+              <div className="modal-info-3">
+                <div className="modal-left-3">
+                  <p className="modal-description-3">{movie.description}</p>
+                </div>
+                <div className="modal-right-3">
+                  <div className="meta-row-3">
+                    <strong>Director:</strong>{' '}
+                    <span>{movie.director || 'Unknown'}</span>
+                  </div>
+                  <div className="meta-row-3">
+                    <strong>Cast:</strong>{' '}
+                    <span>{movie.cast || 'Unknown'}</span>
+                  </div>
+                  <div className="meta-row-3">
+                    <strong>Genres:</strong>
+                    <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
+                  </div>
 
-            <div className="modal-left-3">
-              <p className="modal-description-3">{movie.description}</p>
-            </div>
-            <div className="modal-right-3">
-              <div className="meta-row-3">
-                <strong>Director:</strong>{' '}
-                <span>{movie.director || 'Unknown'}</span>
+                  <div className="modal-buttons-3">
+                    <button
+                      onClick={() => setShowForm(true)}
+                      className="edit-button-3"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={showDeleteDialog}
+                      className="delete-button-3"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="meta-row-3">
-                <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
-              </div>
-              <div className="meta-row-3">
-                <strong>Genres:</strong>
-                <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
-              </div>
-          
-              <div className="modal-buttons-3">
-                <button onClick={() => setShowForm(true)} className="edit-button-3">
-                  Edit
-                </button>
-                <button onClick={showDeleteDialog} className="delete-button-3">
-                  Delete
-                </button>
-              </div>
-              </div>
-            </div>
             </div>
           </div>
         </div>
-  
+
         {isDeleteDialogVisible && (
           <div className="delete-overlay-3" onClick={hideDeleteDialog}>
-            <div className="delete-modal-3" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="delete-modal-3"
+              onClick={(e) => e.stopPropagation()}
+            >
               <p>Are you sure you want to delete this movie?</p>
               <div className="delete-buttons-3">
                 <button onClick={() => handleDeleteMovie(movie.show_id)}>
@@ -162,6 +170,4 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       </div>
     </div>
   );
-  
 }
-

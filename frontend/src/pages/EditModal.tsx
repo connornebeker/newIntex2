@@ -131,7 +131,7 @@ export default function EditModal({ onClose, movie }: EditModalProps) {
       );
       alert('Movie updated!');
       onClose();
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error('Error updating movie:', err);
       alert('Failed to update movie.');
