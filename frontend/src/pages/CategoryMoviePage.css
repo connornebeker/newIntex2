@@ -5,7 +5,7 @@
   align-items: flex-start; /* Aligns to the top */
   height: 100vh; /* Full height */
   width: 100%;
-  padding-top: 80px; /* <-- Add this line */
+  padding-top: 40px; /* <-- Add this line */
   box-sizing: border-box;
 }
 /* Content wrapper for the grid */
