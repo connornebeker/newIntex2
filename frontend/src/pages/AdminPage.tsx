@@ -18,20 +18,24 @@ const AdminPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); // needed for the add movie form
 
+  // calls fetch genres
   useEffect(() => {
     fetchGenres();
   }, []);
 
+  // resets the current page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedGenres, selectedLetters, pageSize, searchTerm]);
 
+  // fetches movies based on filters and search term
   useEffect(() => {
     fetchFilteredMovies();
   }, [selectedGenres, selectedLetters, currentPage, pageSize, searchTerm]);
 
+  // fetches all genres from the backend
   const fetchGenres = async () => {
     try {
       const res = await fetch(
@@ -47,7 +51,9 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  // retrieves movies based on filter
   const fetchFilteredMovies = async () => {
+    // filters by letters and genres
     try {
       const params = new URLSearchParams();
       selectedGenres.forEach((g) => params.append('movieTypes', g));
@@ -77,12 +83,14 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  // lets user click on genre to filter
   const toggleGenre = (genre: string) => {
     setSelectedGenres((prev) =>
       prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
     );
   };
 
+  // lets user click on letter to filter
   const toggleLetter = (letter: string) => {
     setSelectedLetters((prev) =>
       prev.includes(letter)
@@ -91,6 +99,7 @@ const AdminPage: React.FC = () => {
     );
   };
 
+  // removes filter when user clicks on "x"
   const removeFilter = (type: 'genre' | 'letter', value: string) => {
     if (type === 'genre') {
       setSelectedGenres((prev) => prev.filter((g) => g !== value));
@@ -99,20 +108,14 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  // const handleAdminSearch = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (searchTerm.trim()) {
-  //     navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-  //     setSearchTerm('');
-  //   }
-  // };
-
+  // filters movies based on search term
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+  // genre display formatting
   const genreRows = [];
   const genresPerRow = Math.ceil(genres.length / 2);
   for (let i = 0; i < 2; i++) {

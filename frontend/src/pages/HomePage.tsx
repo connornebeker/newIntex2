@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Carousel } from '../types/Carousel';
 import getCarouselsFromGenres from '../utils/getCarouselsFromGenres';
 import { Movie } from '../types/Movie';
-import {
-  fetchBecauseYouWatchedMovies,
-  fetchUserRecommendedMovies,
-} from '../api/MovieAPIs';
+import { fetchBecauseYouWatchedMovies, fetchUserRecommendedMovies } from '../api/MovieAPIs';
 import fetchPoster from '../utils/fetchPoster';
 import AuthorizeView from '../components/AuthorizeView';
 import TopAppBar from '../components/TopAppBar';
@@ -17,9 +14,11 @@ export default function HomePage() {
   const [loadedCarousels, setLoadedCarousels] = useState(5); // Track the number of carousels loaded
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
+  // used with referrencing carousels and loading more carousels
   const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref to the div at the bottom
 
+  // retrieve all movies
   async function fetchMoviesByTitles(): Promise<Movie[]> {
     const res = await fetch(
       `https://intex-group2-7-backend-duahbmbxaggha8e2.eastus-01.azurewebsites.net/api/Movie/GetMoviesByTitles`,
@@ -107,6 +106,7 @@ export default function HomePage() {
     loadData();
   }, []);
 
+  // lazy load movies
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -131,6 +131,7 @@ export default function HomePage() {
     };
   }, [carousels.length]); // Depend on carousels.length to update observer when data changes
 
+  // handles what happens when a movie title does not match the poster
   const handlePosterError = (carouselTitle: string, movieId: string) => {
     setCarousels((prevCarousels) =>
       prevCarousels.map((carousel) =>
@@ -146,6 +147,7 @@ export default function HomePage() {
     );
   };
 
+  // horizontal scrolling function for carousels
   const scroll = (
     carouselTitle: string,
     direction: 'left' | 'right',
@@ -238,8 +240,7 @@ export default function HomePage() {
                   {carousel.movies.map((movie, index) => (
                     <div
                       key={movie.show_id}
-                      className={
-                        carousel.showNumbers
+                      className={carousel.showNumbers
                           ? 'top-movie-item'
                           : 'recommendation-item'
                       }
