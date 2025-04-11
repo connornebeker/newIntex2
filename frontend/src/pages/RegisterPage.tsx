@@ -4,6 +4,7 @@ import './LandingPage.css';
 import fetchPoster from '../utils/fetchPoster';
 import { useLocation } from 'react-router-dom';
 
+// importing the titles for the posters for the background carousel
 const registerTitles: string[] = [
   'Money Heist From Tokyo to Berlin',
   'The Witcher Nightmare of the Wolf',
@@ -146,10 +147,12 @@ function Register() {
 
   const [email, setEmail] = useState(passedEmail);
 
+  // function to send them to login page when they click the login button
   const handleLoginClick = () => {
     navigate('/login');
   };
 
+  // function to handle the change in the input fields
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'email') setEmail(value);
@@ -157,6 +160,7 @@ function Register() {
     if (name === 'confirmPassword') setConfirmPassword(value);
   };
 
+  // function to handle the submit of the form
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword) {
