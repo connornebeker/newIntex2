@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Movie } from '../types/Movie';
-import './MovieModal.css';
-import './DeleteDialog.css';
+import './AdminModal.css';
 import EditModal from './EditModal';
 
-type AdminModalProps = {
+type MovieModalProps = {
   movie: Movie;
   onClose: () => void;
 };
 
-export default function AdminModal({ movie, onClose }: AdminModalProps) {
+export default function MovieModal({ movie, onClose }: MovieModalProps) {
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
@@ -84,83 +83,85 @@ export default function AdminModal({ movie, onClose }: AdminModalProps) {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+    <div className="modal-overlay-3" onClick={onClose}>
+      <div className="modal-content-3" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close-3" onClick={onClose}>
           ✕
         </button>
-
-        <div className="modal-banner-wrapper">
+  
+        <div className="modal-banner-wrapper-3">
           <img
-            className="modal-banner"
+            className="modal-banner-3"
             src={movie.posterUrl}
             alt={movie.title}
             onError={(e) => {
-              const fallbackUrl = 
+              const fallbackUrl =
                 `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
               (e.target as HTMLImageElement).src = fallbackUrl;
             }}
           />
-          <div className="modal-banner-gradient" />
-            <div className="modal-banner-overlay">
-              <h2>{movie.title}</h2>
-              <div className="meta">
-                {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
-                {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+          <div className="modal-banner-gradient-3" />
+          <div className=" modal-info-3">
+            <h2>{movie.title}</h2>
+            <div className="meta-3">
+              {movie.release_year} | {movie.duration || 'Unknown Duration'} |{' '}
+              {movie.country || 'Unknown Country'} | {movie.rating || 'Unrated'}
+           
+  
+        <div className="modal-info-3">
+
+            <div className="modal-left-3">
+              <p className="modal-description-3">{movie.description}</p>
+            </div>
+            <div className="modal-right-3">
+              <div className="meta-row-3">
+                <strong>Director:</strong>{' '}
+                <span>{movie.director || 'Unknown'}</span>
               </div>
+              <div className="meta-row-3">
+                <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
+              </div>
+              <div className="meta-row-3">
+                <strong>Genres:</strong>
+                <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
+              </div>
+          
+              <div className="modal-buttons-3">
+                <button onClick={() => setShowForm(true)} className="edit-button-3">
+                  Edit
+                </button>
+                <button onClick={showDeleteDialog} className="delete-button-3">
+                  Delete
+                </button>
+              </div>
+              </div>
+            </div>
             </div>
           </div>
-
-          <div className="modal-main-info">
-            <div className="modal-columns">
-              <div className="modal-left">
-                <p className="modal-description">{movie.description}</p>
-              </div>
-              <div className="modal-right">
-                <div className="meta-row">
-                  <strong>Director:</strong>{' '}
-                  <span>{movie.director || 'Unknown'}</span>
-                </div>
-                <div className="meta-row">
-                  <strong>Cast:</strong> <span>{movie.cast || 'Unknown'}</span>
-                </div>
-                <div className="meta-row">
-                  <strong>Genres:</strong>
-                  <span>{getGenres(movie).join(', ') || 'Unknown'}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <button onClick={() => setShowForm(true)} className="add-button">
-              Edit
-            </button>
-            <button onClick={showDeleteDialog}>Delete</button>
-          </div>
-
-          {/* Confirmation Dialog for Delete */}
-          {isDeleteDialogVisible && (
-            <div className="delete-dialog">
-              <div className="delete-dialog-content">
-                <p>Are you sure you want to delete this movie?</p>
-                <div>
-                  <button onClick={() => handleDeleteMovie(movie.show_id)}>
-                    Yes
-                  </button>
-                  <button onClick={hideDeleteDialog}>Cancel</button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {showForm && (
-            <div className="form-modal">
-              <EditModal onClose={() => setShowForm(false)} movie={movie} />
-              <button onClick={() => setShowForm(false)}>Close</button>
-            </div>
-          )}
         </div>
+  
+        {isDeleteDialogVisible && (
+          <div className="delete-overlay-3" onClick={hideDeleteDialog}>
+            <div className="delete-modal-3" onClick={(e) => e.stopPropagation()}>
+              <p>Are you sure you want to delete this movie?</p>
+              <div className="delete-buttons-3">
+                <button onClick={() => handleDeleteMovie(movie.show_id)}>
+                  Yes
+                </button>
+                <button onClick={hideDeleteDialog}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showForm && (
+          <div className="form-modal-3">
+            <EditModal onClose={() => setShowForm(false)} movie={movie} />
+            <button onClick={() => setShowForm(false)}>Close</button>
+          </div>
+        )}
+      </div>
     </div>
   );
+  
 }
+
