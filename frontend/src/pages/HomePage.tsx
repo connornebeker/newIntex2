@@ -196,7 +196,7 @@ export default function HomePage() {
             <div className="hero-overlay">
               {/* <h1 className="hero-title">MANIFEST</h1> */}
               <img
-                src="../../public/anyone.png"
+                src="/anyone.png"
                 alt="Anyone But You"
                 className="hero-title-image"
               />
