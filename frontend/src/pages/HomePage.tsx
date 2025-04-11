@@ -212,7 +212,6 @@ export default function HomePage() {
               { name: 'Comedies', key: 'Comedies' },
               { name: 'Thrillers', key: 'Thrillers' },
               { name: 'Family Movies', key: 'FamilyMovies' },
-              { name: 'Adventure', key: 'Adventure' },
               { name: 'Romantic Comedies', key: 'ComediesRomanticMovies' },
             ].map(({ name, key }) => (
               <Link key={key} to={`/category/${key}`} className="category-box">

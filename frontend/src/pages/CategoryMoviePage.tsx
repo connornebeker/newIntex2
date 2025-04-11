@@ -6,6 +6,7 @@ import '../pages/CategoryMoviePage.css';
 import getMoviesOneGenre from '../utils/getMovieFromGenre';
 import AuthorizeView from '../components/AuthorizeView';
 import MovieModal from './MovieModal';
+import { changeGenreName, formatGenreName } from '../utils/genreHelpers';
 
 export default function CategoryMoviePage() {
   const { categoryName } = useParams();
@@ -66,7 +67,9 @@ export default function CategoryMoviePage() {
         <TopAppBar />
         <div className="home-container-1">
           <div className="category-page-wrapper">
-            <h2 className="category-title">{categoryName}</h2>
+            <h2 className="category-title">
+              {categoryName && formatGenreName(changeGenreName(categoryName))}
+            </h2>
             <div className="home-content-1">
               <div className="movie-grid-wrapper">
                 <div className="movie-grid">
@@ -86,6 +89,11 @@ export default function CategoryMoviePage() {
                             src={movie.posterUrl}
                             alt={movie.title}
                             className="movie-poster"
+                            onError={(e) => {
+                              const fallbackUrl = `https://dummyimage.com/300x450/cccccc/000000&text=${encodeURIComponent(movie.title)}`;
+                              // Fallback to dummy image if the poster fails to load
+                              (e.target as HTMLImageElement).src = fallbackUrl;
+                            }}
                           />
                         </div>
                       </div>
